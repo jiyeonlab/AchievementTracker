@@ -8,10 +8,15 @@
 
 import UIKit
 import FSCalendar
+import RealmSwift
 
 class MainViewController: UIViewController {
     
     @IBOutlet weak var mainCalendar: FSCalendar!
+    
+    // realm 추가
+    var info: Results<DayInfo>?
+    var realm: Realm?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -26,6 +31,12 @@ class MainViewController: UIViewController {
         mainCalendar.delegate = self
         
         configCalendar()
+        
+        // realm 추가
+        realm = try? Realm()
+        info = realm?.objects(DayInfo.self)
+        print("realm 경로 = \(Realm.Configuration.defaultConfiguration.fileURL!)")
+        
     }
     
     /// 캘린더의 각종 초기 셋팅을 해주는 메소드
@@ -69,6 +80,69 @@ extension MainViewController: FSCalendarDelegate {
         let convertingDate = date.addingTimeInterval(TimeInterval(NSTimeZone.local.secondsFromGMT()))
         
         print("선택된 날짜 = \(convertingDate)")
+        
+        testSaveInDB(clickedDate: convertingDate)
+    }
+    
+}
+
+extension MainViewController {
+    
+    /// 데이터베이스에 선택된 날짜를 저장하는 메소드
+    func testSaveInDB(clickedDate: Date) {
+        do{
+            try realm?.write {
+                realm?.add(inputData(database: DayInfo(), savingDate: clickedDate))
+            }
+        }catch{
+            print("save error")
+        }
+    }
+    
+    /// DayInfo 타입으로 저장할 데이터를 만들어주는 메소드
+    func inputData(database: DayInfo, savingDate: Date) -> DayInfo {
+        database.date = savingDate
+        
+        return database
+    }
+    
+}
+
+extension MainViewController: FSCalendarDelegateAppearance {
+    
+    // 기본적으로 채우는 색. 즉, 여기서 DB와 날짜 매칭해서 해당 날짜에 맞는 각 컬러를 입혀줘야함. (이건 캘린더의 날짜 수만큼 수행됨.)
+    func calendar(_ calendar: FSCalendar, appearance: FSCalendarAppearance, fillDefaultColorFor date: Date) -> UIColor? {
+        
+        let convertdate = DateFormatter()
+        
+        // 저장된 데이터를 읽어오기.
+        guard let dbData = info else { return UIColor.clear }
+        
+        // 저장된 데이터에서 날짜만 뽑아서, 배열에 넣어둠.
+        var savingDate: [String] = []
+
+        convertdate.dateFormat = "yyyy-MM-dd"
+        
+        dbData.forEach { data in
+            print("\(data.date)")
+            
+            // 비교를 위해 날짜값을 string으로 변환
+            let dbDay = convertdate.string(from: data.date)
+            
+            savingDate.append(dbDay)
+        }
+        
+        print("저장된 날짜만 뽑은 배열 \(savingDate)")
+        
+        // 실제 date 칸의 값에서 날짜만 가져옴.
+        let calendarDay = convertdate.string(from: date)
+        
+        if savingDate.contains(calendarDay) {
+            return #colorLiteral(red: 0.1960784346, green: 0.3411764801, blue: 0.1019607857, alpha: 1)
+        } else {
+            return UIColor.clear
+        }
+        
     }
 }
 

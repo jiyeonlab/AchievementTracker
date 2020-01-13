@@ -15,6 +15,7 @@
 		90D352B923CC476D00745F56 /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90D352B823CC476D00745F56 /* MainViewController.swift */; };
 		90D352BB23CC480F00745F56 /* UIColor+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90D352BA23CC480F00745F56 /* UIColor+Extension.swift */; };
 		90D352BD23CC4E3700745F56 /* DayInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90D352BC23CC4E3700745F56 /* DayInfo.swift */; };
+		90D352BF23CC662300745F56 /* CheckAchievementViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90D352BE23CC662300745F56 /* CheckAchievementViewController.swift */; };
 		C66F33ADEC5682273E76FC72 /* Pods_AchievementTracker.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5530F672CDAE3B664441599C /* Pods_AchievementTracker.framework */; };
 /* End PBXBuildFile section */
 
@@ -31,6 +32,7 @@
 		90D352B823CC476D00745F56 /* MainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
 		90D352BA23CC480F00745F56 /* UIColor+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+Extension.swift"; sourceTree = "<group>"; };
 		90D352BC23CC4E3700745F56 /* DayInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DayInfo.swift; sourceTree = "<group>"; };
+		90D352BE23CC662300745F56 /* CheckAchievementViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckAchievementViewController.swift; sourceTree = "<group>"; };
 		B04CFF901DA7365F7D9C6AE5 /* Pods-AchievementTracker.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AchievementTracker.debug.xcconfig"; path = "Target Support Files/Pods-AchievementTracker/Pods-AchievementTracker.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -90,6 +92,7 @@
 				90D352B823CC476D00745F56 /* MainViewController.swift */,
 				90D352BA23CC480F00745F56 /* UIColor+Extension.swift */,
 				90D352AA23CC460D00745F56 /* Main.storyboard */,
+				90D352BE23CC662300745F56 /* CheckAchievementViewController.swift */,
 				90D352AD23CC460E00745F56 /* Assets.xcassets */,
 				90D352AF23CC460E00745F56 /* LaunchScreen.storyboard */,
 				90D352B223CC460E00745F56 /* Info.plist */,
@@ -213,6 +216,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				90D352B923CC476D00745F56 /* MainViewController.swift in Sources */,
+				90D352BF23CC662300745F56 /* CheckAchievementViewController.swift in Sources */,
 				90D352A523CC460D00745F56 /* AppDelegate.swift in Sources */,
 				90D352A723CC460D00745F56 /* SceneDelegate.swift in Sources */,
 				90D352BD23CC4E3700745F56 /* DayInfo.swift in Sources */,

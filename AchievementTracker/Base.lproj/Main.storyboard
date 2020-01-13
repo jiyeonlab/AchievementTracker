@@ -47,7 +47,11 @@
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
                     <navigationItem key="navigationItem" id="Xxb-wu-TY2">
-                        <barButtonItem key="rightBarButtonItem" systemItem="add" id="9dA-Dh-tVV"/>
+                        <barButtonItem key="rightBarButtonItem" systemItem="add" id="9dA-Dh-tVV">
+                            <connections>
+                                <segue destination="1nk-gf-MdS" kind="presentation" modalPresentationStyle="automatic" modalTransitionStyle="coverVertical" id="or4-4q-NMB"/>
+                            </connections>
+                        </barButtonItem>
                     </navigationItem>
                     <connections>
                         <outlet property="mainCalendar" destination="kqt-pc-XQ6" id="hgO-ku-BC6"/>
@@ -56,6 +60,166 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1047.8260869565217" y="137.94642857142856"/>
+        </scene>
+        <!--Check Achievement View Controller-->
+        <scene sceneID="9LM-iK-lKo">
+            <objects>
+                <viewController id="1nk-gf-MdS" customClass="CheckAchievementViewController" customModule="AchievementTracker" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="VJn-vb-atO">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="758"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="2020/01/13" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0kT-3e-MDl">
+                                <rect key="frame" x="133.66666666666666" y="123" width="110.66666666666666" height="24"/>
+                                <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="20"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Check your today contribution!" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="EEK-1f-wuD">
+                                <rect key="frame" x="45.666666666666657" y="155" width="283.33333333333337" height="24"/>
+                                <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="20"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="👩🏻‍💻" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fsN-9i-DfM">
+                                <rect key="frame" x="165" y="229" width="45" height="48"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="40"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <stackView opaque="NO" contentMode="scaleToFill" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="YRz-iH-qmG">
+                                <rect key="frame" x="34" y="373" width="307" height="60"/>
+                                <subviews>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="mau-f0-Bfe">
+                                        <rect key="frame" x="0.0" y="0.0" width="55" height="60"/>
+                                        <color key="backgroundColor" red="0.93633230395600342" green="1" blue="0.89538728852025573" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                        <gestureRecognizers/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="60" id="1Ld-te-AN7"/>
+                                            <constraint firstAttribute="width" constant="55" id="tV9-0M-dnw"/>
+                                        </constraints>
+                                        <connections>
+                                            <outletCollection property="gestureRecognizers" destination="sTn-if-2UG" appends="YES" id="hx6-KF-F2i"/>
+                                        </connections>
+                                    </view>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="SZ2-GB-afl">
+                                        <rect key="frame" x="63" y="0.0" width="55" height="60"/>
+                                        <color key="backgroundColor" red="0.84555045817979479" green="1" blue="0.77000492019652711" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                        <gestureRecognizers/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="60" id="eSe-g2-cG0"/>
+                                            <constraint firstAttribute="width" constant="55" id="jrF-2b-BCz"/>
+                                        </constraints>
+                                        <connections>
+                                            <outletCollection property="gestureRecognizers" destination="S0o-VD-h7J" appends="YES" id="doj-BW-CNS"/>
+                                        </connections>
+                                    </view>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="nGq-88-nzp">
+                                        <rect key="frame" x="126" y="0.0" width="55" height="60"/>
+                                        <color key="backgroundColor" red="0.76032631527136774" green="0.89901253172588835" blue="0.49522010025786301" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                        <gestureRecognizers/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="55" id="R1S-yw-sI9"/>
+                                            <constraint firstAttribute="height" constant="60" id="diW-vp-FhG"/>
+                                        </constraints>
+                                        <connections>
+                                            <outletCollection property="gestureRecognizers" destination="JlF-dx-Ds4" appends="YES" id="5BQ-lk-UX1"/>
+                                        </connections>
+                                    </view>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="17Q-PX-wJc">
+                                        <rect key="frame" x="189" y="0.0" width="55" height="60"/>
+                                        <color key="backgroundColor" red="0.54683974621748843" green="0.70205425126903553" blue="0.30986945321696802" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                        <gestureRecognizers/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="60" id="PUG-Fy-aHY"/>
+                                            <constraint firstAttribute="width" constant="55" id="wbm-De-GtL"/>
+                                        </constraints>
+                                        <connections>
+                                            <outletCollection property="gestureRecognizers" destination="fpy-hP-ZEy" appends="YES" id="kpg-ak-dOm"/>
+                                        </connections>
+                                    </view>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ygG-Ql-5g2">
+                                        <rect key="frame" x="252" y="0.0" width="55" height="60"/>
+                                        <color key="backgroundColor" red="0.23128427444828831" green="0.30222874365482233" blue="0.14899693107248901" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                        <gestureRecognizers/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="60" id="4Ht-YT-n5A"/>
+                                            <constraint firstAttribute="width" constant="55" id="8nw-tI-HCG"/>
+                                        </constraints>
+                                        <connections>
+                                            <outletCollection property="gestureRecognizers" destination="PAk-BR-ZDv" appends="YES" id="84L-Zq-PTO"/>
+                                        </connections>
+                                    </view>
+                                </subviews>
+                            </stackView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="pfg-lc-W3t">
+                                <rect key="frame" x="164" y="606" width="53" height="36"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                                <state key="normal" title="Done!">
+                                    <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                </state>
+                                <connections>
+                                    <action selector="skipNextButton:" destination="1nk-gf-MdS" eventType="touchUpInside" id="ycf-BZ-PIv"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" red="0.12659802799115927" green="0.13569341275370359" blue="0.17705746890406082" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                        <constraints>
+                            <constraint firstItem="EEK-1f-wuD" firstAttribute="top" secondItem="0kT-3e-MDl" secondAttribute="bottom" constant="8" id="5L0-cP-ddU"/>
+                            <constraint firstItem="fsN-9i-DfM" firstAttribute="leading" secondItem="aCQ-DZ-4be" secondAttribute="leading" constant="165" id="B4Y-Rv-ENn"/>
+                            <constraint firstItem="YRz-iH-qmG" firstAttribute="top" secondItem="fsN-9i-DfM" secondAttribute="bottom" constant="96" id="Bch-72-0OR"/>
+                            <constraint firstItem="YRz-iH-qmG" firstAttribute="leading" secondItem="aCQ-DZ-4be" secondAttribute="leading" constant="34" id="JSk-pb-p9j"/>
+                            <constraint firstItem="fsN-9i-DfM" firstAttribute="top" secondItem="EEK-1f-wuD" secondAttribute="bottom" constant="50" id="KdF-AK-H42"/>
+                            <constraint firstItem="EEK-1f-wuD" firstAttribute="leading" secondItem="aCQ-DZ-4be" secondAttribute="leading" constant="45.670000000000002" id="TZT-Cj-n8z"/>
+                            <constraint firstItem="YRz-iH-qmG" firstAttribute="top" secondItem="fsN-9i-DfM" secondAttribute="bottom" constant="96" id="jMB-5b-vbW"/>
+                            <constraint firstItem="pfg-lc-W3t" firstAttribute="leading" secondItem="aCQ-DZ-4be" secondAttribute="leading" constant="164" id="lWn-Jq-NRZ"/>
+                            <constraint firstItem="0kT-3e-MDl" firstAttribute="leading" secondItem="aCQ-DZ-4be" secondAttribute="leading" constant="133.66999999999999" id="nmO-8U-Hmp"/>
+                            <constraint firstItem="0kT-3e-MDl" firstAttribute="top" secondItem="aCQ-DZ-4be" secondAttribute="top" constant="123" id="rPf-qZ-uXf"/>
+                            <constraint firstItem="pfg-lc-W3t" firstAttribute="top" secondItem="YRz-iH-qmG" secondAttribute="bottom" constant="173" id="xrR-7l-hJz"/>
+                            <constraint firstItem="EEK-1f-wuD" firstAttribute="top" secondItem="0kT-3e-MDl" secondAttribute="bottom" constant="8" id="y5s-9X-lYm"/>
+                            <constraint firstItem="aCQ-DZ-4be" firstAttribute="bottom" secondItem="pfg-lc-W3t" secondAttribute="bottom" constant="82" id="yTl-T7-ewO"/>
+                            <constraint firstItem="fsN-9i-DfM" firstAttribute="top" secondItem="EEK-1f-wuD" secondAttribute="bottom" constant="50" id="yix-9F-Q3q"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="aCQ-DZ-4be"/>
+                    </view>
+                    <connections>
+                        <outlet property="achievementA" destination="mau-f0-Bfe" id="NaL-xg-Moe"/>
+                        <outlet property="achievementB" destination="SZ2-GB-afl" id="tSO-Bz-cS1"/>
+                        <outlet property="achievementC" destination="nGq-88-nzp" id="vye-cb-veJ"/>
+                        <outlet property="achievementD" destination="17Q-PX-wJc" id="mYb-Og-wqD"/>
+                        <outlet property="achievementE" destination="ygG-Ql-5g2" id="1nj-E5-Rg5"/>
+                        <outlet property="doneButton" destination="pfg-lc-W3t" id="GDC-rE-4tg"/>
+                        <outlet property="todayDateLabel" destination="0kT-3e-MDl" id="sEr-Jc-KVM"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="uf7-km-Jgj" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+                <tapGestureRecognizer id="sTn-if-2UG">
+                    <connections>
+                        <action selector="clickedAchievementA:" destination="1nk-gf-MdS" id="aUu-Bi-eO6"/>
+                    </connections>
+                </tapGestureRecognizer>
+                <tapGestureRecognizer id="S0o-VD-h7J">
+                    <connections>
+                        <action selector="clickedAchievementB:" destination="1nk-gf-MdS" id="hiP-9h-ZME"/>
+                    </connections>
+                </tapGestureRecognizer>
+                <tapGestureRecognizer id="JlF-dx-Ds4">
+                    <connections>
+                        <action selector="clickedAchievementC:" destination="1nk-gf-MdS" id="YQ8-Du-bEc"/>
+                    </connections>
+                </tapGestureRecognizer>
+                <tapGestureRecognizer id="fpy-hP-ZEy">
+                    <connections>
+                        <action selector="clickedAchievementD:" destination="1nk-gf-MdS" id="aOd-aI-KVQ"/>
+                    </connections>
+                </tapGestureRecognizer>
+                <tapGestureRecognizer id="PAk-BR-ZDv">
+                    <connections>
+                        <action selector="clickedAchievementE:" destination="1nk-gf-MdS" id="Vok-Eo-bzH"/>
+                    </connections>
+                </tapGestureRecognizer>
+            </objects>
+            <point key="canvasLocation" x="1045.5999999999999" y="935.46798029556658"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="Vkc-3n-ufP">

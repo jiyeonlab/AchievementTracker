@@ -89,32 +89,24 @@ class CheckAchievementViewController: UIViewController {
     @IBAction func skipNextButton(_ sender: UIButton) {
         // 여기서 데이터베이스에 저장해줘야함.
         
-        // 우선 지금은 오늘 날짜를 찾아서, 색깔 값에 넣어주기.
-        do {
-            try realm?.write {
-                
-                // 오늘 날짜 구하기
-                let now = Date()
-                let convertDate = Calendar.current.dateComponents([.year, .month, .day], from: now)
-                
-                // TODO: 기존에 해당 날짜에 저장한 적이 있으면, add 말고 변경 값만 새로 저장해줘야함!!
-                realm?.add(inputToday(database: DayInfo(), savingDate: convertDate))
-            }
-        }catch{
-            print("save error")
-        }
         
-        dismiss(animated: true, completion: nil)
     }
     
-    /// DayInfo 타입으로 저장할 데이터를 만들어주는 메소드
-    func inputToday(database: DayInfo, savingDate: DateComponents) -> DayInfo {
-        //        database.date = savingDate
-        database.year = savingDate.year!
-        database.month = savingDate.month!
-        database.day = savingDate.day!
-        database.achievement = userAchievement.rawValue
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        print("메모 입력 화면으로 넘어감")
         
-        return database
+        guard let nextVC = segue.destination as? WriteMemoViewController else {
+            return
+        }
+        
+        // 오늘 날짜 구하기
+        let now = Date()
+        let convertDate = Calendar.current.dateComponents([.year, .month, .day], from: now)
+        
+        nextVC.tempData.year = convertDate.year!
+        nextVC.tempData.month = convertDate.month!
+        nextVC.tempData.day = convertDate.day!
+        nextVC.tempData.achievement = userAchievement.rawValue
+        
     }
 }

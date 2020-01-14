@@ -49,7 +49,7 @@
                     <navigationItem key="navigationItem" id="Xxb-wu-TY2">
                         <barButtonItem key="rightBarButtonItem" systemItem="add" id="9dA-Dh-tVV">
                             <connections>
-                                <segue destination="1nk-gf-MdS" kind="presentation" modalPresentationStyle="automatic" modalTransitionStyle="coverVertical" id="or4-4q-NMB"/>
+                                <segue destination="JOV-p7-A2r" kind="presentation" modalPresentationStyle="automatic" modalTransitionStyle="coverVertical" id="or4-4q-NMB"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
@@ -160,6 +160,7 @@
                                 </state>
                                 <connections>
                                     <action selector="skipNextButton:" destination="1nk-gf-MdS" eventType="touchUpInside" id="ycf-BZ-PIv"/>
+                                    <segue destination="kew-1A-1Vs" kind="show" identifier="ShowWriteView" id="ZUO-hb-Z6k"/>
                                 </connections>
                             </button>
                         </subviews>
@@ -182,6 +183,7 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="aCQ-DZ-4be"/>
                     </view>
+                    <navigationItem key="navigationItem" id="ZgD-7C-Cvh"/>
                     <connections>
                         <outlet property="achievementA" destination="mau-f0-Bfe" id="NaL-xg-Moe"/>
                         <outlet property="achievementB" destination="SZ2-GB-afl" id="tSO-Bz-cS1"/>
@@ -219,7 +221,50 @@
                     </connections>
                 </tapGestureRecognizer>
             </objects>
-            <point key="canvasLocation" x="1045.5999999999999" y="935.46798029556658"/>
+            <point key="canvasLocation" x="1988" y="935.46798029556658"/>
+        </scene>
+        <!--Write Memo View Controller-->
+        <scene sceneID="FfJ-mb-CvN">
+            <objects>
+                <viewController id="kew-1A-1Vs" customClass="WriteMemoViewController" customModule="AchievementTracker" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="P0A-lZ-XwD">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="758"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="더 적을래요?" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="s0F-9c-fiM">
+                                <rect key="frame" x="137" y="367" width="101.33333333333331" height="24"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bZk-Z7-VWj">
+                                <rect key="frame" x="169" y="620" width="37" height="30"/>
+                                <state key="normal" title="Done">
+                                    <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                </state>
+                                <connections>
+                                    <action selector="saveData:" destination="kew-1A-1Vs" eventType="touchUpInside" id="V8R-9c-V74"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" red="0.1259752214" green="0.1362815201" blue="0.1803976893" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                        <constraints>
+                            <constraint firstItem="s0F-9c-fiM" firstAttribute="centerX" secondItem="P0A-lZ-XwD" secondAttribute="centerX" id="AVf-eA-3LB"/>
+                            <constraint firstItem="1nJ-Gp-H3v" firstAttribute="bottom" secondItem="bZk-Z7-VWj" secondAttribute="bottom" constant="74" id="IBi-65-ojg"/>
+                            <constraint firstItem="s0F-9c-fiM" firstAttribute="centerY" secondItem="P0A-lZ-XwD" secondAttribute="centerY" id="hZ6-Pz-tgm"/>
+                            <constraint firstItem="bZk-Z7-VWj" firstAttribute="centerX" secondItem="P0A-lZ-XwD" secondAttribute="centerX" id="voa-aZ-45P"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="1nJ-Gp-H3v"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="5YR-gf-XAv"/>
+                    <connections>
+                        <outlet property="doneButton" destination="bZk-Z7-VWj" id="18M-FH-htd"/>
+                        <outlet property="textfield" destination="s0F-9c-fiM" id="PsE-n5-o4D"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="3Jb-PM-AqT" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2828" y="935"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="Vkc-3n-ufP">
@@ -238,6 +283,24 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="lLR-5i-LJn" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="137.68115942028987" y="137.94642857142856"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="jDb-NN-mTA">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" navigationBarHidden="YES" id="JOV-p7-A2r" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="jCA-yI-qEm">
+                        <rect key="frame" x="0.0" y="-54" width="0.0" height="0.0"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="1nk-gf-MdS" kind="relationship" relationship="rootViewController" id="uGD-Mb-0JE"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="OFN-3M-T2q" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1045.5999999999999" y="935.46798029556658"/>
         </scene>
     </scenes>
 </document>

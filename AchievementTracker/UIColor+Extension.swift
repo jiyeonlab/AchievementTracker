@@ -11,6 +11,7 @@ import UIKit
 // 캘린더 폰트 색깔
 enum FontColor {
     case weekday
+    case memo
 }
 
 extension UIColor {
@@ -18,6 +19,8 @@ extension UIColor {
         switch name {
         case .weekday:
             return #colorLiteral(red: 0.4666666687, green: 0.7647058964, blue: 0.2666666806, alpha: 1)
+        case .memo:
+            return #colorLiteral(red: 0.8039215803, green: 0.8039215803, blue: 0.8039215803, alpha: 1)
         }
     }
     

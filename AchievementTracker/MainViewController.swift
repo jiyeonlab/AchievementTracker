@@ -18,6 +18,9 @@ class MainViewController: UIViewController {
     var info: Results<DayInfo>?
     var realm: Realm?
     
+    // 저장된 데이터에서 날짜만 뽑아서, 배열에 넣어둠.
+    var savingDate: [String] = []
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -79,9 +82,9 @@ extension MainViewController: FSCalendarDelegate {
         // 날짜 변환 해줘야 함. (UTC -> locale)
         let convertingDate = date.addingTimeInterval(TimeInterval(NSTimeZone.local.secondsFromGMT()))
         
-        print("선택된 날짜 = \(convertingDate)")
-        
-        testSaveInDB(clickedDate: convertingDate)
+//        let test = Calendar.current.dateComponents([.year, .month, .day], from: date)
+//
+//        testSaveInDB(clickedDate: test)
     }
     
 }
@@ -89,7 +92,7 @@ extension MainViewController: FSCalendarDelegate {
 extension MainViewController {
     
     /// 데이터베이스에 선택된 날짜를 저장하는 메소드
-    func testSaveInDB(clickedDate: Date) {
+    func testSaveInDB(clickedDate: DateComponents) {
         do{
             try realm?.write {
                 realm?.add(inputData(database: DayInfo(), savingDate: clickedDate))
@@ -100,8 +103,12 @@ extension MainViewController {
     }
     
     /// DayInfo 타입으로 저장할 데이터를 만들어주는 메소드
-    func inputData(database: DayInfo, savingDate: Date) -> DayInfo {
-        database.date = savingDate
+    func inputData(database: DayInfo, savingDate: DateComponents) -> DayInfo {
+//        database.date = savingDate
+        database.year = savingDate.year!
+        database.month = savingDate.month!
+        database.day = savingDate.day!
+        database.achievement = Achievement.D.rawValue
         
         return database
     }
@@ -110,36 +117,39 @@ extension MainViewController {
 
 extension MainViewController: FSCalendarDelegateAppearance {
     
-    // 기본적으로 채우는 색. 즉, 여기서 DB와 날짜 매칭해서 해당 날짜에 맞는 각 컬러를 입혀줘야함. (이건 캘린더의 날짜 수만큼 수행됨.)
+    // 기본적으로 채우는 색. 즉, 여기서 DB와 날짜 매칭해서 해당 날짜에 맞는 각 컬러를 입혀줘야함. (이건 캘린더의 날짜 수만큼 수행됨.). calendarCurrentPageDidChange호출 후, 여기로 옴.
     func calendar(_ calendar: FSCalendar, appearance: FSCalendarAppearance, fillDefaultColorFor date: Date) -> UIColor? {
         
-        let convertdate = DateFormatter()
+        guard let data = info else { return UIColor.red}
         
-        // 저장된 데이터를 읽어오기.
-        guard let dbData = info else { return UIColor.clear }
+        let convertDate = Calendar.current.dateComponents([.year, .month, .day], from: date)
         
-        // 저장된 데이터에서 날짜만 뽑아서, 배열에 넣어둠.
-        var savingDate: [String] = []
-
-        convertdate.dateFormat = "yyyy-MM-dd"
+        let yearInfo = convertDate.year!
+        let month = convertDate.month!
+        let day = convertDate.day!
         
-        dbData.forEach { data in
-            print("\(data.date)")
+        let thisDay = data.filter("year == %@", yearInfo).filter("month == %@", month).filter("day == %@", day)
+       
+        if thisDay.first != nil {
+            print("해당 날짜가 있음")
+            guard let fillDay = thisDay.first else { return UIColor.clear }
             
-            // 비교를 위해 날짜값을 string으로 변환
-            let dbDay = convertdate.string(from: data.date)
-            
-            savingDate.append(dbDay)
-        }
-        
-        print("저장된 날짜만 뽑은 배열 \(savingDate)")
-        
-        // 실제 date 칸의 값에서 날짜만 가져옴.
-        let calendarDay = convertdate.string(from: date)
-        
-        if savingDate.contains(calendarDay) {
-            return #colorLiteral(red: 0.1960784346, green: 0.3411764801, blue: 0.1019607857, alpha: 1)
-        } else {
+            switch fillDay.achievement {
+            case "A":
+                return UIColor.achievementColor(.A)
+            case "B":
+                return UIColor.achievementColor(.B)
+            case "C":
+                return UIColor.achievementColor(.C)
+            case "D":
+                return UIColor.achievementColor(.D)
+            case "E":
+                return UIColor.achievementColor(.E)
+            default:
+                return UIColor.clear
+                
+            }
+        }else{
             return UIColor.clear
         }
         

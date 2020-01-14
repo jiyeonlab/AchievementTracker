@@ -9,8 +9,13 @@
 import UIKit
 import RealmSwift
 
-enum Achievement {
-    case A, B, C, D, E
+enum Achievement: String {
+    // E-D-C-B-A 순으로 성취도 등급이 높아짐.
+    case A = "A"
+    case B = "B"
+    case C = "C"
+    case D = "D"
+    case E = "E"
 }
 
 class CheckAchievementViewController: UIViewController {
@@ -36,7 +41,8 @@ class CheckAchievementViewController: UIViewController {
         
         // 오늘 날짜를 label에 입력.
         let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "yyyy/MM/dd"
+        dateFormatter.dateStyle = .medium
+        dateFormatter.locale = Locale(identifier: "ko_KR")
         let now = Date()
         let dateString = dateFormatter.string(from: now)
         todayDateLabel.text = dateString
@@ -86,22 +92,29 @@ class CheckAchievementViewController: UIViewController {
         // 우선 지금은 오늘 날짜를 찾아서, 색깔 값에 넣어주기.
         do {
             try realm?.write {
-
-                guard let info = info else { return }
-                info.forEach { (eachDay) in
-                    let dateFormatter = DateFormatter()
-                    dateFormatter.dateFormat = "yyyy-MM-dd"
-                    let dbDate = dateFormatter.string(from: eachDay.date)
-                    
-                    if dbDate == "2020-01-13" {
-                        eachDay.achievement = "E"
-                    }
-                }
+                
+                // 오늘 날짜 구하기
+                let now = Date()
+                let convertDate = Calendar.current.dateComponents([.year, .month, .day], from: now)
+                
+                // TODO: 기존에 해당 날짜에 저장한 적이 있으면, add 말고 변경 값만 새로 저장해줘야함!!
+                realm?.add(inputToday(database: DayInfo(), savingDate: convertDate))
             }
         }catch{
             print("save error")
         }
         
         dismiss(animated: true, completion: nil)
+    }
+    
+    /// DayInfo 타입으로 저장할 데이터를 만들어주는 메소드
+    func inputToday(database: DayInfo, savingDate: DateComponents) -> DayInfo {
+        //        database.date = savingDate
+        database.year = savingDate.year!
+        database.month = savingDate.month!
+        database.day = savingDate.day!
+        database.achievement = userAchievement.rawValue
+        
+        return database
     }
 }

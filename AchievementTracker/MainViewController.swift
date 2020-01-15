@@ -21,6 +21,9 @@ class MainViewController: UIViewController {
     // 저장된 데이터에서 날짜만 뽑아서, 배열에 넣어둠.
     var savingDate: [String] = []
     
+    // notification token
+    var token: NotificationToken?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -48,7 +51,7 @@ class MainViewController: UIViewController {
         mainCalendar.scrollDirection = .horizontal
         
         // 원 말고 사각형으로 표시
-        mainCalendar.appearance.borderRadius = 0
+        mainCalendar.appearance.borderRadius = Constants.dayBorderRadius
         
         // Month 표시 설정
         //mainCalendar.appearance.headerTitleFont = UIFont.italicSystemFont(ofSize: 20.0)
@@ -59,10 +62,22 @@ class MainViewController: UIViewController {
         // MON -> M으로 표시
         mainCalendar.appearance.caseOptions = .weekdayUsesSingleUpperCase
         
+        
+        // 이전달, 다음달 표시의 알파값 조정
+        mainCalendar.appearance.headerMinimumDissolvedAlpha = 0.0
+        
         // 요일 표시 text 색 바꾸기
         for weekday in mainCalendar.calendarWeekdayView.weekdayLabels {
+            print("text color 바꾸기")
             weekday.textColor = UIColor.fontColor(.weekday)
+            weekday.font = UIFont.boldSystemFont(ofSize: Constants.weekdayFontSize)
         }
+        
+        // notification test
+        token = realm?.observe({ (nofitication, realm) in
+            print("notification token")
+            self.mainCalendar.reloadData()
+        })
     }
 }
 

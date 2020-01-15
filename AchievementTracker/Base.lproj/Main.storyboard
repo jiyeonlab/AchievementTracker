@@ -16,9 +16,9 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="kqt-pc-XQ6" customClass="FSCalendar">
-                                <rect key="frame" x="20" y="312" width="335" height="466"/>
+                                <rect key="frame" x="20" y="88" width="335" height="401"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="466" id="1MF-ov-ff6"/>
+                                    <constraint firstAttribute="height" constant="401" id="ayf-5f-rOj"/>
                                 </constraints>
                                 <userDefinedRuntimeAttributes>
                                     <userDefinedRuntimeAttribute type="string" keyPath="headerDateFormat" value="MMMM"/>
@@ -30,19 +30,20 @@
                                     </userDefinedRuntimeAttribute>
                                     <userDefinedRuntimeAttribute type="boolean" keyPath="allowsMultipleSelection" value="YES"/>
                                     <userDefinedRuntimeAttribute type="color" keyPath="selectionColor">
-                                        <color key="value" red="0.084512807428836823" green="0.37338805198669434" blue="0.089882589876651764" alpha="0.99983215329999997" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <color key="value" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                     </userDefinedRuntimeAttribute>
                                     <userDefinedRuntimeAttribute type="color" keyPath="todayColor">
                                         <color key="value" red="0.84973365068435669" green="0.95856565237045288" blue="0.84903210401535034" alpha="0.99988555909999999" colorSpace="custom" customColorSpace="sRGB"/>
                                     </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="boolean" keyPath="allowsSelection" value="NO"/>
                                 </userDefinedRuntimeAttributes>
                             </view>
                         </subviews>
                         <color key="backgroundColor" red="0.16129419210000001" green="0.17149960989999999" blue="0.2196139097" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                         <constraints>
-                            <constraint firstItem="kqt-pc-XQ6" firstAttribute="bottom" secondItem="6Tk-OE-BBY" secondAttribute="bottom" id="94k-oX-AIe"/>
-                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="kqt-pc-XQ6" secondAttribute="trailing" constant="20" id="Mda-fZ-68O"/>
-                            <constraint firstItem="kqt-pc-XQ6" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="20" id="lfL-6A-Vbe"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="kqt-pc-XQ6" secondAttribute="trailing" constant="20" id="25x-Oj-05H"/>
+                            <constraint firstItem="kqt-pc-XQ6" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="20" id="Q8w-Mx-vMx"/>
+                            <constraint firstItem="kqt-pc-XQ6" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" id="znp-mv-3NZ"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
@@ -59,7 +60,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1047.8260869565217" y="137.94642857142856"/>
+            <point key="canvasLocation" x="1047.2" y="137.4384236453202"/>
         </scene>
         <!--Check Achievement View Controller-->
         <scene sceneID="9LM-iK-lKo">

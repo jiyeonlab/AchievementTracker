@@ -24,11 +24,7 @@ class MainViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        // navigation bar 설정 (VC의 배경을 넓힌 효과를 주기 위해)
-        navigationController?.navigationBar.tintColor = UIColor.white
-        navigationController?.navigationBar.barTintColor = #colorLiteral(red: 0.158882767, green: 0.1719311476, blue: 0.2238469422, alpha: 1)
-        navigationController?.navigationBar.isTranslucent = false
-        navigationController?.navigationBar.shadowImage = UIImage()
+        configNavigationBar()
         
         mainCalendar.dataSource = self
         mainCalendar.delegate = self
@@ -43,16 +39,34 @@ class MainViewController: UIViewController {
         receiveRealmNotification()
     }
     
+    /// navigation bar 설정 (VC의 배경을 넓힌 효과를 주기 위해)
+    func configNavigationBar() {
+        
+        let showingYear = Calendar.current.dateComponents([.year], from: mainCalendar.currentPage)
+        print("현재 달력의 year = \(showingYear)")
+        guard let yearString = showingYear.year?.description else { return }
+        
+        navigationItem.title = yearString
+        navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.white]
+        navigationController?.navigationBar.tintColor = UIColor.white
+        navigationController?.navigationBar.barTintColor = #colorLiteral(red: 0.158882767, green: 0.1719311476, blue: 0.2238469422, alpha: 1)
+        navigationController?.navigationBar.isTranslucent = false
+        navigationController?.navigationBar.shadowImage = UIImage()
+    }
+    
     /// 캘린더의 각종 초기 셋팅을 해주는 메소드
     func configCalendar() {
         // 캘린더 스크롤 방향
         mainCalendar.scrollDirection = .horizontal
         
         // 원 말고 사각형으로 표시
-        mainCalendar.appearance.borderRadius = Constants.dayBorderRadius
+        mainCalendar.appearance.borderRadius = Config.Appearance.dayBorderRadius
         
         // Month 폰트 설정
-        mainCalendar.appearance.headerTitleFont = UIFont.boldSystemFont(ofSize: 25.0)
+        mainCalendar.appearance.headerTitleFont = UIFont.systemFont(ofSize: Config.FontSize.monthFontSize)
+        
+        // day 폰트 설정
+        mainCalendar.appearance.titleFont = UIFont.boldSystemFont(ofSize: Config.FontSize.dayFontSize)
         
         // 해당 Month의 날짜만 표시되도록 설정
         mainCalendar.placeholderType = .none
@@ -62,24 +76,21 @@ class MainViewController: UIViewController {
         
         
         // 이전달, 다음달 표시의 알파값 조정
-        mainCalendar.appearance.headerMinimumDissolvedAlpha = 0.0
+        mainCalendar.appearance.headerMinimumDissolvedAlpha = Config.Appearance.headerAlpha
         
         // 요일 표시 text 색 바꾸기
         for weekday in mainCalendar.calendarWeekdayView.weekdayLabels {
             weekday.textColor = UIColor.fontColor(.weekday)
-            weekday.font = UIFont.boldSystemFont(ofSize: Constants.weekdayFontSize)
+            weekday.font = UIFont.boldSystemFont(ofSize: Config.FontSize.weekdayFontSize)
         }
+        
+        // 오늘 날짜의 titlecolor
+        mainCalendar.appearance.titleTodayColor = #colorLiteral(red: 0.9686274529, green: 0.78039217, blue: 0.3450980484, alpha: 1)
     }
     
     /// realm 의 notification을 받는 곳
     func receiveRealmNotification() {
         print("receive realm noti func()")
-        
-        // notification test
-//        token = realm?.observe({ (notification, realm) in
-//            print("notification token \(notification) \(realm)")
-//            self.mainCalendar.reloadData()
-//        })
         
         guard let data = info else { return }
         
@@ -125,17 +136,21 @@ extension MainViewController: FSCalendarDelegate {
     
     // 캘린더 페이지가 바뀌면 호출되는 메소드
     func calendarCurrentPageDidChange(_ calendar: FSCalendar) {
-        print("calendar did change!")
+        print("calendar did change! ")
+        
+        // navigation bar에 현재 달력의 년도를 보여주기위해.
+        let showingYear = Calendar.current.dateComponents([.year], from: mainCalendar.currentPage)
+        print("현재 달력의 year = \(showingYear)")
+        
+        guard let yearString = showingYear.year?.description else { return }
+        
+        navigationItem.title = yearString
     }
     
     // 날짜가 선택되면 호출되는 메소드
     func calendar(_ calendar: FSCalendar, didSelect date: Date, at monthPosition: FSCalendarMonthPosition) {
         // 날짜 변환 해줘야 함. (UTC -> locale)
-        let convertingDate = date.addingTimeInterval(TimeInterval(NSTimeZone.local.secondsFromGMT()))
         
-        //        let test = Calendar.current.dateComponents([.year, .month, .day], from: date)
-        //
-        //        testSaveInDB(clickedDate: test)
     }
     
 }
@@ -155,7 +170,7 @@ extension MainViewController: FSCalendarDelegateAppearance {
         let thisDay = data.filter("year == %@", year).filter("month == %@", month).filter("day == %@", day)
         
         if thisDay.first != nil {
-            print("해당 날짜가 있음")
+            print("해당 날짜가 있음 \(day)")
             guard let fillDay = thisDay.first else { return UIColor.clear }
             
             switch fillDay.achievement {
@@ -178,5 +193,39 @@ extension MainViewController: FSCalendarDelegateAppearance {
         }
         
     }
-}
+    
+    // 각 날짜의 border color 설정. 옅은 회색을 줘서, 칸처럼 보이게.
+    func calendar(_ calendar: FSCalendar, appearance: FSCalendarAppearance, borderDefaultColorFor date: Date) -> UIColor? {
+        print("222")
+        let now = Date()
+        let today = Calendar.current.dateComponents([.year, .month, .day], from: now)
+        let cellDay = Calendar.current.dateComponents([.year, .month, .day], from: date)
+        
+        if today.year == cellDay.year && today.month == cellDay.month && today.day == cellDay.day {
+            return .clear
+        }else {
+            return #colorLiteral(red: 0.2229849696, green: 0.2271204591, blue: 0.2532250583, alpha: 1)
+        }
+    }
+    
+    // 각 날짜가 찍히는 위치를 cell의 중간으로 조정하기 위해.
+    func calendar(_ calendar: FSCalendar, titleFor date: Date) -> String? {
 
+        let now = Date()
+        let today = Calendar.current.dateComponents([.year, .month, .day], from: now)
+        let cellDay = Calendar.current.dateComponents([.year, .month, .day], from: date)
+
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "dd"
+        let day = dateFormatter.string(from: date)
+
+        // 오늘 날짜에는 날짜 대신 "Today" 가 찍히도록 함.
+        if today.year == cellDay.year && today.month == cellDay.month && today.day == cellDay.day {
+            print("투데이 title")
+
+            return "TODAY"
+        }else {
+            return day
+        }
+    }
+}

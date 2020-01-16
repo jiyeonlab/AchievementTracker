@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		90851A3123D0BB430044E560 /* UIViewController+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90851A3023D0BB430044E560 /* UIViewController+Extension.swift */; };
 		90A3D65623CDB063003DE13A /* WriteMemoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90A3D65523CDB063003DE13A /* WriteMemoViewController.swift */; };
 		90A3D65823CF12DF003DE13A /* GlobalConstant.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90A3D65723CF12DF003DE13A /* GlobalConstant.swift */; };
 		90D352A523CC460D00745F56 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90D352A423CC460D00745F56 /* AppDelegate.swift */; };
@@ -24,6 +25,7 @@
 /* Begin PBXFileReference section */
 		38EFC41EC5594F393D0684EB /* Pods-AchievementTracker.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AchievementTracker.release.xcconfig"; path = "Target Support Files/Pods-AchievementTracker/Pods-AchievementTracker.release.xcconfig"; sourceTree = "<group>"; };
 		5530F672CDAE3B664441599C /* Pods_AchievementTracker.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_AchievementTracker.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		90851A3023D0BB430044E560 /* UIViewController+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+Extension.swift"; sourceTree = "<group>"; };
 		90A3D65523CDB063003DE13A /* WriteMemoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WriteMemoViewController.swift; sourceTree = "<group>"; };
 		90A3D65723CF12DF003DE13A /* GlobalConstant.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlobalConstant.swift; sourceTree = "<group>"; };
 		90D352A123CC460D00745F56 /* AchievementTracker.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AchievementTracker.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -96,6 +98,7 @@
 				90D352B823CC476D00745F56 /* MainViewController.swift */,
 				90D352BE23CC662300745F56 /* CheckAchievementViewController.swift */,
 				90A3D65523CDB063003DE13A /* WriteMemoViewController.swift */,
+				90851A3023D0BB430044E560 /* UIViewController+Extension.swift */,
 				90D352BC23CC4E3700745F56 /* DayInfo.swift */,
 				90D352BA23CC480F00745F56 /* UIColor+Extension.swift */,
 				90A3D65723CF12DF003DE13A /* GlobalConstant.swift */,
@@ -221,6 +224,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				90851A3123D0BB430044E560 /* UIViewController+Extension.swift in Sources */,
 				90D352B923CC476D00745F56 /* MainViewController.swift in Sources */,
 				90D352BF23CC662300745F56 /* CheckAchievementViewController.swift in Sources */,
 				90A3D65823CF12DF003DE13A /* GlobalConstant.swift in Sources */,

@@ -54,6 +54,7 @@ class CheckAchievementViewController: UIViewController {
         realm = try? Realm()
         info = realm?.objects(DayInfo.self)
         
+        configNavigationBar(vcType: .inputView)
     }
     
     @IBAction func clickAchievementE(_ sender: UITapGestureRecognizer) {

@@ -38,4 +38,13 @@ extension UIColor {
             return #colorLiteral(red: 0.721568644, green: 0.8862745166, blue: 0.5921568871, alpha: 1)
         }
     }
+    
+    static func viewBackgroundColor(_ type: VCType) -> UIColor {
+        switch type {
+        case .mainView:
+            return #colorLiteral(red: 0.158882767, green: 0.1719311476, blue: 0.2238469422, alpha: 1)
+        case .inputView:
+            return #colorLiteral(red: 0.1235230342, green: 0.1367119849, blue: 0.1842530966, alpha: 1)
+        }
+    }
 }

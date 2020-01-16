@@ -24,7 +24,7 @@ class MainViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        configNavigationBar()
+        configNavigationTitle()
         
         mainCalendar.dataSource = self
         mainCalendar.delegate = self
@@ -40,7 +40,7 @@ class MainViewController: UIViewController {
     }
     
     /// navigation bar 설정 (VC의 배경을 넓힌 효과를 주기 위해)
-    func configNavigationBar() {
+    func configNavigationTitle() {
         
         let showingYear = Calendar.current.dateComponents([.year], from: mainCalendar.currentPage)
         print("현재 달력의 year = \(showingYear)")
@@ -48,10 +48,8 @@ class MainViewController: UIViewController {
         
         navigationItem.title = yearString
         navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.white]
-        navigationController?.navigationBar.tintColor = UIColor.white
-        navigationController?.navigationBar.barTintColor = #colorLiteral(red: 0.158882767, green: 0.1719311476, blue: 0.2238469422, alpha: 1)
-        navigationController?.navigationBar.isTranslucent = false
-        navigationController?.navigationBar.shadowImage = UIImage()
+        
+        configNavigationBar(vcType: .mainView)
     }
     
     /// 캘린더의 각종 초기 셋팅을 해주는 메소드
@@ -130,6 +128,26 @@ class MainViewController: UIViewController {
 
 extension MainViewController: FSCalendarDataSource {
     
+    // 각 날짜가 찍히는 위치를 cell의 중간으로 조정하기 위해.
+    func calendar(_ calendar: FSCalendar, titleFor date: Date) -> String? {
+
+        let now = Date()
+        let today = Calendar.current.dateComponents([.year, .month, .day], from: now)
+        let cellDay = Calendar.current.dateComponents([.year, .month, .day], from: date)
+
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "dd"
+        let day = dateFormatter.string(from: date)
+
+        // 오늘 날짜에는 날짜 대신 "Today" 가 찍히도록 함.
+        if today.year == cellDay.year && today.month == cellDay.month && today.day == cellDay.day {
+            print("투데이 title")
+
+            return "TODAY"
+        }else {
+            return day
+        }
+    }
 }
 
 extension MainViewController: FSCalendarDelegate {
@@ -147,12 +165,30 @@ extension MainViewController: FSCalendarDelegate {
         navigationItem.title = yearString
     }
     
-    // 날짜가 선택되면 호출되는 메소드
-    func calendar(_ calendar: FSCalendar, didSelect date: Date, at monthPosition: FSCalendarMonthPosition) {
-        // 날짜 변환 해줘야 함. (UTC -> locale)
+    // 오늘 날짜를 선택하면, 성취도 입력 화면이 나오도록 함.
+    func calendar(_ calendar: FSCalendar, shouldSelect date: Date, at monthPosition: FSCalendarMonthPosition) -> Bool {
         
+        let now = Date()
+        let clickedDate = date.addingTimeInterval(TimeInterval(NSTimeZone.local.secondsFromGMT()))
+        
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy-MM-dd"
+        
+        let today = dateFormatter.string(from: now)
+        let clickedDay = dateFormatter.string(from: clickedDate)
+        
+        if today == clickedDay {
+            if let inputVC = storyboard?.instantiateViewController(identifier: "InputVC") {
+
+//                inputVC.modalPresentationStyle = .fullScreen
+                present(inputVC, animated: true, completion: nil)
+            }
+        }else{
+            print("NO")
+        }
+        
+        return false
     }
-    
 }
 
 extension MainViewController: FSCalendarDelegateAppearance {
@@ -205,27 +241,6 @@ extension MainViewController: FSCalendarDelegateAppearance {
             return .clear
         }else {
             return #colorLiteral(red: 0.2229849696, green: 0.2271204591, blue: 0.2532250583, alpha: 1)
-        }
-    }
-    
-    // 각 날짜가 찍히는 위치를 cell의 중간으로 조정하기 위해.
-    func calendar(_ calendar: FSCalendar, titleFor date: Date) -> String? {
-
-        let now = Date()
-        let today = Calendar.current.dateComponents([.year, .month, .day], from: now)
-        let cellDay = Calendar.current.dateComponents([.year, .month, .day], from: date)
-
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "dd"
-        let day = dateFormatter.string(from: date)
-
-        // 오늘 날짜에는 날짜 대신 "Today" 가 찍히도록 함.
-        if today.year == cellDay.year && today.month == cellDay.month && today.day == cellDay.day {
-            print("투데이 title")
-
-            return "TODAY"
-        }else {
-            return day
         }
     }
 }

@@ -29,6 +29,9 @@ class WriteMemoViewController: UIViewController, UITextFieldDelegate {
         //realm
         realm = try? Realm()
         info = realm?.objects(DayInfo.self)
+        
+        navigationController?.navigationBar.topItem?.title = ""
+        configNavigationBar(vcType: .inputView)
     }
     
     // textfield를 수정할 때 호출.

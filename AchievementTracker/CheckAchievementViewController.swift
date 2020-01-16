@@ -23,18 +23,18 @@ class CheckAchievementViewController: UIViewController {
     @IBOutlet weak var todayDateLabel: UILabel!
     @IBOutlet weak var doneButton: UIButton!
     
-    @IBOutlet weak var achievementA: UIView!
-    @IBOutlet weak var achievementB: UIView!
-    @IBOutlet weak var achievementC: UIView!
-    @IBOutlet weak var achievementD: UIView!
     @IBOutlet weak var achievementE: UIView!
+    @IBOutlet weak var achievementD: UIView!
+    @IBOutlet weak var achievementC: UIView!
+    @IBOutlet weak var achievementB: UIView!
+    @IBOutlet weak var achievementA: UIView!
     
     // realm
     var info: Results<DayInfo>?
     var realm: Realm?
     
     // 사용자가 선택한 성취도 값
-    var userAchievement = Achievement.A
+    var userAchievement: Achievement?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -47,6 +47,7 @@ class CheckAchievementViewController: UIViewController {
         let dateString = dateFormatter.string(from: now)
         todayDateLabel.text = dateString
         
+        // 성취도를 선택하기 전에는 done 버튼 비활성화.
         doneButton.isEnabled = false
         
         //realm
@@ -55,27 +56,27 @@ class CheckAchievementViewController: UIViewController {
         
     }
     
-    @IBAction func clickedAchievementA(_ sender: UITapGestureRecognizer) {
-        userAchievement = Achievement.A
+    @IBAction func clickAchievementE(_ sender: UITapGestureRecognizer) {
+        userAchievement = Achievement.E
         configDoneButton()
     }
     
-    @IBAction func clickedAchievementB(_ sender: UITapGestureRecognizer) {
-        userAchievement = Achievement.B
+    @IBAction func clickAchievementD(_ sender: UITapGestureRecognizer) {
+        userAchievement = Achievement.D
         configDoneButton()
     }
-    @IBAction func clickedAchievementC(_ sender: UITapGestureRecognizer) {
+    @IBAction func clickAchievementC(_ sender: UITapGestureRecognizer) {
         userAchievement = Achievement.C
         configDoneButton()
     }
     
-    @IBAction func clickedAchievementD(_ sender: UITapGestureRecognizer) {
-        userAchievement = Achievement.D
+    @IBAction func clickAchievementB(_ sender: UITapGestureRecognizer) {
+        userAchievement = Achievement.B
         configDoneButton()
     }
     
-    @IBAction func clickedAchievementE(_ sender: UITapGestureRecognizer) {
-        userAchievement = Achievement.E
+    @IBAction func clickAchievementA(_ sender: UITapGestureRecognizer) {
+        userAchievement = Achievement.A
         configDoneButton()
     }
     
@@ -89,7 +90,6 @@ class CheckAchievementViewController: UIViewController {
     @IBAction func skipNextButton(_ sender: UIButton) {
         // 여기서 데이터베이스에 저장해줘야함.
         
-        
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -99,14 +99,7 @@ class CheckAchievementViewController: UIViewController {
             return
         }
         
-        // 오늘 날짜 구하기
-        let now = Date()
-        let convertDate = Calendar.current.dateComponents([.year, .month, .day], from: now)
-        
-        nextVC.tempData.year = convertDate.year!
-        nextVC.tempData.month = convertDate.month!
-        nextVC.tempData.day = convertDate.day!
-        nextVC.tempData.achievement = userAchievement.rawValue
-        
+        // 사용자가 입력한 성취도 값을 WriteMemoVC로 전달함.
+        nextVC.inputAchievement = userAchievement
     }
 }

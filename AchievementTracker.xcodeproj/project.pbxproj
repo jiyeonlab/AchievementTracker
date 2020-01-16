@@ -90,15 +90,15 @@
 		90D352A323CC460D00745F56 /* AchievementTracker */ = {
 			isa = PBXGroup;
 			children = (
-				90D352BC23CC4E3700745F56 /* DayInfo.swift */,
 				90D352A423CC460D00745F56 /* AppDelegate.swift */,
 				90D352A623CC460D00745F56 /* SceneDelegate.swift */,
+				90D352AA23CC460D00745F56 /* Main.storyboard */,
 				90D352B823CC476D00745F56 /* MainViewController.swift */,
+				90D352BE23CC662300745F56 /* CheckAchievementViewController.swift */,
 				90A3D65523CDB063003DE13A /* WriteMemoViewController.swift */,
+				90D352BC23CC4E3700745F56 /* DayInfo.swift */,
 				90D352BA23CC480F00745F56 /* UIColor+Extension.swift */,
 				90A3D65723CF12DF003DE13A /* GlobalConstant.swift */,
-				90D352AA23CC460D00745F56 /* Main.storyboard */,
-				90D352BE23CC662300745F56 /* CheckAchievementViewController.swift */,
 				90D352AD23CC460E00745F56 /* Assets.xcassets */,
 				90D352AF23CC460E00745F56 /* LaunchScreen.storyboard */,
 				90D352B223CC460E00745F56 /* Info.plist */,

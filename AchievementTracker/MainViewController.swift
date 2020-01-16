@@ -18,9 +18,6 @@ class MainViewController: UIViewController {
     var info: Results<DayInfo>?
     var realm: Realm?
     
-    // 저장된 데이터에서 날짜만 뽑아서, 배열에 넣어둠.
-    var savingDate: [String] = []
-    
     // notification token
     var token: NotificationToken?
     
@@ -43,6 +40,7 @@ class MainViewController: UIViewController {
         info = realm?.objects(DayInfo.self)
         print("realm 경로 = \(Realm.Configuration.defaultConfiguration.fileURL!)")
         
+        receiveRealmNotification()
     }
     
     /// 캘린더의 각종 초기 셋팅을 해주는 메소드
@@ -53,8 +51,8 @@ class MainViewController: UIViewController {
         // 원 말고 사각형으로 표시
         mainCalendar.appearance.borderRadius = Constants.dayBorderRadius
         
-        // Month 표시 설정
-        //mainCalendar.appearance.headerTitleFont = UIFont.italicSystemFont(ofSize: 20.0)
+        // Month 폰트 설정
+        mainCalendar.appearance.headerTitleFont = UIFont.boldSystemFont(ofSize: 25.0)
         
         // 해당 Month의 날짜만 표시되도록 설정
         mainCalendar.placeholderType = .none
@@ -68,16 +66,54 @@ class MainViewController: UIViewController {
         
         // 요일 표시 text 색 바꾸기
         for weekday in mainCalendar.calendarWeekdayView.weekdayLabels {
-            print("text color 바꾸기")
             weekday.textColor = UIColor.fontColor(.weekday)
             weekday.font = UIFont.boldSystemFont(ofSize: Constants.weekdayFontSize)
         }
+    }
+    
+    /// realm 의 notification을 받는 곳
+    func receiveRealmNotification() {
+        print("receive realm noti func()")
         
         // notification test
-        token = realm?.observe({ (nofitication, realm) in
-            print("notification token")
-            self.mainCalendar.reloadData()
+//        token = realm?.observe({ (notification, realm) in
+//            print("notification token \(notification) \(realm)")
+//            self.mainCalendar.reloadData()
+//        })
+        
+        guard let data = info else { return }
+        
+        let today = Date()
+        let todayComponent = Calendar.current.dateComponents([.year, .month, .day], from: today)
+        
+        guard let year = todayComponent.year, let month = todayComponent.month, let day = todayComponent.day else { return }
+        
+        // 현재 보여지는 캘린더의 year, month, day를 db에서 검색해서, 해당 날짜의 데이터가 있는지 없는지 찾아냄.
+        let thisDay = data.filter("year == %@", year).filter("month == %@", month).filter("day == %@", day)
+        
+        token = thisDay.observe({ (changes: RealmCollectionChange) in
+            print("in token ")
+            
+            switch changes {
+            case .error(let error):
+                print("noti error \(error)")
+            case .initial:
+                print("noti init")
+            case .update(_, let deletions, let insertions, let modifications):
+                print("noti update \(deletions) \(insertions) \(modifications)")
+                
+                guard let todayCell = self.mainCalendar.cell(for: today, at: .current) else { return }
+                
+                // 데이터를 수정할 수 있는 '오늘'에 해당하는 cell만 reload 하도록!
+                if let index = self.mainCalendar.collectionView.indexPath(for: todayCell){
+                    self.mainCalendar.collectionView.reloadItems(at: [index])
+                }
+            }
         })
+    }
+    
+    deinit {
+        token?.invalidate()
     }
 }
 
@@ -97,35 +133,9 @@ extension MainViewController: FSCalendarDelegate {
         // 날짜 변환 해줘야 함. (UTC -> locale)
         let convertingDate = date.addingTimeInterval(TimeInterval(NSTimeZone.local.secondsFromGMT()))
         
-//        let test = Calendar.current.dateComponents([.year, .month, .day], from: date)
-//
-//        testSaveInDB(clickedDate: test)
-    }
-    
-}
-
-extension MainViewController {
-    
-    /// 데이터베이스에 선택된 날짜를 저장하는 메소드
-    func testSaveInDB(clickedDate: DateComponents) {
-        do{
-            try realm?.write {
-                realm?.add(inputData(database: DayInfo(), savingDate: clickedDate))
-            }
-        }catch{
-            print("save error")
-        }
-    }
-    
-    /// DayInfo 타입으로 저장할 데이터를 만들어주는 메소드
-    func inputData(database: DayInfo, savingDate: DateComponents) -> DayInfo {
-//        database.date = savingDate
-        database.year = savingDate.year!
-        database.month = savingDate.month!
-        database.day = savingDate.day!
-        database.achievement = Achievement.D.rawValue
-        
-        return database
+        //        let test = Calendar.current.dateComponents([.year, .month, .day], from: date)
+        //
+        //        testSaveInDB(clickedDate: test)
     }
     
 }
@@ -139,12 +149,11 @@ extension MainViewController: FSCalendarDelegateAppearance {
         
         let convertDate = Calendar.current.dateComponents([.year, .month, .day], from: date)
         
-        let yearInfo = convertDate.year!
-        let month = convertDate.month!
-        let day = convertDate.day!
+        guard let year = convertDate.year, let month = convertDate.month, let day = convertDate.day else { return UIColor.clear }
         
-        let thisDay = data.filter("year == %@", yearInfo).filter("month == %@", month).filter("day == %@", day)
-       
+        // 현재 보여지는 캘린더의 year, month, day를 db에서 검색해서, 해당 날짜의 데이터가 있는지 없는지 찾아냄.
+        let thisDay = data.filter("year == %@", year).filter("month == %@", month).filter("day == %@", day)
+        
         if thisDay.first != nil {
             print("해당 날짜가 있음")
             guard let fillDay = thisDay.first else { return UIColor.clear }

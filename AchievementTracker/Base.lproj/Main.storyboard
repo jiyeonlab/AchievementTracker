@@ -36,6 +36,9 @@
                                         <color key="value" red="0.84973365068435669" green="0.95856565237045288" blue="0.84903210401535034" alpha="0.99988555909999999" colorSpace="custom" customColorSpace="sRGB"/>
                                     </userDefinedRuntimeAttribute>
                                     <userDefinedRuntimeAttribute type="boolean" keyPath="allowsSelection" value="NO"/>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="weekdayHeight">
+                                        <real key="value" value="50"/>
+                                    </userDefinedRuntimeAttribute>
                                 </userDefinedRuntimeAttributes>
                             </view>
                         </subviews>
@@ -186,11 +189,11 @@
                     </view>
                     <navigationItem key="navigationItem" id="ZgD-7C-Cvh"/>
                     <connections>
-                        <outlet property="achievementA" destination="mau-f0-Bfe" id="NaL-xg-Moe"/>
-                        <outlet property="achievementB" destination="SZ2-GB-afl" id="tSO-Bz-cS1"/>
+                        <outlet property="achievementA" destination="ygG-Ql-5g2" id="1nj-E5-Rg5"/>
+                        <outlet property="achievementB" destination="17Q-PX-wJc" id="mYb-Og-wqD"/>
                         <outlet property="achievementC" destination="nGq-88-nzp" id="vye-cb-veJ"/>
-                        <outlet property="achievementD" destination="17Q-PX-wJc" id="mYb-Og-wqD"/>
-                        <outlet property="achievementE" destination="ygG-Ql-5g2" id="1nj-E5-Rg5"/>
+                        <outlet property="achievementD" destination="SZ2-GB-afl" id="tSO-Bz-cS1"/>
+                        <outlet property="achievementE" destination="mau-f0-Bfe" id="NaL-xg-Moe"/>
                         <outlet property="doneButton" destination="pfg-lc-W3t" id="GDC-rE-4tg"/>
                         <outlet property="todayDateLabel" destination="0kT-3e-MDl" id="sEr-Jc-KVM"/>
                     </connections>
@@ -198,27 +201,27 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="uf7-km-Jgj" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
                 <tapGestureRecognizer id="sTn-if-2UG">
                     <connections>
-                        <action selector="clickedAchievementA:" destination="1nk-gf-MdS" id="aUu-Bi-eO6"/>
+                        <action selector="clickAchievementE:" destination="1nk-gf-MdS" id="aUu-Bi-eO6"/>
                     </connections>
                 </tapGestureRecognizer>
                 <tapGestureRecognizer id="S0o-VD-h7J">
                     <connections>
-                        <action selector="clickedAchievementB:" destination="1nk-gf-MdS" id="hiP-9h-ZME"/>
+                        <action selector="clickAchievementD:" destination="1nk-gf-MdS" id="hiP-9h-ZME"/>
                     </connections>
                 </tapGestureRecognizer>
                 <tapGestureRecognizer id="JlF-dx-Ds4">
                     <connections>
-                        <action selector="clickedAchievementC:" destination="1nk-gf-MdS" id="YQ8-Du-bEc"/>
+                        <action selector="clickAchievementC:" destination="1nk-gf-MdS" id="YQ8-Du-bEc"/>
                     </connections>
                 </tapGestureRecognizer>
                 <tapGestureRecognizer id="fpy-hP-ZEy">
                     <connections>
-                        <action selector="clickedAchievementD:" destination="1nk-gf-MdS" id="aOd-aI-KVQ"/>
+                        <action selector="clickAchievementB:" destination="1nk-gf-MdS" id="aOd-aI-KVQ"/>
                     </connections>
                 </tapGestureRecognizer>
                 <tapGestureRecognizer id="PAk-BR-ZDv">
                     <connections>
-                        <action selector="clickedAchievementE:" destination="1nk-gf-MdS" id="Vok-Eo-bzH"/>
+                        <action selector="clickAchievementA:" destination="1nk-gf-MdS" id="Vok-Eo-bzH"/>
                     </connections>
                 </tapGestureRecognizer>
             </objects>
@@ -233,7 +236,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="더 적을래요?" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="s0F-9c-fiM">
-                                <rect key="frame" x="137" y="367" width="101.33333333333331" height="24"/>
+                                <rect key="frame" x="137" y="367" width="101" height="24"/>
                                 <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="20"/>
                                 <textInputTraits key="textInputTraits"/>

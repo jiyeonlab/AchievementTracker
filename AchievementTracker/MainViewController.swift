@@ -22,6 +22,9 @@ class MainViewController: UIViewController {
     // notification token
     var token: NotificationToken?
     
+    /// 사용자가 캘린더에서 어떤 날짜를 누를 때 일을 수행하기 위한 핸들러
+    var centerToMemoCell: (()->Void)?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -171,29 +174,23 @@ extension MainViewController: FSCalendarDelegate {
     }
     
     // 오늘 날짜를 선택하면, 성취도 입력 화면이 나오도록 함.
-    //    func calendar(_ calendar: FSCalendar, shouldSelect date: Date, at monthPosition: FSCalendarMonthPosition) -> Bool {
-    //
-    //        let now = Date()
-    //        let clickedDate = date.addingTimeInterval(TimeInterval(NSTimeZone.local.secondsFromGMT()))
-    //
-    //        let dateFormatter = DateFormatter()
-    //        dateFormatter.dateFormat = "yyyy-MM-dd"
-    //
-    //        let today = dateFormatter.string(from: now)
-    //        let clickedDay = dateFormatter.string(from: clickedDate)
-    //
-    //        if today == clickedDay {
-    //            if let inputVC = storyboard?.instantiateViewController(identifier: "InputVC") {
-    //
-    ////                inputVC.modalPresentationStyle = .fullScreen
-    //                present(inputVC, animated: true, completion: nil)
-    //            }
-    //        }else{
-    //            print("NO")
-    //        }
-    //
-    //        return false
-    //    }
+    func calendar(_ calendar: FSCalendar, shouldSelect date: Date, at monthPosition: FSCalendarMonthPosition) -> Bool {
+        
+        let today = TodayDateComponent.today
+        
+        // 과거 날짜만 선택 가능
+        if date <= today {
+            // memoCell로 노티피케이션 보냄.
+            NotificationCenter.default.post(name: UserClickSomeDayNotification, object: date)
+            
+            // 어떤 날짜를 누르면, 아래의 memocell이 화면의 중간으로 오도록 하는 핸들러 호출
+            centerToMemoCell?()
+            
+            return false
+        }else{
+            return false
+        }
+    }
 }
 
 extension MainViewController: FSCalendarDelegateAppearance {
@@ -279,6 +276,11 @@ extension MainViewController: UICollectionViewDataSource, UICollectionViewDelega
         case 1:
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MemoCollectionViewCell.identifier, for: indexPath) as? MemoCollectionViewCell else {
                 return UICollectionViewCell()
+            }
+            
+            // 캘린더에서 어떤 날짜를 누르면, memocell이 중간으로 오도록 하기 위한 핸들러
+            centerToMemoCell = {
+                self.subView.scrollToItem(at: indexPath, at: .centeredHorizontally, animated: true)
             }
             
             return cell

@@ -25,11 +25,22 @@
                                 <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <textView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" textAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="Khj-kA-wqC">
+                                <rect key="frame" x="8" y="42" width="165" height="135"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                                <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                            </textView>
                         </subviews>
                         <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
+                            <constraint firstAttribute="trailing" secondItem="Khj-kA-wqC" secondAttribute="trailing" constant="8" id="B6L-f0-H4f"/>
                             <constraint firstItem="Knj-Cw-eD1" firstAttribute="centerX" secondItem="SFw-fh-AJX" secondAttribute="centerX" id="Jz0-bg-wJR"/>
                             <constraint firstItem="Knj-Cw-eD1" firstAttribute="top" secondItem="SFw-fh-AJX" secondAttribute="top" constant="16" id="dZM-Oc-7je"/>
+                            <constraint firstItem="Khj-kA-wqC" firstAttribute="leading" secondItem="SFw-fh-AJX" secondAttribute="leading" constant="8" id="iaN-gz-tVV"/>
+                            <constraint firstItem="Khj-kA-wqC" firstAttribute="top" secondItem="Knj-Cw-eD1" secondAttribute="bottom" constant="8" id="lAa-sL-8tk"/>
+                            <constraint firstAttribute="bottom" secondItem="Khj-kA-wqC" secondAttribute="bottom" constant="8" id="vnb-l4-aaV"/>
                         </constraints>
                     </view>
                 </subviews>
@@ -44,6 +55,7 @@
             <size key="customSize" width="181" height="185"/>
             <connections>
                 <outlet property="cellTitle" destination="Knj-Cw-eD1" id="YsK-jt-5Di"/>
+                <outlet property="memoContent" destination="Khj-kA-wqC" id="eyf-d9-lBp"/>
                 <outlet property="memoView" destination="SFw-fh-AJX" id="E4B-5b-2mk"/>
             </connections>
             <point key="canvasLocation" x="232.60869565217394" y="146.98660714285714"/>

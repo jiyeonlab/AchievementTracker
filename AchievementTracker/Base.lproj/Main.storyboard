@@ -17,9 +17,9 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="kqt-pc-XQ6" customClass="FSCalendar">
-                                <rect key="frame" x="20" y="88" width="335" height="400"/>
+                                <rect key="frame" x="20" y="88" width="335" height="450"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="400" id="ayf-5f-rOj"/>
+                                    <constraint firstAttribute="height" constant="450" id="ayf-5f-rOj"/>
                                 </constraints>
                                 <userDefinedRuntimeAttributes>
                                     <userDefinedRuntimeAttribute type="string" keyPath="headerDateFormat" value="YYYY.MM"/>
@@ -42,11 +42,11 @@
                                     <userDefinedRuntimeAttribute type="number" keyPath="headerHeight">
                                         <real key="value" value="50"/>
                                     </userDefinedRuntimeAttribute>
-                                    <userDefinedRuntimeAttribute type="boolean" keyPath="allowsSelection" value="NO"/>
+                                    <userDefinedRuntimeAttribute type="boolean" keyPath="allowsSelection" value="YES"/>
                                 </userDefinedRuntimeAttributes>
                             </view>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="teU-Cd-oQt">
-                                <rect key="frame" x="20" y="496" width="335" height="282"/>
+                                <rect key="frame" x="20" y="546" width="335" height="232"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" scrollDirection="horizontal" minimumLineSpacing="5" minimumInteritemSpacing="5" id="T0A-u5-TYe">
                                     <size key="itemSize" width="50" height="50"/>
@@ -64,7 +64,7 @@
                                         </collectionViewCellContentView>
                                     </collectionViewCell>
                                     <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" reuseIdentifier="MemoCollectionViewCell" id="mRp-fQ-8dA">
-                                        <rect key="frame" x="0.0" y="58" width="50" height="50"/>
+                                        <rect key="frame" x="0.0" y="60.666666666666664" width="50" height="50"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <collectionViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" id="rEA-dd-V3T">
                                             <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>

@@ -48,3 +48,6 @@ struct TodayDateComponent {
     }
     
 }
+
+// 어떤 날짜를 선택하면, memocell로 notification 보내기 위해 추가
+let UserClickSomeDayNotification = Notification.Name("UserClickSomeDay")

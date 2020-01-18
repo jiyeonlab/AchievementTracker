@@ -26,20 +26,32 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <textView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" textAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="Khj-kA-wqC">
-                                <rect key="frame" x="8" y="42" width="165" height="135"/>
+                                <rect key="frame" x="8" y="48" width="165" height="129"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                                 <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                             </textView>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="iWd-Uz-WTd">
+                                <rect key="frame" x="0.5" y="40" width="180" height="2"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="2" id="DLJ-S2-xxM"/>
+                                    <constraint firstAttribute="width" priority="250" constant="180" id="Whu-OE-AAp"/>
+                                </constraints>
+                            </view>
                         </subviews>
                         <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
-                            <constraint firstAttribute="trailing" secondItem="Khj-kA-wqC" secondAttribute="trailing" constant="8" id="B6L-f0-H4f"/>
+                            <constraint firstItem="Khj-kA-wqC" firstAttribute="centerX" secondItem="SFw-fh-AJX" secondAttribute="centerX" id="BEt-Sk-9wD"/>
                             <constraint firstItem="Knj-Cw-eD1" firstAttribute="centerX" secondItem="SFw-fh-AJX" secondAttribute="centerX" id="Jz0-bg-wJR"/>
+                            <constraint firstItem="Khj-kA-wqC" firstAttribute="top" secondItem="iWd-Uz-WTd" secondAttribute="bottom" constant="6" id="acQ-vt-aq2"/>
+                            <constraint firstItem="iWd-Uz-WTd" firstAttribute="centerX" secondItem="SFw-fh-AJX" secondAttribute="centerX" id="d6J-Fp-zo7"/>
                             <constraint firstItem="Knj-Cw-eD1" firstAttribute="top" secondItem="SFw-fh-AJX" secondAttribute="top" constant="16" id="dZM-Oc-7je"/>
-                            <constraint firstItem="Khj-kA-wqC" firstAttribute="leading" secondItem="SFw-fh-AJX" secondAttribute="leading" constant="8" id="iaN-gz-tVV"/>
-                            <constraint firstItem="Khj-kA-wqC" firstAttribute="top" secondItem="Knj-Cw-eD1" secondAttribute="bottom" constant="8" id="lAa-sL-8tk"/>
+                            <constraint firstItem="Khj-kA-wqC" firstAttribute="leading" secondItem="SFw-fh-AJX" secondAttribute="leading" constant="8" id="ebT-gD-1rx"/>
+                            <constraint firstAttribute="trailing" secondItem="Khj-kA-wqC" secondAttribute="trailing" constant="8" id="fWv-ev-bix"/>
+                            <constraint firstItem="Khj-kA-wqC" firstAttribute="top" secondItem="iWd-Uz-WTd" secondAttribute="bottom" constant="6" id="rNf-Qa-tuQ"/>
+                            <constraint firstItem="iWd-Uz-WTd" firstAttribute="top" secondItem="Knj-Cw-eD1" secondAttribute="bottom" constant="6" id="ssj-Vx-JVQ"/>
                             <constraint firstAttribute="bottom" secondItem="Khj-kA-wqC" secondAttribute="bottom" constant="8" id="vnb-l4-aaV"/>
                         </constraints>
                     </view>
@@ -57,6 +69,8 @@
                 <outlet property="cellTitle" destination="Knj-Cw-eD1" id="YsK-jt-5Di"/>
                 <outlet property="memoContent" destination="Khj-kA-wqC" id="eyf-d9-lBp"/>
                 <outlet property="memoView" destination="SFw-fh-AJX" id="E4B-5b-2mk"/>
+                <outlet property="sectionLine" destination="iWd-Uz-WTd" id="5nV-hY-sYu"/>
+                <outlet property="sectionLineWidth" destination="Whu-OE-AAp" id="pl7-PJ-alF"/>
             </connections>
             <point key="canvasLocation" x="232.60869565217394" y="146.98660714285714"/>
         </collectionViewCell>

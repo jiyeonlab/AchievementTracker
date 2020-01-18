@@ -14,6 +14,8 @@ class MemoCollectionViewCell: UICollectionViewCell {
     @IBOutlet weak var memoView: UIView!
     @IBOutlet weak var cellTitle: UILabel!
     @IBOutlet weak var memoContent: UITextView!
+    @IBOutlet weak var sectionLine: UIView!
+    @IBOutlet weak var sectionLineWidth: NSLayoutConstraint!
     
     var info: Results<DayInfo>?
     var realm: Realm?
@@ -46,6 +48,9 @@ class MemoCollectionViewCell: UICollectionViewCell {
         // 메모 내용을 보여주는 textview 설정
         memoContent.textColor = UIColor.lightGray
         memoContent.backgroundColor = .clear
+        
+        // section line 설정
+        sectionLineWidth.constant = memoContent.bounds.width / 1.5
     }
     
     
@@ -69,15 +74,33 @@ class MemoCollectionViewCell: UICollectionViewCell {
         let clickDay = data.filter("year == %@", year).filter("month == %@", month).filter("day == %@", day)
         
         if clickDay.count != 0 {
-            guard let content = clickDay.first else { return }
+            guard let clickDayInfo = clickDay.first else { return }
             
-            if content.memo.lengthOfBytes(using: .unicode) > 0 {
-                memoContent.text = content.memo
-            }else if content.memo.lengthOfBytes(using: .unicode) == 0{
+            if clickDayInfo.memo.lengthOfBytes(using: .unicode) > 0 {
+                memoContent.text = clickDayInfo.memo
+                
+            }else if clickDayInfo.memo.lengthOfBytes(using: .unicode) == 0{
                 memoContent.text = "메모를 입력하지 않았어요"
+            }
+            
+            // section line에 해당하는 uiview의 bgColor를 입혀줌.
+            switch clickDayInfo.achievement {
+            case "A":
+                sectionLine.backgroundColor = UIColor.achievementColor(.A)
+            case "B":
+                sectionLine.backgroundColor = UIColor.achievementColor(.B)
+            case "C":
+                sectionLine.backgroundColor = UIColor.achievementColor(.C)
+            case "D":
+                sectionLine.backgroundColor = UIColor.achievementColor(.D)
+            case "E":
+                sectionLine.backgroundColor = UIColor.achievementColor(.E)
+            default:
+                sectionLine.backgroundColor = UIColor.clear
             }
         }else{
             memoContent.text = "기록을 하지 않았어요"
+            sectionLine.backgroundColor = UIColor.gray
         }
         
     }

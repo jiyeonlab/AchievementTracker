@@ -21,6 +21,10 @@ struct Config {
         static let dayFontSize: CGFloat = 13.0
     }
     
+    struct AspectRatio {
+        static let cellAspectRatio: CGFloat = 1.1
+    }
+    
 }
 
 // 오늘 날짜에 해당하는 year, month, day 값을 가지는 TodayDateComponent 타입.

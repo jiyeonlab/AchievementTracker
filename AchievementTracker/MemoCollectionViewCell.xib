@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="15705" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15706"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="MemoCollectionViewCell" id="gTV-IL-0wX" customClass="MemoCollectionViewCell" customModule="AchievementTracker" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="181" height="185"/>
+            <autoresizingMask key="autoresizingMask"/>
+            <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                <rect key="frame" x="0.0" y="0.0" width="181" height="185"/>
+                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                <subviews>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="SFw-fh-AJX">
+                        <rect key="frame" x="0.0" y="0.0" width="181" height="185"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="2020.01.19 기록" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Knj-Cw-eD1">
+                                <rect key="frame" x="37" y="16" width="107" height="18"/>
+                                <fontDescription key="fontDescription" type="system" weight="medium" pointSize="15"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="Knj-Cw-eD1" firstAttribute="centerX" secondItem="SFw-fh-AJX" secondAttribute="centerX" id="Jz0-bg-wJR"/>
+                            <constraint firstItem="Knj-Cw-eD1" firstAttribute="top" secondItem="SFw-fh-AJX" secondAttribute="top" constant="16" id="dZM-Oc-7je"/>
+                        </constraints>
+                    </view>
+                </subviews>
+            </view>
+            <constraints>
+                <constraint firstAttribute="bottom" secondItem="SFw-fh-AJX" secondAttribute="bottom" id="1Bz-Y6-737"/>
+                <constraint firstItem="SFw-fh-AJX" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" id="AKW-rX-I86"/>
+                <constraint firstItem="SFw-fh-AJX" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" id="CDy-ku-mx9"/>
+                <constraint firstAttribute="trailing" secondItem="SFw-fh-AJX" secondAttribute="trailing" id="u16-9f-tub"/>
+            </constraints>
+            <viewLayoutGuide key="safeArea" id="ZTg-uK-7eu"/>
+            <size key="customSize" width="181" height="185"/>
+            <connections>
+                <outlet property="cellTitle" destination="Knj-Cw-eD1" id="YsK-jt-5Di"/>
+                <outlet property="memoView" destination="SFw-fh-AJX" id="E4B-5b-2mk"/>
+            </connections>
+            <point key="canvasLocation" x="232.60869565217394" y="146.98660714285714"/>
+        </collectionViewCell>
+    </objects>
+</document>

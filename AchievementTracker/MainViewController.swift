@@ -13,6 +13,7 @@ import RealmSwift
 class MainViewController: UIViewController {
     
     @IBOutlet weak var mainCalendar: FSCalendar!
+    @IBOutlet weak var subView: UICollectionView!
     
     // realm 추가
     var info: Results<DayInfo>?
@@ -38,20 +39,27 @@ class MainViewController: UIViewController {
         print("realm 경로 = \(Realm.Configuration.defaultConfiguration.fileURL!)")
         
         receiveRealmNotification()
+        
+        // subView에 해당하는 collectionview 추가
+        subView.dataSource = self
+        subView.delegate = self
+        subView.decelerationRate = .fast
+        configSubview()
     }
     
     /// 현재 달력 페이지의 year, month를 네비게이션 바의 타이틀로 설정하는 메소드
     func configNavigationTitle() {
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "yyyy"
+//        let dateFormatter = DateFormatter()
+//        dateFormatter.dateFormat = "yyyy"
+//
+//        let currentPageYear = dateFormatter.string(from: mainCalendar.currentPage)
+//
+//        dateFormatter.dateFormat = "MM"
+//        let currentPageMonth = dateFormatter.string(from: mainCalendar.currentPage)
+//
+//        navigationItem.title = currentPageYear + "."+currentPageMonth
+//        navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.white]
         
-        let currentPageYear = dateFormatter.string(from: mainCalendar.currentPage)
-        
-        dateFormatter.dateFormat = "MM"
-        let currentPageMonth = dateFormatter.string(from: mainCalendar.currentPage)
-        
-        navigationItem.title = currentPageYear + "."+currentPageMonth
-        navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.white]
     }
     
     /// 캘린더의 각종 초기 셋팅을 해주는 메소드
@@ -69,8 +77,8 @@ class MainViewController: UIViewController {
         mainCalendar.appearance.titleFont = UIFont.boldSystemFont(ofSize: Config.FontSize.dayFontSize)
         
         // 해당 Month의 날짜만 표시되도록 설정
-        //        mainCalendar.placeholderType = .none
-        mainCalendar.placeholderType = .fillHeadTail
+        mainCalendar.placeholderType = .none
+//        mainCalendar.placeholderType = .fillHeadTail
         
         // MON -> M으로 표시
         mainCalendar.appearance.caseOptions = .weekdayUsesSingleUpperCase
@@ -142,7 +150,7 @@ extension MainViewController: FSCalendarDataSource {
             
             if thisDay.count == 0 {
                 print("아직 오늘 데이터 없어서 today 찍음 \(thisDay)")
-
+                
                 return "TODAY"
             }else {
                 print("오늘 데이터 생겨서 날짜 찍음")
@@ -229,14 +237,102 @@ extension MainViewController: FSCalendarDelegateAppearance {
     
     // 각 날짜의 border color 설정. 옅은 회색을 줘서, 칸처럼 보이게.
     func calendar(_ calendar: FSCalendar, appearance: FSCalendarAppearance, borderDefaultColorFor date: Date) -> UIColor? {
-        print("222")
         
         let cellDay = Calendar.current.dateComponents([.year, .month, .day], from: date)
         
         if TodayDateComponent.year == cellDay.year && TodayDateComponent.month == cellDay.month && TodayDateComponent.day == cellDay.day {
             return .clear
         }else {
-            return #colorLiteral(red: 0.1834537089, green: 0.2006109357, blue: 0.266325891, alpha: 1)
+            return UIColor.borderColor()
         }
+    }
+}
+
+extension MainViewController: UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
+    
+    /// subview의 스타일을 지정하는 메소드
+    func configSubview(){
+        
+        // data cell
+        let dataCellNib = UINib(nibName: "DataCollectionViewCell", bundle: nil)
+        subView.register(dataCellNib, forCellWithReuseIdentifier: DataCollectionViewCell.identifier)
+        
+        // memo cell
+        let memoCellNib = UINib(nibName: "MemoCollectionViewCell", bundle: nil)
+        subView.register(memoCellNib, forCellWithReuseIdentifier: MemoCollectionViewCell.identifier)
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return 2
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        
+        switch indexPath.item {
+        case 0:
+            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: DataCollectionViewCell.identifier, for: indexPath) as? DataCollectionViewCell else {
+                return UICollectionViewCell()
+            }
+            
+            return cell
+            
+        case 1:
+            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MemoCollectionViewCell.identifier, for: indexPath) as? MemoCollectionViewCell else {
+                return UICollectionViewCell()
+            }
+            
+            return cell
+            
+        default:
+            return UICollectionViewCell()
+        }
+    }
+    
+    // dataCell과 memoCell의 사이즈를 결정하는 부분
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        
+        let cellHeight = subView.frame.height / Config.AspectRatio.cellAspectRatio
+        let cellWidth = subView.frame.width / Config.AspectRatio.cellAspectRatio
+        
+        let layout = collectionView.collectionViewLayout as! UICollectionViewFlowLayout
+        layout.itemSize = CGSize(width: cellWidth, height: cellHeight)
+        
+        return CGSize(width: cellWidth, height: cellHeight)
+    }
+    
+    // dataCell과 memoCell을 select하면, 해당 cell이 collectionview의 중간으로 오도록 함.
+        func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+            collectionView.scrollToItem(at: indexPath, at: .centeredHorizontally, animated: true)
+        }
+    
+}
+
+extension MainViewController: UIScrollViewDelegate {
+    
+    // collectionview cell의 paging 효과를 위해 추가
+    func scrollViewWillEndDragging(_ scrollView: UIScrollView, withVelocity velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>) {
+        
+        // item의 사이즈와 item 간의 간격 사이즈를 구해서 하나의 item 크기로 설정.
+        let layout = subView.collectionViewLayout as! UICollectionViewFlowLayout
+        let cellWidthIncludingSpacing = layout.itemSize.width + layout.minimumLineSpacing
+        
+        // targetContentOff을 이용하여 x좌표가 얼마나 이동했는지 확인
+        // 이동한 x좌표 값과 item의 크기를 비교하여 몇 페이징이 될 것인지 값 설정
+        var offset = targetContentOffset.pointee
+        let index = (offset.x + scrollView.contentInset.left) / cellWidthIncludingSpacing
+        var roundedIndex = round(index)
+        
+        // scrollView, targetContentOffset의 좌표 값으로 스크롤 방향을 알 수 있다.
+        // index를 반올림하여 사용하면 item의 절반 사이즈만큼 스크롤을 해야 페이징이 된다.
+        // 스크로로 방향을 체크하여 올림,내림을 사용하면 좀 더 자연스러운 페이징 효과를 낼 수 있다.
+        if scrollView.contentOffset.x > targetContentOffset.pointee.x {
+            roundedIndex = floor(index)
+        } else {
+            roundedIndex = ceil(index)
+        }
+        
+        // 위 코드를 통해 페이징 될 좌표값을 targetContentOffset에 대입하면 된다.
+        offset = CGPoint(x: roundedIndex * cellWidthIncludingSpacing - scrollView.contentInset.left, y: -scrollView.contentInset.top)
+        targetContentOffset.pointee = offset
     }
 }

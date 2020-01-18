@@ -39,12 +39,21 @@ extension UIColor {
         }
     }
     
-    static func viewBackgroundColor(_ type: VCType) -> UIColor {
+    static func viewBackgroundColor(_ type: BackGroundType) -> UIColor {
         switch type {
         case .mainView:
             return #colorLiteral(red: 0.158882767, green: 0.1719311476, blue: 0.2238469422, alpha: 1)
         case .inputView:
             return #colorLiteral(red: 0.1235230342, green: 0.1367119849, blue: 0.1842530966, alpha: 1)
+        case .subView:
+            return #colorLiteral(red: 0.1723069251, green: 0.1884202957, blue: 0.2501500547, alpha: 1)
+        case .memoView:
+            return #colorLiteral(red: 0.8054062128, green: 0.883908093, blue: 0.7655668855, alpha: 1)
+            
         }
+    }
+    
+    static func borderColor() -> UIColor {
+        return #colorLiteral(red: 0.1834537089, green: 0.2006109357, blue: 0.266325891, alpha: 1)
     }
 }

@@ -38,6 +38,9 @@
                                     <userDefinedRuntimeAttribute type="color" keyPath="weekdayTextColor">
                                         <color key="value" red="0.56404116652522251" green="0.72988494247349389" blue="0.49471028638496634" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                     </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="headerHeight">
+                                        <real key="value" value="0.0"/>
+                                    </userDefinedRuntimeAttribute>
                                 </userDefinedRuntimeAttributes>
                             </view>
                         </subviews>
@@ -50,7 +53,11 @@
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
                     <navigationItem key="navigationItem" id="Xxb-wu-TY2">
-                        <barButtonItem key="rightBarButtonItem" title="?" id="9dA-Dh-tVV"/>
+                        <barButtonItem key="rightBarButtonItem" systemItem="add" id="9dA-Dh-tVV">
+                            <connections>
+                                <segue destination="JOV-p7-A2r" kind="show" id="rEp-Kh-ZgD"/>
+                            </connections>
+                        </barButtonItem>
                     </navigationItem>
                     <connections>
                         <outlet property="mainCalendar" destination="kqt-pc-XQ6" id="hgO-ku-BC6"/>
@@ -232,16 +239,25 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" placeholder="더 적을래요?" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="s0F-9c-fiM">
-                                <rect key="frame" x="137" y="394" width="101" height="24"/>
-                                <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="더 적어보세요" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9v4-RF-WLq">
+                                <rect key="frame" x="133" y="232" width="109" height="24"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="20"/>
-                                <textInputTraits key="textInputTraits"/>
-                            </textField>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bZk-Z7-VWj">
-                                <rect key="frame" x="161" y="668" width="53" height="36"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" textAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="tch-en-ccy">
+                                <rect key="frame" x="50" y="288" width="274" height="128"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" enablesReturnKeyAutomatically="YES" smartDashesType="no" smartInsertDeleteType="no" smartQuotesType="no"/>
+                            </textView>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bZk-Z7-VWj">
+                                <rect key="frame" x="309" y="742" width="47" height="36"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="20"/>
-                                <state key="normal" title="Done!">
+                                <state key="normal" title="Done">
                                     <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 </state>
                                 <connections>
@@ -250,23 +266,18 @@
                             </button>
                         </subviews>
                         <color key="backgroundColor" red="0.1259752214" green="0.1362815201" blue="0.1803976893" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
-                        <constraints>
-                            <constraint firstItem="s0F-9c-fiM" firstAttribute="centerX" secondItem="P0A-lZ-XwD" secondAttribute="centerX" id="AVf-eA-3LB"/>
-                            <constraint firstItem="1nJ-Gp-H3v" firstAttribute="bottom" secondItem="bZk-Z7-VWj" secondAttribute="bottom" constant="74" id="IBi-65-ojg"/>
-                            <constraint firstItem="s0F-9c-fiM" firstAttribute="centerY" secondItem="P0A-lZ-XwD" secondAttribute="centerY" id="hZ6-Pz-tgm"/>
-                            <constraint firstItem="bZk-Z7-VWj" firstAttribute="centerX" secondItem="P0A-lZ-XwD" secondAttribute="centerX" id="voa-aZ-45P"/>
-                        </constraints>
                         <viewLayoutGuide key="safeArea" id="1nJ-Gp-H3v"/>
                     </view>
                     <navigationItem key="navigationItem" id="5YR-gf-XAv"/>
                     <connections>
                         <outlet property="doneButton" destination="bZk-Z7-VWj" id="18M-FH-htd"/>
-                        <outlet property="textfield" destination="s0F-9c-fiM" id="PsE-n5-o4D"/>
+                        <outlet property="label" destination="9v4-RF-WLq" id="8L1-bG-BWM"/>
+                        <outlet property="memoTextView" destination="tch-en-ccy" id="x5v-OI-cVf"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="3Jb-PM-AqT" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2946" y="935"/>
+            <point key="canvasLocation" x="2944.8000000000002" y="934.72906403940885"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="Vkc-3n-ufP">
@@ -291,6 +302,7 @@
             <objects>
                 <navigationController storyboardIdentifier="InputVC" automaticallyAdjustsScrollViewInsets="NO" navigationBarHidden="YES" id="JOV-p7-A2r" sceneMemberID="viewController">
                     <toolbarItems/>
+                    <navigationItem key="navigationItem" id="bPp-J6-b6v"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="jCA-yI-qEm">
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>

@@ -24,6 +24,7 @@ class MainViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        configNavigationBar(vcType: .mainView)
         configNavigationTitle()
         
         mainCalendar.dataSource = self
@@ -39,17 +40,18 @@ class MainViewController: UIViewController {
         receiveRealmNotification()
     }
     
-    /// navigation bar 설정 (VC의 배경을 넓힌 효과를 주기 위해)
+    /// 현재 달력 페이지의 year, month를 네비게이션 바의 타이틀로 설정하는 메소드
     func configNavigationTitle() {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy"
         
-        let showingYear = Calendar.current.dateComponents([.year], from: mainCalendar.currentPage)
-        print("현재 달력의 year = \(showingYear)")
-        guard let yearString = showingYear.year?.description else { return }
+        let currentPageYear = dateFormatter.string(from: mainCalendar.currentPage)
         
-        navigationItem.title = yearString
+        dateFormatter.dateFormat = "MM"
+        let currentPageMonth = dateFormatter.string(from: mainCalendar.currentPage)
+        
+        navigationItem.title = currentPageYear + "."+currentPageMonth
         navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.white]
-        
-        configNavigationBar(vcType: .mainView)
     }
     
     /// 캘린더의 각종 초기 셋팅을 해주는 메소드
@@ -67,7 +69,8 @@ class MainViewController: UIViewController {
         mainCalendar.appearance.titleFont = UIFont.boldSystemFont(ofSize: Config.FontSize.dayFontSize)
         
         // 해당 Month의 날짜만 표시되도록 설정
-        mainCalendar.placeholderType = .none
+        //        mainCalendar.placeholderType = .none
+        mainCalendar.placeholderType = .fillHeadTail
         
         // MON -> M으로 표시
         mainCalendar.appearance.caseOptions = .weekdayUsesSingleUpperCase
@@ -88,20 +91,13 @@ class MainViewController: UIViewController {
     
     /// realm 의 notification을 받는 곳
     func receiveRealmNotification() {
-        print("receive realm noti func()")
         
         guard let data = info else { return }
         
-        let today = Date()
-        let todayComponent = Calendar.current.dateComponents([.year, .month, .day], from: today)
-        
-        guard let year = todayComponent.year, let month = todayComponent.month, let day = todayComponent.day else { return }
-        
         // 현재 보여지는 캘린더의 year, month, day를 db에서 검색해서, 해당 날짜의 데이터가 있는지 없는지 찾아냄.
-        let thisDay = data.filter("year == %@", year).filter("month == %@", month).filter("day == %@", day)
+        let thisDay = data.filter("year == %@", TodayDateComponent.year).filter("month == %@", TodayDateComponent.month).filter("day == %@", TodayDateComponent.day)
         
         token = thisDay.observe({ (changes: RealmCollectionChange) in
-            print("in token ")
             
             switch changes {
             case .error(let error):
@@ -111,7 +107,7 @@ class MainViewController: UIViewController {
             case .update(_, let deletions, let insertions, let modifications):
                 print("noti update \(deletions) \(insertions) \(modifications)")
                 
-                guard let todayCell = self.mainCalendar.cell(for: today, at: .current) else { return }
+                guard let todayCell = self.mainCalendar.cell(for: TodayDateComponent.today, at: .current) else { return }
                 
                 // 데이터를 수정할 수 있는 '오늘'에 해당하는 cell만 reload 하도록!
                 if let index = self.mainCalendar.collectionView.indexPath(for: todayCell){
@@ -130,20 +126,29 @@ extension MainViewController: FSCalendarDataSource {
     
     // 각 날짜가 찍히는 위치를 cell의 중간으로 조정하기 위해.
     func calendar(_ calendar: FSCalendar, titleFor date: Date) -> String? {
-
-        let now = Date()
-        let today = Calendar.current.dateComponents([.year, .month, .day], from: now)
+        
         let cellDay = Calendar.current.dateComponents([.year, .month, .day], from: date)
-
+        
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "dd"
         let day = dateFormatter.string(from: date)
-
+        
+        guard let data = info else { return "" }
+        let thisDay = data.filter("year == %@", TodayDateComponent.year).filter("month == %@", TodayDateComponent.month).filter("day == %@", TodayDateComponent.day)
+        
         // 오늘 날짜에는 날짜 대신 "Today" 가 찍히도록 함.
-        if today.year == cellDay.year && today.month == cellDay.month && today.day == cellDay.day {
+        if TodayDateComponent.year == cellDay.year && TodayDateComponent.month == cellDay.month && TodayDateComponent.day == cellDay.day{
             print("투데이 title")
+            
+            if thisDay.count == 0 {
+                print("아직 오늘 데이터 없어서 today 찍음 \(thisDay)")
 
-            return "TODAY"
+                return "TODAY"
+            }else {
+                print("오늘 데이터 생겨서 날짜 찍음")
+                
+                return day
+            }
         }else {
             return day
         }
@@ -154,41 +159,33 @@ extension MainViewController: FSCalendarDelegate {
     
     // 캘린더 페이지가 바뀌면 호출되는 메소드
     func calendarCurrentPageDidChange(_ calendar: FSCalendar) {
-        print("calendar did change! ")
-        
-        // navigation bar에 현재 달력의 년도를 보여주기위해.
-        let showingYear = Calendar.current.dateComponents([.year], from: mainCalendar.currentPage)
-        print("현재 달력의 year = \(showingYear)")
-        
-        guard let yearString = showingYear.year?.description else { return }
-        
-        navigationItem.title = yearString
+        configNavigationTitle()
     }
     
     // 오늘 날짜를 선택하면, 성취도 입력 화면이 나오도록 함.
-    func calendar(_ calendar: FSCalendar, shouldSelect date: Date, at monthPosition: FSCalendarMonthPosition) -> Bool {
-        
-        let now = Date()
-        let clickedDate = date.addingTimeInterval(TimeInterval(NSTimeZone.local.secondsFromGMT()))
-        
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "yyyy-MM-dd"
-        
-        let today = dateFormatter.string(from: now)
-        let clickedDay = dateFormatter.string(from: clickedDate)
-        
-        if today == clickedDay {
-            if let inputVC = storyboard?.instantiateViewController(identifier: "InputVC") {
-
-//                inputVC.modalPresentationStyle = .fullScreen
-                present(inputVC, animated: true, completion: nil)
-            }
-        }else{
-            print("NO")
-        }
-        
-        return false
-    }
+    //    func calendar(_ calendar: FSCalendar, shouldSelect date: Date, at monthPosition: FSCalendarMonthPosition) -> Bool {
+    //
+    //        let now = Date()
+    //        let clickedDate = date.addingTimeInterval(TimeInterval(NSTimeZone.local.secondsFromGMT()))
+    //
+    //        let dateFormatter = DateFormatter()
+    //        dateFormatter.dateFormat = "yyyy-MM-dd"
+    //
+    //        let today = dateFormatter.string(from: now)
+    //        let clickedDay = dateFormatter.string(from: clickedDate)
+    //
+    //        if today == clickedDay {
+    //            if let inputVC = storyboard?.instantiateViewController(identifier: "InputVC") {
+    //
+    ////                inputVC.modalPresentationStyle = .fullScreen
+    //                present(inputVC, animated: true, completion: nil)
+    //            }
+    //        }else{
+    //            print("NO")
+    //        }
+    //
+    //        return false
+    //    }
 }
 
 extension MainViewController: FSCalendarDelegateAppearance {
@@ -233,14 +230,13 @@ extension MainViewController: FSCalendarDelegateAppearance {
     // 각 날짜의 border color 설정. 옅은 회색을 줘서, 칸처럼 보이게.
     func calendar(_ calendar: FSCalendar, appearance: FSCalendarAppearance, borderDefaultColorFor date: Date) -> UIColor? {
         print("222")
-        let now = Date()
-        let today = Calendar.current.dateComponents([.year, .month, .day], from: now)
+        
         let cellDay = Calendar.current.dateComponents([.year, .month, .day], from: date)
         
-        if today.year == cellDay.year && today.month == cellDay.month && today.day == cellDay.day {
+        if TodayDateComponent.year == cellDay.year && TodayDateComponent.month == cellDay.month && TodayDateComponent.day == cellDay.day {
             return .clear
         }else {
-            return #colorLiteral(red: 0.2229849696, green: 0.2271204591, blue: 0.2532250583, alpha: 1)
+            return #colorLiteral(red: 0.1834537089, green: 0.2006109357, blue: 0.266325891, alpha: 1)
         }
     }
 }

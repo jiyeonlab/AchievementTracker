@@ -53,7 +53,6 @@ class MemoCollectionViewCell: UICollectionViewCell {
         configMemoContent()
         
         // section line 설정
-        sectionLine.backgroundColor = UIColor.viewBackgroundColor(.mainView)
         sectionLineWidth.constant = memoContent.bounds.width / 1.5
     }
     
@@ -80,6 +79,22 @@ class MemoCollectionViewCell: UICollectionViewCell {
                 
             }else if todayData.memo.lengthOfBytes(using: .unicode) == 0{
                 memoContent.text = "메모를 입력하지 않았어요"
+            }
+            
+            // section line에 해당하는 uiview의 bgColor를 입혀줌.
+            switch todayData.achievement {
+            case "A":
+                sectionLine.backgroundColor = UIColor.achievementColor(.A)
+            case "B":
+                sectionLine.backgroundColor = UIColor.achievementColor(.B)
+            case "C":
+                sectionLine.backgroundColor = UIColor.achievementColor(.C)
+            case "D":
+                sectionLine.backgroundColor = UIColor.achievementColor(.D)
+            case "E":
+                sectionLine.backgroundColor = UIColor.achievementColor(.E)
+            default:
+                sectionLine.backgroundColor = UIColor.clear
             }
         }else{
             let dateFormatter = DateFormatter()

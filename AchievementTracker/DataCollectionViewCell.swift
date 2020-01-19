@@ -12,8 +12,6 @@ class DataCollectionViewCell: UICollectionViewCell {
 
     @IBOutlet weak var dataView: UIView!
     static let identifier = "DataCollectionViewCell"
-    @IBOutlet weak var horizontalLine: UIView!
-    @IBOutlet weak var verticalLine: UIView!
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -27,8 +25,5 @@ class DataCollectionViewCell: UICollectionViewCell {
         dataView.layer.borderColor = UIColor.borderColor().cgColor
         dataView.layer.borderWidth = 2
         dataView.layer.masksToBounds = true
-        
-        horizontalLine.backgroundColor = UIColor.viewBackgroundColor(.mainView)
-        verticalLine.backgroundColor = UIColor.viewBackgroundColor(.mainView)
     }
 }

@@ -11,11 +11,12 @@ import RealmSwift
 
 class WriteMemoViewController: UIViewController {
     
-    @IBOutlet weak var label: UILabel!
+    @IBOutlet weak var messageLabel: UILabel!
     @IBOutlet weak var memoTextView: UITextView!
-    @IBOutlet weak var doneButton: UIButton!
     
+    /// 성취도 입력 화면으로부터 사용자가 선택한 성취도 값을 받기 위한 변수
     var inputAchievement: Achievement?
+    
     var info: Results<DayInfo>?
     var realm: Realm?
     
@@ -24,10 +25,6 @@ class WriteMemoViewController: UIViewController {
         
         memoTextView.delegate = self
         
-        label.textColor = UIColor.fontColor(.memo)
-        // 플레이스 홀더 글자색 바꾸기
-        //        textfield.attributedPlaceholder = NSAttributedString(string: "|", attributes: [NSAttributedString.Key.foregroundColor : UIColor.fontColor(.memo)])
-        
         //realm
         realm = try? Realm()
         info = realm?.objects(DayInfo.self)
@@ -35,24 +32,22 @@ class WriteMemoViewController: UIViewController {
         navigationController?.navigationBar.topItem?.title = ""
         configNavigationBar(vcType: .inputView)
         
-        // 키보드 높이를 구하기 위해 추가
-        NotificationCenter.default.addObserver(self, selector: #selector(keyboardShow(_:)), name: UIResponder.keyboardWillShowNotification, object: nil)
+        configToolBar()
+        
+        memoTextView.textColor = UIColor.fontColor(.memo)
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(_:)), name: UIResponder.keyboardWillShowNotification, object: nil)
     }
     
-    // 키보드 높이를 구하기 위해 추가
-    @objc func keyboardShow(_ noti: Notification) {
-        if let keyboardRect = (noti.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue {
-            print(keyboardRect.height)
+    @objc func keyboardWillShow(_ notification: Notification) {
+        if let keyboardFrame: NSValue = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue {
+            let keyboardRectangle = keyboardFrame.cgRectValue
+            let keyboardHeight = keyboardRectangle.height
+            print("keyboardHeight = \(keyboardHeight)")
             
-            let height = keyboardRect.height
-            let doneButtonOrigin = doneButton.frame.origin.y - 36
-            print("원래 origin =\(doneButtonOrigin)")
-            doneButton.frame.origin.y = doneButtonOrigin - height
-            
+            memoTextView.frame.origin.y -= 10
         }
-        
-        // 옵저버를 해제해줘야, 키보드를 맨 처음 누를 때 키보드 관련 노티피케이션이 다시 호출 안됨.
-        NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillShowNotification, object: nil)
+
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -60,10 +55,31 @@ class WriteMemoViewController: UIViewController {
         
         // 메모 입력 화면이 열리면, 저절로 키보드를 보여주기 위함.
         memoTextView.becomeFirstResponder()
+        
+        // messageLabel과 memoTextField를 안전하게 키보드 위에 위치하도록 하기 위함.
+//        messageLabel.frame.origin.y -= 30
+//        memoTextView.frame.origin.y -= 30
     }
     
-    /// 메모를 입력하고 done 버튼을 누르면 수행되는 액션메소드
-    @IBAction func saveData(_ sender: UIButton) {
+    /// 키보드 상단에 UIBar를 붙이고, 오른쪽에 done 버튼을 추가. toolbar의 색상을 view의 배경색과 일치시키는 메소드.
+    func configToolBar() {
+        
+        let toolBar = UIToolbar()
+        toolBar.sizeToFit()
+        toolBar.tintColor = .white
+        toolBar.barTintColor = UIColor.viewBackgroundColor(.inputView)
+        toolBar.isTranslucent = false
+        toolBar.setShadowImage(UIImage(), forToolbarPosition: .any)
+        
+        let space = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: self, action: nil)
+        let doneButton = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(saveData(_:)))
+        //        let doneButton = UIBarButtonItem(title: "Done", style: .done, target: self, action: #selector(saveData(_:)))
+        toolBar.setItems([space, doneButton], animated: false)
+        
+        memoTextView.inputAccessoryView = toolBar
+    }
+    
+    @objc func saveData(_ sender: Any){
         
         do {
             try realm?.write {
@@ -124,18 +140,13 @@ class WriteMemoViewController: UIViewController {
 
 extension WriteMemoViewController: UITextViewDelegate {
     
-    func textViewDidEndEditing(_ textView: UITextView) {
-        print("done 키를 누른건가")
-    }
-    
-    func textViewDidBeginEditing(_ textView: UITextView) {
-        print("시작한건가")
+    // 메모 textfield의 글자 수를 250자로 제한하기 위해 추가.
+    func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
+        guard let content = textView.text else { return true }
         
-        doneButton.titleLabel?.textColor = UIColor.fontColor(.memo)
+        let limitedLength = content.count + text.count - range.length
+        
+        print("length =\(limitedLength)")
+        return limitedLength <= 1000
     }
-    
-    // 화면을 터치하면, 키보드가 내려가도록 함.
-//    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-//        self.view.endEditing(true)
-//    }
 }

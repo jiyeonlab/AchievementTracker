@@ -15,6 +15,7 @@ class MainViewController: UIViewController {
     @IBOutlet weak var mainCalendar: FSCalendar!
     @IBOutlet weak var subView: UICollectionView!
     @IBOutlet weak var datePickerTapView: UIView!
+    @IBOutlet weak var calendarHeight: NSLayoutConstraint!
     
     // realm 추가
     var info: Results<DayInfo>?
@@ -77,6 +78,10 @@ class MainViewController: UIViewController {
     
     /// 캘린더의 각종 초기 셋팅을 해주는 메소드
     func configCalendar() {
+        
+        // 캘린더의 높이 설정
+        calendarHeight.constant = view.frame.height / 1.8
+        
         // 캘린더 스크롤 방향
         mainCalendar.scrollDirection = .horizontal
         

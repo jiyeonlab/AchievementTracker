@@ -151,6 +151,7 @@ class MainViewController: UIViewController {
         let datePickerView = UIViewController()
         let picker = UIDatePicker()
         picker.datePickerMode = .date
+        picker.locale = Locale(identifier: "ko_KO") as Locale
         datePickerView.view = picker
         datePickerView.preferredContentSize.height = 150
         

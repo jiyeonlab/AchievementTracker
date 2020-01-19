@@ -214,7 +214,6 @@
                                     <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 </state>
                                 <connections>
-                                    <action selector="skipNextButton:" destination="1nk-gf-MdS" eventType="touchUpInside" id="ycf-BZ-PIv"/>
                                     <segue destination="kew-1A-1Vs" kind="show" identifier="ShowWriteView" id="ZUO-hb-Z6k"/>
                                 </connections>
                             </button>
@@ -225,6 +224,7 @@
                             <constraint firstItem="fsN-9i-DfM" firstAttribute="leading" secondItem="aCQ-DZ-4be" secondAttribute="leading" constant="165" id="B4Y-Rv-ENn"/>
                             <constraint firstItem="YRz-iH-qmG" firstAttribute="top" secondItem="fsN-9i-DfM" secondAttribute="bottom" constant="96" id="Bch-72-0OR"/>
                             <constraint firstItem="YRz-iH-qmG" firstAttribute="leading" secondItem="aCQ-DZ-4be" secondAttribute="leading" constant="34" id="JSk-pb-p9j"/>
+                            <constraint firstItem="aCQ-DZ-4be" firstAttribute="trailing" secondItem="EEK-1f-wuD" secondAttribute="trailing" constant="46" id="K26-YX-ek2"/>
                             <constraint firstItem="fsN-9i-DfM" firstAttribute="top" secondItem="EEK-1f-wuD" secondAttribute="bottom" constant="50" id="KdF-AK-H42"/>
                             <constraint firstItem="EEK-1f-wuD" firstAttribute="leading" secondItem="aCQ-DZ-4be" secondAttribute="leading" constant="45.670000000000002" id="TZT-Cj-n8z"/>
                             <constraint firstItem="YRz-iH-qmG" firstAttribute="top" secondItem="fsN-9i-DfM" secondAttribute="bottom" constant="96" id="jMB-5b-vbW"/>
@@ -248,6 +248,7 @@
                         <outlet property="achievementD" destination="SZ2-GB-afl" id="tSO-Bz-cS1"/>
                         <outlet property="achievementE" destination="mau-f0-Bfe" id="NaL-xg-Moe"/>
                         <outlet property="doneButton" destination="pfg-lc-W3t" id="GDC-rE-4tg"/>
+                        <outlet property="messageLabel" destination="EEK-1f-wuD" id="qfC-Im-Iah"/>
                         <outlet property="todayDateLabel" destination="0kT-3e-MDl" id="sEr-Jc-KVM"/>
                     </connections>
                 </viewController>

@@ -29,6 +29,8 @@ class CheckAchievementViewController: UIViewController {
     @IBOutlet weak var achievementB: UIView!
     @IBOutlet weak var achievementA: UIView!
     
+    @IBOutlet weak var messageLabel: UILabel!
+    
     // realm
     var info: Results<DayInfo>?
     var realm: Realm?
@@ -55,6 +57,8 @@ class CheckAchievementViewController: UIViewController {
         info = realm?.objects(DayInfo.self)
         
         configNavigationBar(vcType: .inputView)
+        
+        configMessage()
     }
     
     @IBAction func clickAchievementE(_ sender: UITapGestureRecognizer) {
@@ -87,12 +91,6 @@ class CheckAchievementViewController: UIViewController {
         doneButton.isEnabled = true
     }
     
-    /// 하단의 done 버튼을 누르면 실행되는 액션메소드
-    @IBAction func skipNextButton(_ sender: UIButton) {
-        // 여기서 데이터베이스에 저장해줘야함.
-        
-    }
-    
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         print("메모 입력 화면으로 넘어감")
         
@@ -102,5 +100,20 @@ class CheckAchievementViewController: UIViewController {
         
         // 사용자가 입력한 성취도 값을 WriteMemoVC로 전달함.
         nextVC.inputAchievement = userAchievement
+    }
+    
+    /// 오늘 데이터 입력이 처음이면 "check ~"로, 오늘 데이터를 수정하는 거면 "change ~"로 메시지를 바꾸는 메소드
+    func configMessage() {
+        guard let data = info else { return }
+        
+        // 오늘 데이터가 있는지 확인
+        let today = data.filter("year == %@", TodayDateComponent.year).filter("month == %@", TodayDateComponent.month).filter("day == %@", TodayDateComponent.day)
+        
+        // 오늘 데이터가 있으면
+        if today.count != 0 {
+            messageLabel.text = "오늘의 성취도를 수정해보세요!"
+        }else{
+            messageLabel.text = "오늘의 성취도를 입력해보세요!"
+        }
     }
 }

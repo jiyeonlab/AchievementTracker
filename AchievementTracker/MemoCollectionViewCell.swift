@@ -10,7 +10,7 @@ import UIKit
 import RealmSwift
 
 class MemoCollectionViewCell: UICollectionViewCell {
-
+    
     @IBOutlet weak var memoView: UIView!
     @IBOutlet weak var cellTitle: UILabel!
     @IBOutlet weak var memoContent: UITextView!
@@ -49,13 +49,63 @@ class MemoCollectionViewCell: UICollectionViewCell {
         memoContent.textColor = UIColor.lightGray
         memoContent.backgroundColor = .clear
         
+        // 초기 화면에서 최근 날짜의 메모를 보여주기
+        configMemoContent()
+        
         // section line 설정
+        sectionLine.backgroundColor = UIColor.viewBackgroundColor(.mainView)
         sectionLineWidth.constant = memoContent.bounds.width / 1.5
+    }
+    
+    /// 초기 화면에서 오늘 데이터가 없으면, 최근 날짜의 메모를 보여주고, 오늘 데이터가 있으면, 오늘 메모를 보여주기.
+    func configMemoContent() {
+        // db에서 해당 날짜의 메모를 찾아서 memocontent textview에 보여주기
+        guard let data = info else { return }
+        
+        // 오늘 데이터가 있는지 확인
+        let today = data.filter("year == %@", TodayDateComponent.year).filter("month == %@", TodayDateComponent.month).filter("day == %@", TodayDateComponent.day)
+        let yesterday = data.filter("year == %@", TodayDateComponent.year).filter("month == %@", TodayDateComponent.month).filter("day == %@", (TodayDateComponent.day - 1))
+        
+        // 오늘 데이터가 있으면, 오늘 메모를 보여줌
+        if today.count != 0 {
+            let dateFormatter = DateFormatter()
+            dateFormatter.dateFormat = "yyyy.M.d"
+            
+            cellTitle.text = dateFormatter.string(from: Date()) + " 기록"
+            
+            guard let todayData = today.first else { return }
+            
+            if todayData.memo.lengthOfBytes(using: .unicode) > 0 {
+                memoContent.text = todayData.memo
+                
+            }else if todayData.memo.lengthOfBytes(using: .unicode) == 0{
+                memoContent.text = "메모를 입력하지 않았어요"
+            }
+        }else{
+            let dateFormatter = DateFormatter()
+            dateFormatter.dateFormat = "yyyy.M.d"
+            
+            // 어제 날짜를 MemoCell의 titlelabel로 입력해주기 위함.
+            guard let yesterdayDate = Calendar.current.date(byAdding: .day, value: -1, to: Date()) else { return }
+            cellTitle.text = dateFormatter.string(from: yesterdayDate) + " 기록"
+            
+            guard let yesterdayData = yesterday.first else { return }
+            
+            if yesterdayData.memo.lengthOfBytes(using: .unicode) > 0 {
+                memoContent.text = yesterdayData.memo
+                
+            }else if yesterdayData.memo.lengthOfBytes(using: .unicode) == 0{
+                memoContent.text = "메모를 입력하지 않았어요"
+            }
+        }
     }
     
     
     /// 사용자가 캘린더에서 어떤 날짜를 선택하면 memoview의 title 설정을 해주는 메소드
     @objc func configMemoView(_ noti: Notification) {
+        
+        print("메모셀의 노티피케이션을 받아 수행하는 곳")
+        
         guard let clickDate = noti.object as? Date else { return }
         
         let dateFormatter = DateFormatter()
@@ -100,9 +150,9 @@ class MemoCollectionViewCell: UICollectionViewCell {
             }
         }else{
             memoContent.text = "기록을 하지 않았어요"
-            sectionLine.backgroundColor = UIColor.gray
+            sectionLine.backgroundColor = UIColor.viewBackgroundColor(.mainView)
         }
         
     }
-
+    
 }

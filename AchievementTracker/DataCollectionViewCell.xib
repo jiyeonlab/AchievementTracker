@@ -25,11 +25,45 @@
                                 <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Ef7-v0-mrM">
+                                <rect key="frame" x="16" y="42" width="218" height="200"/>
+                                <subviews>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="lKJ-YP-ezo">
+                                        <rect key="frame" x="8" y="99" width="202" height="2"/>
+                                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="2" id="VUP-Yt-X3z"/>
+                                        </constraints>
+                                    </view>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ihw-T8-ewg">
+                                        <rect key="frame" x="108" y="6" width="2" height="188"/>
+                                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="2" id="DvA-wF-bda"/>
+                                        </constraints>
+                                    </view>
+                                </subviews>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <constraints>
+                                    <constraint firstAttribute="bottom" secondItem="ihw-T8-ewg" secondAttribute="bottom" constant="6" id="EEu-fV-uUl"/>
+                                    <constraint firstAttribute="trailing" secondItem="lKJ-YP-ezo" secondAttribute="trailing" constant="8" id="MRV-nM-Glj"/>
+                                    <constraint firstItem="ihw-T8-ewg" firstAttribute="top" secondItem="Ef7-v0-mrM" secondAttribute="top" constant="6" id="aXJ-0S-vq9"/>
+                                    <constraint firstItem="lKJ-YP-ezo" firstAttribute="leading" secondItem="Ef7-v0-mrM" secondAttribute="leading" constant="8" id="dDG-xq-h7l"/>
+                                    <constraint firstItem="ihw-T8-ewg" firstAttribute="centerX" secondItem="Ef7-v0-mrM" secondAttribute="centerX" id="hHc-6K-Wpm"/>
+                                    <constraint firstItem="lKJ-YP-ezo" firstAttribute="centerY" secondItem="Ef7-v0-mrM" secondAttribute="centerY" id="o2p-34-sJn"/>
+                                    <constraint firstItem="lKJ-YP-ezo" firstAttribute="centerX" secondItem="Ef7-v0-mrM" secondAttribute="centerX" id="xnZ-Dt-xAD"/>
+                                </constraints>
+                            </view>
                         </subviews>
                         <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
-                            <constraint firstItem="7zO-sM-H96" firstAttribute="top" secondItem="mU1-pd-rsj" secondAttribute="top" constant="16" id="q5z-f7-5FR"/>
-                            <constraint firstItem="7zO-sM-H96" firstAttribute="centerX" secondItem="mU1-pd-rsj" secondAttribute="centerX" id="zLT-IH-1gr"/>
+                            <constraint firstAttribute="bottom" secondItem="Ef7-v0-mrM" secondAttribute="bottom" constant="8" id="2Mi-XN-pju"/>
+                            <constraint firstItem="Ef7-v0-mrM" firstAttribute="top" secondItem="7zO-sM-H96" secondAttribute="bottom" constant="8" id="GkT-e5-tgB"/>
+                            <constraint firstItem="7zO-sM-H96" firstAttribute="top" secondItem="mU1-pd-rsj" secondAttribute="top" constant="16" id="MK2-zL-zmP"/>
+                            <constraint firstItem="Ef7-v0-mrM" firstAttribute="leading" secondItem="mU1-pd-rsj" secondAttribute="leading" constant="16" id="Rvh-Oe-BMF"/>
+                            <constraint firstItem="7zO-sM-H96" firstAttribute="centerX" secondItem="mU1-pd-rsj" secondAttribute="centerX" id="TjI-G4-84F"/>
+                            <constraint firstAttribute="trailing" secondItem="Ef7-v0-mrM" secondAttribute="trailing" constant="16" id="iVc-Mo-QoI"/>
+                            <constraint firstItem="Ef7-v0-mrM" firstAttribute="top" secondItem="7zO-sM-H96" secondAttribute="bottom" constant="8" id="oSi-nw-mZr"/>
                         </constraints>
                     </view>
                 </subviews>
@@ -44,8 +78,10 @@
             <size key="customSize" width="251" height="266"/>
             <connections>
                 <outlet property="dataView" destination="mU1-pd-rsj" id="set-Jw-ihe"/>
+                <outlet property="horizontalLine" destination="lKJ-YP-ezo" id="z2R-fT-npS"/>
+                <outlet property="verticalLine" destination="ihw-T8-ewg" id="a4f-hl-9Mb"/>
             </connections>
-            <point key="canvasLocation" x="283.33333333333337" y="225"/>
+            <point key="canvasLocation" x="282.60869565217394" y="225"/>
         </collectionViewCell>
     </objects>
 </document>

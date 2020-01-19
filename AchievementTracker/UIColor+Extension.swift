@@ -46,10 +46,7 @@ extension UIColor {
         case .inputView:
             return #colorLiteral(red: 0.1235230342, green: 0.1367119849, blue: 0.1842530966, alpha: 1)
         case .subView:
-            return #colorLiteral(red: 0.1723069251, green: 0.1884202957, blue: 0.2501500547, alpha: 1)
-        case .memoView:
-            return #colorLiteral(red: 0.8054062128, green: 0.883908093, blue: 0.7655668855, alpha: 1)
-            
+            return #colorLiteral(red: 0.1896958947, green: 0.2074376941, blue: 0.2753842473, alpha: 1)
         }
     }
     

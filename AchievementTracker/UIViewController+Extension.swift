@@ -9,7 +9,7 @@
 import UIKit
 
 enum BackGroundType {
-    case mainView, inputView, subView, memoView
+    case mainView, inputView, subView
 }
 
 extension UIViewController {

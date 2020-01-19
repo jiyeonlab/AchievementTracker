@@ -98,7 +98,11 @@ class WriteMemoViewController: UIViewController {
             print("save error")
         }
         
-        dismiss(animated: true, completion: nil)
+        dismiss(animated: true) {
+            // 메모 입력까지 하고나면, MemoCell을 reload해주고, 화면의 중간으로 오도록 함.
+            NotificationCenter.default.post(name: UserClickSomeDayNotification, object: Date())
+            NotificationCenter.default.post(name: CenterToMemoCellNotification, object: nil)
+        }
     }
     
     /// DayInfo 타입으로 저장할 데이터를 만들어주는 메소드

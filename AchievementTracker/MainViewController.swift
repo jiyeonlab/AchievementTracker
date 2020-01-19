@@ -14,6 +14,7 @@ class MainViewController: UIViewController {
     
     @IBOutlet weak var mainCalendar: FSCalendar!
     @IBOutlet weak var subView: UICollectionView!
+    @IBOutlet weak var datePickerTapView: UIView!
     
     // realm 추가
     var info: Results<DayInfo>?
@@ -51,20 +52,26 @@ class MainViewController: UIViewController {
         subView.delegate = self
         subView.decelerationRate = .fast
         configSubview()
+        
+        // 날짜를 선택할 수 있는 date picker를 열기 위한 tap gesture 추가
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(selectDatePickerView(_:)))
+        datePickerTapView.addGestureRecognizer(tapGesture)
+        
+        // 메모 입력 화면의 노티피케이션을 받기 위한 옵저버 등록
+        NotificationCenter.default.addObserver(self, selector: #selector(moveMemoCell(_:)), name: CenterToMemoCellNotification, object: nil)
     }
-    
     /// 현재 달력 페이지의 year, month를 네비게이션 바의 타이틀로 설정하는 메소드
     func configNavigationTitle() {
-//        let dateFormatter = DateFormatter()
-//        dateFormatter.dateFormat = "yyyy"
-//
-//        let currentPageYear = dateFormatter.string(from: mainCalendar.currentPage)
-//
-//        dateFormatter.dateFormat = "MM"
-//        let currentPageMonth = dateFormatter.string(from: mainCalendar.currentPage)
-//
-//        navigationItem.title = currentPageYear + "."+currentPageMonth
-//        navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.white]
+        //        let dateFormatter = DateFormatter()
+        //        dateFormatter.dateFormat = "yyyy"
+        //
+        //        let currentPageYear = dateFormatter.string(from: mainCalendar.currentPage)
+        //
+        //        dateFormatter.dateFormat = "MM"
+        //        let currentPageMonth = dateFormatter.string(from: mainCalendar.currentPage)
+        //
+        //        navigationItem.title = currentPageYear + "."+currentPageMonth
+        //        navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.white]
         
     }
     
@@ -84,7 +91,7 @@ class MainViewController: UIViewController {
         
         // 해당 Month의 날짜만 표시되도록 설정
         mainCalendar.placeholderType = .none
-//        mainCalendar.placeholderType = .fillHeadTail
+        //        mainCalendar.placeholderType = .fillHeadTail
         
         // MON -> M으로 표시
         mainCalendar.appearance.caseOptions = .weekdayUsesSingleUpperCase
@@ -134,6 +141,45 @@ class MainViewController: UIViewController {
     deinit {
         token?.invalidate()
     }
+    
+    // 캘린더의 title 부분을 설정하면 datepicker가 뜨도록 함
+    @objc func selectDatePickerView(_ sender: UITapGestureRecognizer){
+        
+        let alertView = UIAlertController(title: "날짜 선택", message: nil, preferredStyle: .actionSheet)
+        
+        // alertview에 datepicker를 추가
+        let datePickerView = UIViewController()
+        let picker = UIDatePicker()
+        picker.datePickerMode = .date
+        datePickerView.view = picker
+        datePickerView.preferredContentSize.height = 150
+        
+        alertView.setValue(datePickerView, forKey: "contentViewController")
+        let alertAction = UIAlertAction(title: "확인", style: .default) { action in
+            print("date picker에서 날짜를 선택했음. \(picker.date)")
+            // datepicker에서 선택한 달로 이동
+            self.mainCalendar.setCurrentPage(picker.date, animated: true)
+            
+        }
+        alertView.addAction(alertAction)
+        
+        present(alertView, animated: true) {
+            let tapGesture = UITapGestureRecognizer(target: self, action: #selector(self.dismissAlertView(_:)))
+            alertView.view.superview?.subviews[0].addGestureRecognizer(tapGesture)
+        }
+        
+    }
+    
+    // actionsheet가 열려있는데, 화면의 다른 부분을 tap하면 actionsheet가 사라지게 하기 위함.
+    @objc func dismissAlertView(_ tapGesture: UITapGestureRecognizer) {
+        self.dismiss(animated: true, completion: nil)
+    }
+    
+    // 메모입력 화면에서 done 버튼을 누르면 받는 노티피케이션을 받아 핸들러를 수행함.
+    @objc func moveMemoCell(_ noti: Notification){
+        centerToMemoCell?()
+    }
+    
 }
 
 extension MainViewController: FSCalendarDataSource {
@@ -314,38 +360,38 @@ extension MainViewController: UICollectionViewDataSource, UICollectionViewDelega
     }
     
     // dataCell과 memoCell을 select하면, 해당 cell이 collectionview의 중간으로 오도록 함.
-        func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-            collectionView.scrollToItem(at: indexPath, at: .centeredHorizontally, animated: true)
-        }
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        collectionView.scrollToItem(at: indexPath, at: .centeredHorizontally, animated: true)
+    }
     
 }
 
 extension MainViewController: UIScrollViewDelegate {
     
     // collectionview cell의 paging 효과를 위해 추가
-//    func scrollViewWillEndDragging(_ scrollView: UIScrollView, withVelocity velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>) {
-//
-//        // item의 사이즈와 item 간의 간격 사이즈를 구해서 하나의 item 크기로 설정.
-//        let layout = subView.collectionViewLayout as! UICollectionViewFlowLayout
-//        let cellWidthIncludingSpacing = layout.itemSize.width + layout.minimumLineSpacing
-//
-//        // targetContentOff을 이용하여 x좌표가 얼마나 이동했는지 확인
-//        // 이동한 x좌표 값과 item의 크기를 비교하여 몇 페이징이 될 것인지 값 설정
-//        var offset = targetContentOffset.pointee
-//        let index = (offset.x + scrollView.contentInset.left) / cellWidthIncludingSpacing
-//        var roundedIndex = round(index)
-//
-//        // scrollView, targetContentOffset의 좌표 값으로 스크롤 방향을 알 수 있다.
-//        // index를 반올림하여 사용하면 item의 절반 사이즈만큼 스크롤을 해야 페이징이 된다.
-//        // 스크로로 방향을 체크하여 올림,내림을 사용하면 좀 더 자연스러운 페이징 효과를 낼 수 있다.
-//        if scrollView.contentOffset.x > targetContentOffset.pointee.x {
-//            roundedIndex = floor(index)
-//        } else {
-//            roundedIndex = ceil(index)
-//        }
-//
-//        // 위 코드를 통해 페이징 될 좌표값을 targetContentOffset에 대입하면 된다.
-//        offset = CGPoint(x: roundedIndex * cellWidthIncludingSpacing - scrollView.contentInset.left, y: -scrollView.contentInset.top)
-//        targetContentOffset.pointee = offset
-//    }
+    //    func scrollViewWillEndDragging(_ scrollView: UIScrollView, withVelocity velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>) {
+    //
+    //        // item의 사이즈와 item 간의 간격 사이즈를 구해서 하나의 item 크기로 설정.
+    //        let layout = subView.collectionViewLayout as! UICollectionViewFlowLayout
+    //        let cellWidthIncludingSpacing = layout.itemSize.width + layout.minimumLineSpacing
+    //
+    //        // targetContentOff을 이용하여 x좌표가 얼마나 이동했는지 확인
+    //        // 이동한 x좌표 값과 item의 크기를 비교하여 몇 페이징이 될 것인지 값 설정
+    //        var offset = targetContentOffset.pointee
+    //        let index = (offset.x + scrollView.contentInset.left) / cellWidthIncludingSpacing
+    //        var roundedIndex = round(index)
+    //
+    //        // scrollView, targetContentOffset의 좌표 값으로 스크롤 방향을 알 수 있다.
+    //        // index를 반올림하여 사용하면 item의 절반 사이즈만큼 스크롤을 해야 페이징이 된다.
+    //        // 스크로로 방향을 체크하여 올림,내림을 사용하면 좀 더 자연스러운 페이징 효과를 낼 수 있다.
+    //        if scrollView.contentOffset.x > targetContentOffset.pointee.x {
+    //            roundedIndex = floor(index)
+    //        } else {
+    //            roundedIndex = ceil(index)
+    //        }
+    //
+    //        // 위 코드를 통해 페이징 될 좌표값을 targetContentOffset에 대입하면 된다.
+    //        offset = CGPoint(x: roundedIndex * cellWidthIncludingSpacing - scrollView.contentInset.left, y: -scrollView.contentInset.top)
+    //        targetContentOffset.pointee = offset
+    //    }
 }

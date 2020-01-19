@@ -45,6 +45,14 @@
                                     <userDefinedRuntimeAttribute type="boolean" keyPath="allowsSelection" value="YES"/>
                                 </userDefinedRuntimeAttributes>
                             </view>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="GSO-Me-HHO">
+                                <rect key="frame" x="112.66666666666669" y="88" width="150" height="42"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="42" id="6C2-9a-jrJ"/>
+                                    <constraint firstAttribute="width" constant="150" id="U3y-MK-PcY"/>
+                                </constraints>
+                            </view>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" pagingEnabled="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="teU-Cd-oQt">
                                 <rect key="frame" x="20" y="546" width="335" height="232"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -82,7 +90,9 @@
                             <constraint firstItem="teU-Cd-oQt" firstAttribute="bottom" secondItem="6Tk-OE-BBY" secondAttribute="bottom" id="LRF-pc-Zmb"/>
                             <constraint firstItem="kqt-pc-XQ6" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="20" id="Q8w-Mx-vMx"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="teU-Cd-oQt" secondAttribute="trailing" constant="20" id="ZHN-wb-3TP"/>
+                            <constraint firstItem="GSO-Me-HHO" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="cBv-w7-uqX"/>
                             <constraint firstItem="teU-Cd-oQt" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="20" id="k6N-1x-d3z"/>
+                            <constraint firstItem="GSO-Me-HHO" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" id="wWK-kz-Eo5"/>
                             <constraint firstItem="teU-Cd-oQt" firstAttribute="top" secondItem="kqt-pc-XQ6" secondAttribute="bottom" constant="8" id="xrP-mK-217"/>
                             <constraint firstItem="teU-Cd-oQt" firstAttribute="bottom" secondItem="6Tk-OE-BBY" secondAttribute="bottom" id="ydm-8c-8br"/>
                             <constraint firstItem="kqt-pc-XQ6" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" id="znp-mv-3NZ"/>
@@ -97,6 +107,7 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
+                        <outlet property="datePickerTapView" destination="GSO-Me-HHO" id="2ec-Q7-dxd"/>
                         <outlet property="mainCalendar" destination="kqt-pc-XQ6" id="hgO-ku-BC6"/>
                         <outlet property="subView" destination="teU-Cd-oQt" id="MFi-2P-ArN"/>
                     </connections>

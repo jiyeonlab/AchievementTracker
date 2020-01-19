@@ -51,3 +51,6 @@ struct TodayDateComponent {
 
 // 어떤 날짜를 선택하면, memocell로 notification 보내기 위해 추가
 let UserClickSomeDayNotification = Notification.Name("UserClickSomeDay")
+
+// 메모입력 화면에서 done 버튼을 누르면, 메모 cell이 collectionview의 중간으로 오도록 하기 위해 추가
+let CenterToMemoCellNotification = Notification.Name("CenterToMemoCell")

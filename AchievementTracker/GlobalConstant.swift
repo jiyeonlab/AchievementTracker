@@ -50,8 +50,20 @@ struct TodayDateComponent {
     
 }
 
+enum Achievement: String {
+    // E-D-C-B-A 순으로 성취도 등급이 높아짐.
+    case A = "A"
+    case B = "B"
+    case C = "C"
+    case D = "D"
+    case E = "E"
+}
+
 // 어떤 날짜를 선택하면, memocell로 notification 보내기 위해 추가
 let UserClickSomeDayNotification = Notification.Name("UserClickSomeDay")
 
 // 메모입력 화면에서 done 버튼을 누르면, 메모 cell이 collectionview의 중간으로 오도록 하기 위해 추가
 let CenterToMemoCellNotification = Notification.Name("CenterToMemoCell")
+
+// 앱이 background에서 다시 foreground로 올 때, 캘린더를 reload하기 위한 노티피케이션
+let RefreshCalendarNotification = Notification.Name("RefreshCalendar")

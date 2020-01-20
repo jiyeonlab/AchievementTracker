@@ -9,15 +9,6 @@
 import UIKit
 import RealmSwift
 
-enum Achievement: String {
-    // E-D-C-B-A 순으로 성취도 등급이 높아짐.
-    case A = "A"
-    case B = "B"
-    case C = "C"
-    case D = "D"
-    case E = "E"
-}
-
 class CheckAchievementViewController: UIViewController {
     
     @IBOutlet weak var todayDateLabel: UILabel!

@@ -69,7 +69,11 @@ class MainViewController: UIViewController {
         NotificationCenter.default.addObserver(self, selector: #selector(moveMemoCell(_:)), name: CenterToMemoCellNotification, object: nil)
         
         configPickerData()
+        
+        // 앱이 foreground로 올라오면, 캘린더를 reload 하기 위해 옵저버 등록
+        NotificationCenter.default.addObserver(self, selector: #selector(refreshCalendar(_:)), name: RefreshCalendarNotification, object: nil)
     }
+    
     /// 현재 달력 페이지의 year, month를 네비게이션 바의 타이틀로 설정하는 메소드
     func configNavigationTitle() {
         //        let dateFormatter = DateFormatter()
@@ -203,6 +207,11 @@ class MainViewController: UIViewController {
     // 메모입력 화면에서 done 버튼을 누르면 받는 노티피케이션을 받아 핸들러를 수행함.
     @objc func moveMemoCell(_ noti: Notification){
         centerToMemoCell?()
+    }
+    
+    // 앱이 foreground로 돌아왔을 때, today가 바뀌었을 수도 있기 때문에 캘린더를 reload 해주기 위한 메소드
+    @objc func refreshCalendar(_ noti: Notification) {
+        mainCalendar.reloadData()
     }
     
 }

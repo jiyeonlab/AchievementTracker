@@ -13,6 +13,7 @@ struct Config {
     struct Appearance {
         static let dayBorderRadius: CGFloat = 0
         static let headerAlpha: CGFloat = 0.1
+        static let achievementRadius: CGFloat = 20.0
     }
     
     struct FontSize {

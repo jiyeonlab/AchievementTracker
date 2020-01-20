@@ -38,6 +38,9 @@ class CheckAchievementViewController: UIViewController {
     // 사용자가 선택한 성취도 값
     var userAchievement: Achievement?
     
+    /// 성취도 선택을 여러번 할 경우를 위해 마지막으로 누른 view를 저장해둘 변수
+    var lastSelectedView: UIView?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -59,36 +62,69 @@ class CheckAchievementViewController: UIViewController {
         configNavigationBar(vcType: .inputView)
         
         configMessage()
+        
+        // donebutton의 초기 이미지 셋팅
+//        doneButton.setImage(UIImage(named: "unchecked"), for: .normal)
+        
+        // 성취도 칸의 모양 다듬기
+        achievementA.layer.cornerRadius = Config.Appearance.achievementRadius
+        achievementB.layer.cornerRadius = Config.Appearance.achievementRadius
+        achievementC.layer.cornerRadius = Config.Appearance.achievementRadius
+        achievementD.layer.cornerRadius = Config.Appearance.achievementRadius
+        achievementE.layer.cornerRadius = Config.Appearance.achievementRadius
+
     }
     
     @IBAction func clickAchievementE(_ sender: UITapGestureRecognizer) {
         userAchievement = Achievement.E
+        
         configDoneButton()
+        configSelectEffect(what: achievementE)
     }
     
     @IBAction func clickAchievementD(_ sender: UITapGestureRecognizer) {
         userAchievement = Achievement.D
+        
         configDoneButton()
+        configSelectEffect(what: achievementD)
     }
     @IBAction func clickAchievementC(_ sender: UITapGestureRecognizer) {
         userAchievement = Achievement.C
+        
         configDoneButton()
+        configSelectEffect(what: achievementC)
     }
     
     @IBAction func clickAchievementB(_ sender: UITapGestureRecognizer) {
         userAchievement = Achievement.B
+        
         configDoneButton()
+        configSelectEffect(what: achievementB)
     }
     
     @IBAction func clickAchievementA(_ sender: UITapGestureRecognizer) {
         userAchievement = Achievement.A
+        doneButton.titleLabel?.textColor = UIColor.white
+        doneButton.isEnabled = true
         configDoneButton()
+        configSelectEffect(what: achievementA)
     }
     
     /// 성취도 중 하나를 선택하면, 아래 done 버튼을 활성화하는 메소드
     func configDoneButton() {
-        doneButton.titleLabel?.textColor = UIColor.white
+        doneButton.setTitleColor(UIColor.white, for: .normal)
         doneButton.isEnabled = true
+    }
+    
+    /// 선택한 성취도 칸의 효과를 주기 위한 메소드
+    func configSelectEffect(what achievementView: UIView) {
+        // 기존에 눌린 view의 효과를 끄기
+        lastSelectedView?.subviews.first?.tintColor = UIColor.clear
+        
+        // 지금 눌린 view에 효과를 줌
+        achievementView.subviews.first?.tintColor = UIColor.viewBackgroundColor(.inputView)
+        
+        lastSelectedView = achievementView
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {

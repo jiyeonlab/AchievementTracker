@@ -30,6 +30,13 @@ class MainViewController: UIViewController {
     /// 캘린더 페이지를 변경하면 월간 기록 cell을 중간으로 옯기기 위한 핸들러
     var centerToDataCell: (() -> Void)?
     
+    /// Custom Picker View 생성
+    var customPickerView: UIPickerView?
+    var yearList = [String]()
+    var monthList = [String]()
+    var selectedYearIndex: Int = 0
+    var selectedMonthIndex: Int = 0
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -60,6 +67,8 @@ class MainViewController: UIViewController {
         
         // 메모 입력 화면의 노티피케이션을 받기 위한 옵저버 등록
         NotificationCenter.default.addObserver(self, selector: #selector(moveMemoCell(_:)), name: CenterToMemoCellNotification, object: nil)
+        
+        configPickerData()
     }
     /// 현재 달력 페이지의 year, month를 네비게이션 바의 타이틀로 설정하는 메소드
     func configNavigationTitle() {
@@ -150,22 +159,32 @@ class MainViewController: UIViewController {
     // 캘린더의 title 부분을 설정하면 datepicker가 뜨도록 함
     @objc func selectDatePickerView(_ sender: UITapGestureRecognizer){
         
-        let alertView = UIAlertController(title: "날짜 선택", message: nil, preferredStyle: .actionSheet)
+        let alertView = UIAlertController(title: "이동하려는 날짜 선택", message: nil, preferredStyle: .actionSheet)
         
-        // alertview에 datepicker를 추가
+        // custom으로 만든 pickerview를 actionsheet에 추가해줌.
         let datePickerView = UIViewController()
-        let picker = UIDatePicker()
-        picker.datePickerMode = .date
-        picker.locale = Locale(identifier: "ko_KO") as Locale
-        datePickerView.view = picker
+        
+        configPickerView()
+        datePickerView.view = customPickerView
         datePickerView.preferredContentSize.height = 150
         
+        // 컨텐츠 뷰 영역에 datePickerView를 설정해줌.
         alertView.setValue(datePickerView, forKey: "contentViewController")
+        
         let alertAction = UIAlertAction(title: "확인", style: .default) { action in
-            print("date picker에서 날짜를 선택했음. \(picker.date)")
-            // datepicker에서 선택한 달로 이동
-            self.mainCalendar.setCurrentPage(picker.date, animated: true)
+           
+            // picker view에서 선택한 년, 월을 Date 타입으로 변환하기.
+            let movingYear = self.yearList[self.selectedYearIndex]
+            let movingMonth = self.monthList[self.selectedMonthIndex]
             
+            let dateFormatter = DateFormatter()
+            dateFormatter.dateFormat = "yyyy-MM"
+            
+            let movingDate = movingYear + "-" + movingMonth
+            print("\(movingDate) 로 이동")
+            guard let movingPage = dateFormatter.date(from: movingDate) else { return }
+            
+            self.mainCalendar.setCurrentPage(movingPage, animated: true)
         }
         alertView.addAction(alertAction)
         
@@ -400,4 +419,86 @@ extension MainViewController: UIScrollViewDelegate {
     //        offset = CGPoint(x: roundedIndex * cellWidthIncludingSpacing - scrollView.contentInset.left, y: -scrollView.contentInset.top)
     //        targetContentOffset.pointee = offset
     //    }
+}
+
+extension MainViewController: UIPickerViewDataSource, UIPickerViewDelegate {
+    
+    /// DatePicker에 필요한  yearlist와 monthlist를 초기화하는 메소드
+    func configPickerData() {
+        
+        // 캘린더의 minimum~maximum까지의 year를 yearList에 넣어줌.
+        var minimumYear = 1970
+        for _ in 0...99 {
+            yearList.append(String(minimumYear))
+            
+            minimumYear += 1
+        }
+        
+        // month 정보를 monthList에 넣음.
+        var minimumMonth = 1
+        for _ in 0..<7 {
+            monthList.append(String(minimumMonth))
+            minimumMonth += 1
+        }
+    }
+    
+    /// CustomPickerView를 생성하고, 초깃값을 설정하는 메소드
+    func configPickerView() {
+        
+        customPickerView = UIPickerView()
+        
+        customPickerView?.dataSource = self
+        customPickerView?.delegate = self
+        
+        // 각 component에서 보여줄 초기값.
+        guard let initYearIndex = yearList.firstIndex(of: String(TodayDateComponent.year)) else { return }
+        guard let initMonthIndex = monthList.firstIndex(of: String(TodayDateComponent.month)) else { return }
+        customPickerView?.selectRow(initYearIndex, inComponent: 0, animated: true)
+        customPickerView?.selectRow(initMonthIndex, inComponent: 1, animated: true)
+        
+        // 년, 월이 현재로 선택되어있는 상태에서 확인 버튼을 누를 경우를 위해 추가
+        selectedYearIndex = initYearIndex
+        selectedMonthIndex = initMonthIndex
+    }
+    
+    // PickerView의 component를 몇 개로 할건지
+    func numberOfComponents(in pickerView: UIPickerView) -> Int {
+        return 2
+    }
+    
+    // PickerView의 각 component에서 몇 개의 row를 보여줄건지
+    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
+        if component == 0{
+            return yearList.count
+        }else{
+            return monthList.count
+        }
+    }
+    
+    // PickerView의 각 component에서 각 row에 어떤 내용을 보여줄건지
+    func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
+        
+        // 왼쪽 component에서는 year에 해당하는 목록을 보여줌
+        if component == 0 {
+            return yearList[row]
+        }else{
+            // 오른쪽 component에서는 month에 해당하는 목록을 보여줌
+            return monthList[row] + "월"
+        }
+    }
+    
+    // PickerView의 row 높이 설정
+    func pickerView(_ pickerView: UIPickerView, rowHeightForComponent component: Int) -> CGFloat {
+        return 40.0
+    }
+    
+    func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
+        if component == 0 {
+            print("년을 선택했음 \(row)")
+            selectedYearIndex = row
+        }else{
+            print("월을 선택했음 \(row)")
+            selectedMonthIndex = row
+        }
+    }
 }

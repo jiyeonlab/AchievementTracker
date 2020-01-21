@@ -136,6 +136,10 @@ class MainViewController: UIViewController {
         // 현재 보여지는 캘린더의 year, month, day를 db에서 검색해서, 해당 날짜의 데이터가 있는지 없는지 찾아냄.
         let thisDay = data.filter("year == %@", TodayDateComponent.year).filter("month == %@", TodayDateComponent.month).filter("day == %@", TodayDateComponent.day)
         
+        print(")))))))))))))))))))))))))) realm의 notification")
+        MonthDataCenter.shared.calculateData(currentPage: mainCalendar.currentPage)
+        NotificationCenter.default.post(name: ReloadGraphViewNotification, object: nil)
+        
         token = thisDay.observe({ (changes: RealmCollectionChange) in
             
             switch changes {
@@ -152,6 +156,10 @@ class MainViewController: UIViewController {
                 if let index = self.mainCalendar.collectionView.indexPath(for: todayCell){
                     self.mainCalendar.collectionView.reloadItems(at: [index])
                 }
+                
+                print(")))))))))))))))))))))))))) realm의 notification")
+                MonthDataCenter.shared.calculateData(currentPage: self.mainCalendar.currentPage)
+                NotificationCenter.default.post(name: ReloadGraphViewNotification, object: nil)
             }
         })
     }
@@ -257,6 +265,11 @@ extension MainViewController: FSCalendarDelegate {
         
         // datacell을 중간으로 보이게 함
         centerToDataCell?()
+        
+        print("))))))))))))))))))))))))))))))))))))))))")
+        MonthDataCenter.shared.calculateData(currentPage: mainCalendar.currentPage)
+        NotificationCenter.default.post(name: ReloadGraphViewNotification, object: nil)
+
     }
     
     // 오늘 날짜를 선택하면, 성취도 입력 화면이 나오도록 함.
@@ -294,7 +307,7 @@ extension MainViewController: FSCalendarDelegateAppearance {
         let thisDay = data.filter("year == %@", year).filter("month == %@", month).filter("day == %@", day)
         
         if thisDay.first != nil {
-            print("해당 날짜가 있음 \(day)")
+//            print("해당 날짜가 있음 \(day)")
             guard let fillDay = thisDay.first else { return UIColor.clear }
             
             switch fillDay.achievement {

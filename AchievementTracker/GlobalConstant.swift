@@ -67,3 +67,6 @@ let CenterToMemoCellNotification = Notification.Name("CenterToMemoCell")
 
 // 앱이 background에서 다시 foreground로 올 때, 캘린더를 reload하기 위한 노티피케이션
 let RefreshCalendarNotification = Notification.Name("RefreshCalendar")
+
+// graphview를 새로 그려달라고 보내는 노티피케이션
+let ReloadGraphViewNotification = Notification.Name("ReloadGraphView")

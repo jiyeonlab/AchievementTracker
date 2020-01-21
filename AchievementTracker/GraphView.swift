@@ -10,12 +10,12 @@ import UIKit
 import RealmSwift
 
 private struct Constants {
-  static let cornerRadiusSize = CGSize(width: 8.0, height: 8.0)
-  static let margin: CGFloat = 30.0
-  static let topBorder: CGFloat = 10
-  static let bottomBorder: CGFloat = 40
-  static let colorAlpha: CGFloat = 0.3
-  static let circleDiameter: CGFloat = 5.0
+    static let cornerRadiusSize = CGSize(width: 8.0, height: 8.0)
+    static let margin: CGFloat = 30.0
+    static let topBorder: CGFloat = 10
+    static let bottomBorder: CGFloat = 40
+    static let colorAlpha: CGFloat = 0.3
+    static let circleDiameter: CGFloat = 5.0
 }
 
 @IBDesignable class GraphView: UIView {
@@ -23,23 +23,21 @@ private struct Constants {
     @IBInspectable var startColor: UIColor = UIColor.viewBackgroundColor(.subView)
     @IBInspectable var endColor: UIColor = UIColor.viewBackgroundColor(.subView)
     
-    var graphPoints = [10, 15, 10, 3, 20]
+    var graphPoints = [0, 0, 0, 0, 0]
     var info: Results<DayInfo>?
     var realm: Realm?
     
-    func calculateMonthData() {
-//        realm = try? Realm()
-//        info = realm?.objects(DayInfo.self)
-//
-//        guard let data = info else { return }
-//
-//        let thisMonth = data.filter("year == %@", )
+    override func setNeedsDisplay() {
+        super.setNeedsDisplay()
+        print("Graph View의 setneedsdisplay()")
+        
+        graphPoints = MonthDataCenter.shared.achievementCount
     }
     
     // view에 무언가를 그릴 때 사용하는 메소드
     override func draw(_ rect: CGRect) {
+        print("Graph view의 draw()")
         
-        print("그래픽 뷰 2222")
         // MARK: - Drawing Gradient
         // 그림을 그리는 곳이 context인데, 이걸 먼저 얻어와야함.
         let context = UIGraphicsGetCurrentContext()!
@@ -131,7 +129,7 @@ private struct Constants {
         //Create the clipping path for the graph gradient
 
         //1 - save the state of the context (commented out for now)
-        //context.saveGState()
+        context.saveGState()
             
         //2 - make a copy of the path
         let clippingPath = graphPath.copy() as! UIBezierPath
@@ -156,10 +154,10 @@ private struct Constants {
         let graphEndPoint = CGPoint(x: margin, y: bounds.height)
 
         context.drawLinearGradient(gradient, start: graphStartPoint, end: graphEndPoint, options: [])
-        //context.restoreGState()
+        context.restoreGState()
         
         //draw the line on top of the clipped gradient
-        graphPath.lineWidth = 3.0
+        graphPath.lineWidth = 1.0
         graphPath.stroke()
 
         // MARK: - Drawing the Data Points
@@ -171,25 +169,25 @@ private struct Constants {
           point.y -= Constants.circleDiameter / 2
 
           let circle = UIBezierPath(ovalIn: CGRect(origin: point, size: CGSize(width: Constants.circleDiameter, height: Constants.circleDiameter)))
-          circle.fill()
+//          circle.fill()
             
-//            if i == 0 {
-//                UIColor.achievementColor(.E).setFill()
-//                UIColor.achievementColor(.E).setStroke()
-//            }else if i == 1 {
-//                UIColor.achievementColor(.D).setFill()
-//                UIColor.achievementColor(.D).setStroke()
-//            }else if i == 2 {
-//                UIColor.achievementColor(.C).setFill()
-//                UIColor.achievementColor(.C).setStroke()
-//            }else if i == 3 {
-//                UIColor.achievementColor(.B).setFill()
-//                UIColor.achievementColor(.B).setStroke()
-//            }else {
-//                UIColor.achievementColor(.A).setFill()
-//                UIColor.achievementColor(.A).setStroke()
-//            }
-//            circle.fill()
+            if i == 0 {
+                UIColor.achievementColor(.E).setFill()
+                UIColor.achievementColor(.E).setStroke()
+            }else if i == 1 {
+                UIColor.achievementColor(.D).setFill()
+                UIColor.achievementColor(.D).setStroke()
+            }else if i == 2 {
+                UIColor.achievementColor(.C).setFill()
+                UIColor.achievementColor(.C).setStroke()
+            }else if i == 3 {
+                UIColor.achievementColor(.B).setFill()
+                UIColor.achievementColor(.B).setStroke()
+            }else {
+                UIColor.achievementColor(.A).setFill()
+                UIColor.achievementColor(.A).setStroke()
+            }
+            circle.fill()
         }
 
 

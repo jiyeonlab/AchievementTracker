@@ -25,5 +25,12 @@ class DataCollectionViewCell: UICollectionViewCell {
         dataView.layer.borderColor = UIColor.borderColor().cgColor
         dataView.layer.borderWidth = 2
         dataView.layer.masksToBounds = true
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(reloadView(_:)), name: ReloadGraphViewNotification, object: nil)
+    }
+    
+    @objc func reloadView(_ notification: Notification){
+        print("data cell에 왔어. 여기서 graphview의 setneedsdisplay 호출할거야")
+        dataView.subviews.last?.setNeedsDisplay()
     }
 }

@@ -14,6 +14,7 @@
 		90851A3123D0BB430044E560 /* UIViewController+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90851A3023D0BB430044E560 /* UIViewController+Extension.swift */; };
 		90A3D65623CDB063003DE13A /* WriteMemoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90A3D65523CDB063003DE13A /* WriteMemoViewController.swift */; };
 		90A3D65823CF12DF003DE13A /* GlobalConstant.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90A3D65723CF12DF003DE13A /* GlobalConstant.swift */; };
+		90A6EE4C23D6D5FE0068D9E2 /* GraphView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90A6EE4B23D6D5FE0068D9E2 /* GraphView.swift */; };
 		90D352A523CC460D00745F56 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90D352A423CC460D00745F56 /* AppDelegate.swift */; };
 		90D352A723CC460D00745F56 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90D352A623CC460D00745F56 /* SceneDelegate.swift */; };
 		90D352AC23CC460D00745F56 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 90D352AA23CC460D00745F56 /* Main.storyboard */; };
@@ -36,6 +37,7 @@
 		90851A3023D0BB430044E560 /* UIViewController+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+Extension.swift"; sourceTree = "<group>"; };
 		90A3D65523CDB063003DE13A /* WriteMemoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WriteMemoViewController.swift; sourceTree = "<group>"; };
 		90A3D65723CF12DF003DE13A /* GlobalConstant.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlobalConstant.swift; sourceTree = "<group>"; };
+		90A6EE4B23D6D5FE0068D9E2 /* GraphView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GraphView.swift; sourceTree = "<group>"; };
 		90D352A123CC460D00745F56 /* AchievementTracker.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AchievementTracker.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		90D352A423CC460D00745F56 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		90D352A623CC460D00745F56 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -104,6 +106,7 @@
 				90D352A623CC460D00745F56 /* SceneDelegate.swift */,
 				90D352AA23CC460D00745F56 /* Main.storyboard */,
 				90D352B823CC476D00745F56 /* MainViewController.swift */,
+				90A6EE4B23D6D5FE0068D9E2 /* GraphView.swift */,
 				906B51F823D3412000182EC5 /* MemoCollectionViewCell.swift */,
 				906B51F923D3412000182EC5 /* MemoCollectionViewCell.xib */,
 				901422F123D32E2F007473C7 /* DataCollectionViewCell.swift */,
@@ -249,6 +252,7 @@
 				90D352A723CC460D00745F56 /* SceneDelegate.swift in Sources */,
 				90D352BD23CC4E3700745F56 /* DayInfo.swift in Sources */,
 				90D352BB23CC480F00745F56 /* UIColor+Extension.swift in Sources */,
+				90A6EE4C23D6D5FE0068D9E2 /* GraphView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

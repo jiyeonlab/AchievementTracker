@@ -12,6 +12,7 @@ import UIKit
 enum FontColor {
     case weekday
     case memo
+    case today
 }
 
 extension UIColor {
@@ -21,6 +22,8 @@ extension UIColor {
             return #colorLiteral(red: 0.4666666687, green: 0.7647058964, blue: 0.2666666806, alpha: 1)
         case .memo:
             return #colorLiteral(red: 0.8039215803, green: 0.8039215803, blue: 0.8039215803, alpha: 1)
+        case .today:
+            return #colorLiteral(red: 0.9686274529, green: 0.78039217, blue: 0.3450980484, alpha: 1)
         }
     }
     

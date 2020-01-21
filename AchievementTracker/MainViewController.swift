@@ -125,7 +125,7 @@ class MainViewController: UIViewController {
         }
         
         // 오늘 날짜의 titlecolor
-        mainCalendar.appearance.titleTodayColor = #colorLiteral(red: 0.9686274529, green: 0.78039217, blue: 0.3450980484, alpha: 1)
+        mainCalendar.appearance.titleTodayColor = UIColor.fontColor(.today)
     }
     
     /// realm 의 notification을 받는 곳

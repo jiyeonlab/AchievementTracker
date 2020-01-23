@@ -38,9 +38,6 @@ class MemoCollectionViewCell: UICollectionViewCell {
         // cell의 title 설정
         cellTitle.text = TodayDateComponent.year.description + "." + TodayDateComponent.month.description + "." + TodayDateComponent.day.description + " 기록"
         
-        // 사용자가 캘린더에서 어떤 날짜를 선택하는 것을 추적할 옵저버 등록
-        NotificationCenter.default.addObserver(self, selector: #selector(configMemoView(_:)), name: UserClickSomeDayNotification, object: nil)
-        
         // db 검색을 위한 realm 객체
         realm = try? Realm()
         info = realm?.objects(DayInfo.self)
@@ -49,84 +46,28 @@ class MemoCollectionViewCell: UICollectionViewCell {
         memoContent.textColor = UIColor.lightGray
         memoContent.backgroundColor = .clear
         
-        // 초기 화면에서 최근 날짜의 메모를 보여주기
-        configMemoContent()
+        // 초기 로드 시, 오늘 날짜의 메모를 보여주기.
+        let today = Date()
+        configMemoView(today)
+        
+        // 사용자가 캘린더에서 어떤 날짜를 선택하는 것을 추적할 옵저버 등록
+        NotificationCenter.default.addObserver(self, selector: #selector(configMemoView(_:)), name: UserClickSomeDayNotification, object: nil)
         
         // section line 설정
         sectionLineWidth.constant = memoContent.bounds.width / 1.5
     }
     
-    /// 초기 화면에서 오늘 데이터가 없으면, 최근 날짜의 메모를 보여주고, 오늘 데이터가 있으면, 오늘 메모를 보여주기.
-    func configMemoContent() {
-        // db에서 해당 날짜의 메모를 찾아서 memocontent textview에 보여주기
-        guard let data = info else { return }
-        
-        // 오늘 데이터가 있는지 확인
-        let today = data.filter("year == %@", TodayDateComponent.year).filter("month == %@", TodayDateComponent.month).filter("day == %@", TodayDateComponent.day)
-        let yesterday = data.filter("year == %@", TodayDateComponent.year).filter("month == %@", TodayDateComponent.month).filter("day == %@", (TodayDateComponent.day - 1))
-        
-        // 오늘 데이터가 있으면, 오늘 메모를 보여줌
-        if today.count != 0 {
-            let dateFormatter = DateFormatter()
-            dateFormatter.dateFormat = "yyyy.M.d"
-            
-            cellTitle.text = dateFormatter.string(from: Date()) + " 기록"
-            
-            guard let todayData = today.first else { return }
-            
-            if todayData.memo.lengthOfBytes(using: .unicode) > 0 {
-                memoContent.text = todayData.memo
-                
-            }else if todayData.memo.lengthOfBytes(using: .unicode) == 0{
-                memoContent.text = "메모를 입력하지 않았어요"
-            }
-            
-            // section line에 해당하는 uiview의 bgColor를 입혀줌.
-            switch todayData.achievement {
-            case "A":
-                sectionLine.backgroundColor = UIColor.achievementColor(.A)
-            case "B":
-                sectionLine.backgroundColor = UIColor.achievementColor(.B)
-            case "C":
-                sectionLine.backgroundColor = UIColor.achievementColor(.C)
-            case "D":
-                sectionLine.backgroundColor = UIColor.achievementColor(.D)
-            case "E":
-                sectionLine.backgroundColor = UIColor.achievementColor(.E)
-            default:
-                sectionLine.backgroundColor = UIColor.clear
-            }
-        }else{
-            let dateFormatter = DateFormatter()
-            dateFormatter.dateFormat = "yyyy.M.d"
-            
-            // 어제 날짜를 MemoCell의 titlelabel로 입력해주기 위함.
-            guard let yesterdayDate = Calendar.current.date(byAdding: .day, value: -1, to: Date()) else { return }
-            cellTitle.text = dateFormatter.string(from: yesterdayDate) + " 기록"
-            
-            guard let yesterdayData = yesterday.first else { return }
-            
-            if yesterdayData.memo.lengthOfBytes(using: .unicode) > 0 {
-                memoContent.text = yesterdayData.memo
-                
-            }else if yesterdayData.memo.lengthOfBytes(using: .unicode) == 0{
-                memoContent.text = "메모를 입력하지 않았어요"
-            }
-        }
-    }
-    
-    
     /// 사용자가 캘린더에서 어떤 날짜를 선택하면 memoview의 title 설정을 해주는 메소드
-    @objc func configMemoView(_ noti: Notification) {
+    @objc func configMemoView(_ sender: Any) {
         
-        print("메모셀의 노티피케이션을 받아 수행하는 곳")
+        var clickDate = Date()
         
-        guard let clickDate = noti.object as? Date else { return }
-        
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "yyyy.M.d"
-        
-        cellTitle.text = dateFormatter.string(from: clickDate) + " 기록"
+        if let noti = sender as? Notification { // 특정 날짜를 클릭하여, 노티피케이션 옵저버의 호출로 실행되었을 경우.
+            guard let receivedDate = noti.object as? Date else { return }
+            clickDate = receivedDate
+        }else if let today = sender as? Date {  // 초기 로드 시, viewDidLoad()에서 호출되었을 경우.
+            clickDate = today
+        }
         
         // db에서 해당 날짜의 메모를 찾아서 memocontent textview에 보여주기
         guard let data = info else { return }
@@ -138,7 +79,10 @@ class MemoCollectionViewCell: UICollectionViewCell {
         guard let day = clickDayComponent.day else { return }
         let clickDay = data.filter("year == %@", year).filter("month == %@", month).filter("day == %@", day)
         
-        if clickDay.count != 0 {
+        // 메모 cell의 title
+        cellTitle.text = "\(year).\(month).\(day) 기록"
+        
+        if clickDay.count != 0 {    // clickDay는 초기 실행 시는 today이고, 특정 날짜 선택 시 호출될 때는 특정 날짜 date임.
             guard let clickDayInfo = clickDay.first else { return }
             
             if clickDayInfo.memo.lengthOfBytes(using: .unicode) > 0 {

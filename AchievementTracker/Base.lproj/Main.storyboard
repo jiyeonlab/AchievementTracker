@@ -163,11 +163,19 @@
                                                 <color key="tintColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 <state key="normal" image="checkmark" catalog="system"/>
                                             </button>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0~20%" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wxf-QX-iFz">
+                                                <rect key="frame" x="6" y="22.333333333333314" width="43.333333333333336" height="15.666666666666664"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                                                <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
                                         </subviews>
                                         <color key="backgroundColor" red="0.93633230395600342" green="1" blue="0.89538728852025573" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                         <gestureRecognizers/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="60" id="1Ld-te-AN7"/>
+                                            <constraint firstItem="wxf-QX-iFz" firstAttribute="centerY" secondItem="mau-f0-Bfe" secondAttribute="centerY" id="NWw-kf-thJ"/>
+                                            <constraint firstItem="wxf-QX-iFz" firstAttribute="centerX" secondItem="mau-f0-Bfe" secondAttribute="centerX" id="gId-Po-f4Y"/>
                                             <constraint firstAttribute="width" constant="55" id="tV9-0M-dnw"/>
                                         </constraints>
                                         <connections>
@@ -183,10 +191,18 @@
                                                 <color key="tintColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 <state key="normal" image="checkmark" catalog="system"/>
                                             </button>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="20~40%" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rm0-fN-wkw">
+                                                <rect key="frame" x="1.6666666666666714" y="22.333333333333314" width="51.666666666666664" height="15.666666666666664"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                                                <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
                                         </subviews>
                                         <color key="backgroundColor" red="0.84555045817979479" green="1" blue="0.77000492019652711" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                         <gestureRecognizers/>
                                         <constraints>
+                                            <constraint firstItem="rm0-fN-wkw" firstAttribute="centerX" secondItem="SZ2-GB-afl" secondAttribute="centerX" id="5x3-bU-0f4"/>
+                                            <constraint firstItem="rm0-fN-wkw" firstAttribute="centerY" secondItem="SZ2-GB-afl" secondAttribute="centerY" id="YPg-Yq-65X"/>
                                             <constraint firstAttribute="height" constant="60" id="eSe-g2-cG0"/>
                                             <constraint firstAttribute="width" constant="55" id="jrF-2b-BCz"/>
                                         </constraints>
@@ -203,12 +219,20 @@
                                                 <color key="tintColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 <state key="normal" image="checkmark" catalog="system"/>
                                             </button>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="40~60%" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="eXQ-ch-ci8">
+                                                <rect key="frame" x="1.6666666666666572" y="22.333333333333314" width="52" height="15.666666666666664"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                                                <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
                                         </subviews>
                                         <color key="backgroundColor" red="0.76032631527136774" green="0.89901253172588835" blue="0.49522010025786301" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                         <gestureRecognizers/>
                                         <constraints>
+                                            <constraint firstItem="eXQ-ch-ci8" firstAttribute="centerY" secondItem="nGq-88-nzp" secondAttribute="centerY" id="EI8-wc-dG0"/>
                                             <constraint firstAttribute="width" constant="55" id="R1S-yw-sI9"/>
                                             <constraint firstAttribute="height" constant="60" id="diW-vp-FhG"/>
+                                            <constraint firstItem="eXQ-ch-ci8" firstAttribute="centerX" secondItem="nGq-88-nzp" secondAttribute="centerX" id="r1O-G4-alP"/>
                                         </constraints>
                                         <connections>
                                             <outletCollection property="gestureRecognizers" destination="JlF-dx-Ds4" appends="YES" id="5BQ-lk-UX1"/>
@@ -223,11 +247,19 @@
                                                 <color key="tintColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 <state key="normal" image="checkmark" catalog="system"/>
                                             </button>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="60~80%" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ty8-2w-mJm">
+                                                <rect key="frame" x="1.6666666666666572" y="22.333333333333314" width="52" height="15.666666666666664"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                                                <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
                                         </subviews>
                                         <color key="backgroundColor" red="0.54683974621748843" green="0.70205425126903553" blue="0.30986945321696802" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                         <gestureRecognizers/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="60" id="PUG-Fy-aHY"/>
+                                            <constraint firstItem="ty8-2w-mJm" firstAttribute="centerX" secondItem="17Q-PX-wJc" secondAttribute="centerX" id="WgY-UW-nEC"/>
+                                            <constraint firstItem="ty8-2w-mJm" firstAttribute="centerY" secondItem="17Q-PX-wJc" secondAttribute="centerY" id="YhF-Gq-CZL"/>
                                             <constraint firstAttribute="width" constant="55" id="wbm-De-GtL"/>
                                         </constraints>
                                         <connections>
@@ -243,12 +275,20 @@
                                                 <color key="tintColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 <state key="normal" image="checkmark" catalog="system"/>
                                             </button>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="80~100%" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="C6M-ta-F3g">
+                                                <rect key="frame" x="0.66666666666668561" y="23" width="54" height="14.333333333333336"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                                <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
                                         </subviews>
                                         <color key="backgroundColor" red="0.23128427444828831" green="0.30222874365482233" blue="0.14899693107248901" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                         <gestureRecognizers/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="60" id="4Ht-YT-n5A"/>
                                             <constraint firstAttribute="width" constant="55" id="8nw-tI-HCG"/>
+                                            <constraint firstItem="C6M-ta-F3g" firstAttribute="centerY" secondItem="ygG-Ql-5g2" secondAttribute="centerY" id="Aij-Fo-x3d"/>
+                                            <constraint firstItem="C6M-ta-F3g" firstAttribute="centerX" secondItem="ygG-Ql-5g2" secondAttribute="centerX" id="NvN-W0-3K6"/>
                                         </constraints>
                                         <connections>
                                             <outletCollection property="gestureRecognizers" destination="PAk-BR-ZDv" appends="YES" id="84L-Zq-PTO"/>
@@ -291,6 +331,11 @@
                         <outlet property="doneButton" destination="pfg-lc-W3t" id="GDC-rE-4tg"/>
                         <outlet property="messageLabel" destination="EEK-1f-wuD" id="qfC-Im-Iah"/>
                         <outlet property="todayDateLabel" destination="0kT-3e-MDl" id="sEr-Jc-KVM"/>
+                        <outletCollection property="achievementLabel" destination="wxf-QX-iFz" collectionClass="NSMutableArray" id="qdf-FA-nEK"/>
+                        <outletCollection property="achievementLabel" destination="rm0-fN-wkw" collectionClass="NSMutableArray" id="6G2-ZE-EbD"/>
+                        <outletCollection property="achievementLabel" destination="eXQ-ch-ci8" collectionClass="NSMutableArray" id="0Mw-lk-dPz"/>
+                        <outletCollection property="achievementLabel" destination="ty8-2w-mJm" collectionClass="NSMutableArray" id="tpJ-sV-3oy"/>
+                        <outletCollection property="achievementLabel" destination="C6M-ta-F3g" collectionClass="NSMutableArray" id="MrK-gl-Own"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="uf7-km-Jgj" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>

@@ -22,6 +22,7 @@ class CheckAchievementViewController: UIViewController {
     
     @IBOutlet weak var messageLabel: UILabel!
     
+    @IBOutlet var achievementLabel: [UILabel]!
     // realm
     var info: Results<DayInfo>?
     var realm: Realm?
@@ -109,6 +110,12 @@ class CheckAchievementViewController: UIViewController {
     
     /// 선택한 성취도 칸의 효과를 주기 위한 메소드
     func configSelectEffect(what achievementView: UIView) {
+        
+        // 성취도 label을 없앰.
+        achievementLabel.forEach { label in
+            label.textColor = UIColor.clear
+        }
+        
         // 기존에 눌린 view의 효과를 끄기
         lastSelectedView?.subviews.first?.tintColor = UIColor.clear
         
@@ -157,8 +164,15 @@ class CheckAchievementViewController: UIViewController {
             default:
                 return
             }
+            
+            configDoneButton()
         }else{
             messageLabel.text = "오늘의 성취도를 입력해보세요!"
+            
+            // 성취도를 선택한 적이 없다면, 각 성취도 버튼에 % label을 띄워줌.
+            achievementLabel.forEach { label in
+                label.textColor = UIColor.viewBackgroundColor(.inputView)
+            }
         }
     }
 }

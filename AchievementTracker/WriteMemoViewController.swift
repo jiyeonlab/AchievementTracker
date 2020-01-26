@@ -50,6 +50,22 @@ class WriteMemoViewController: UIViewController {
 
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        // 기존에 입력한 메모가 있으면, memoview에 보여줌.
+        guard let data = info else { return }
+        
+        // 오늘 데이터가 있는지 확인
+        let today = data.filter("year == %@", TodayDateComponent.year).filter("month == %@", TodayDateComponent.month).filter("day == %@", TodayDateComponent.day)
+        
+        if today.first?.memo.count != 0 {
+            memoTextView.text = today.first?.memo
+        }else{
+            return
+        }
+    }
+    
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
@@ -147,6 +163,6 @@ extension WriteMemoViewController: UITextViewDelegate {
         let limitedLength = content.count + text.count - range.length
         
         print("length =\(limitedLength)")
-        return limitedLength <= 1000
+        return limitedLength <= 250
     }
 }

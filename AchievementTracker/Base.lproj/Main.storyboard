@@ -331,8 +331,8 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" textAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="tch-en-ccy">
-                                <rect key="frame" x="30" y="241" width="315" height="230"/>
-                                <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <rect key="frame" x="30" y="241" width="315" height="237"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                 <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" enablesReturnKeyAutomatically="YES" smartDashesType="no" smartInsertDeleteType="no" smartQuotesType="no"/>
@@ -349,7 +349,7 @@
                             <constraint firstItem="tch-en-ccy" firstAttribute="top" secondItem="9v4-RF-WLq" secondAttribute="bottom" constant="20" id="KO4-ZG-ByU"/>
                             <constraint firstItem="9v4-RF-WLq" firstAttribute="centerX" secondItem="P0A-lZ-XwD" secondAttribute="centerX" id="Lk5-u7-kwT"/>
                             <constraint firstItem="tch-en-ccy" firstAttribute="top" secondItem="9v4-RF-WLq" secondAttribute="bottom" constant="20" id="QtM-6y-5Ny"/>
-                            <constraint firstItem="1nJ-Gp-H3v" firstAttribute="bottom" secondItem="tch-en-ccy" secondAttribute="bottom" constant="307" id="V57-Rx-bud"/>
+                            <constraint firstItem="1nJ-Gp-H3v" firstAttribute="bottom" secondItem="tch-en-ccy" secondAttribute="bottom" constant="300" id="V57-Rx-bud"/>
                             <constraint firstItem="9v4-RF-WLq" firstAttribute="top" secondItem="1nJ-Gp-H3v" secondAttribute="top" constant="153" id="aTJ-Bw-6Zg"/>
                             <constraint firstItem="1nJ-Gp-H3v" firstAttribute="trailing" secondItem="tch-en-ccy" secondAttribute="trailing" constant="30" id="iqA-Bk-x3i"/>
                             <constraint firstItem="tch-en-ccy" firstAttribute="leading" secondItem="1nJ-Gp-H3v" secondAttribute="leading" constant="30" id="jZ8-q6-mAj"/>

@@ -139,6 +139,24 @@ class CheckAchievementViewController: UIViewController {
         // 오늘 데이터가 있으면
         if today.count != 0 {
             messageLabel.text = "오늘의 성취도를 수정해보세요!"
+           
+            // 기존에 선택한 성취도 값을 셋팅해두기 위함.
+            guard let achievement = today.first?.achievement else { return }
+            switch achievement {
+            case "A":
+                configSelectEffect(what: achievementA)
+            case "B":
+                configSelectEffect(what: achievementB)
+            case "C":
+                configSelectEffect(what: achievementC)
+            case "D":
+                configSelectEffect(what: achievementD)
+            case "E":
+                configSelectEffect(what: achievementE)
+                
+            default:
+                return
+            }
         }else{
             messageLabel.text = "오늘의 성취도를 입력해보세요!"
         }

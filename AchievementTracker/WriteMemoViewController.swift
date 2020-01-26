@@ -89,10 +89,10 @@ class WriteMemoViewController: UIViewController {
         
         let space = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: self, action: nil)
         let doneButton = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(saveData(_:)))
-        //        let doneButton = UIBarButtonItem(title: "Done", style: .done, target: self, action: #selector(saveData(_:)))
         toolBar.setItems([space, doneButton], animated: false)
         
         memoTextView.inputAccessoryView = toolBar
+        UIBarButtonItem.appearance().setTitleTextAttributes([NSAttributedString.Key.font : UIFont(name: "NanumBarunpen", size: 18.0) as Any], for: .normal)
     }
     
     @objc func saveData(_ sender: Any){

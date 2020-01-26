@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		901422F323D32E2F007473C7 /* DataCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 901422F123D32E2F007473C7 /* DataCollectionViewCell.swift */; };
 		901422F423D32E2F007473C7 /* DataCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 901422F223D32E2F007473C7 /* DataCollectionViewCell.xib */; };
+		90666C9423DD66F100E1E1D2 /* NanumBarunpenB.otf in Resources */ = {isa = PBXBuildFile; fileRef = 90666C9223DD66F000E1E1D2 /* NanumBarunpenB.otf */; };
+		90666C9523DD66F100E1E1D2 /* NanumBarunpenR.otf in Resources */ = {isa = PBXBuildFile; fileRef = 90666C9323DD66F000E1E1D2 /* NanumBarunpenR.otf */; };
 		906B51FA23D3412000182EC5 /* MemoCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 906B51F823D3412000182EC5 /* MemoCollectionViewCell.swift */; };
 		906B51FB23D3412000182EC5 /* MemoCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 906B51F923D3412000182EC5 /* MemoCollectionViewCell.xib */; };
 		90851A3123D0BB430044E560 /* UIViewController+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90851A3023D0BB430044E560 /* UIViewController+Extension.swift */; };
@@ -33,6 +35,8 @@
 		5530F672CDAE3B664441599C /* Pods_AchievementTracker.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_AchievementTracker.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		901422F123D32E2F007473C7 /* DataCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataCollectionViewCell.swift; sourceTree = "<group>"; };
 		901422F223D32E2F007473C7 /* DataCollectionViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = DataCollectionViewCell.xib; sourceTree = "<group>"; };
+		90666C9223DD66F000E1E1D2 /* NanumBarunpenB.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = NanumBarunpenB.otf; sourceTree = "<group>"; };
+		90666C9323DD66F000E1E1D2 /* NanumBarunpenR.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = NanumBarunpenR.otf; sourceTree = "<group>"; };
 		906B51F823D3412000182EC5 /* MemoCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoCollectionViewCell.swift; sourceTree = "<group>"; };
 		906B51F923D3412000182EC5 /* MemoCollectionViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MemoCollectionViewCell.xib; sourceTree = "<group>"; };
 		90851A3023D0BB430044E560 /* UIViewController+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+Extension.swift"; sourceTree = "<group>"; };
@@ -123,6 +127,8 @@
 				90D352AD23CC460E00745F56 /* Assets.xcassets */,
 				90D352AF23CC460E00745F56 /* LaunchScreen.storyboard */,
 				90D352B223CC460E00745F56 /* Info.plist */,
+				90666C9223DD66F000E1E1D2 /* NanumBarunpenB.otf */,
+				90666C9323DD66F000E1E1D2 /* NanumBarunpenR.otf */,
 			);
 			path = AchievementTracker;
 			sourceTree = "<group>";
@@ -188,9 +194,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				901422F423D32E2F007473C7 /* DataCollectionViewCell.xib in Resources */,
+				90666C9423DD66F100E1E1D2 /* NanumBarunpenB.otf in Resources */,
 				906B51FB23D3412000182EC5 /* MemoCollectionViewCell.xib in Resources */,
 				90D352B123CC460E00745F56 /* LaunchScreen.storyboard in Resources */,
 				90D352AE23CC460E00745F56 /* Assets.xcassets in Resources */,
+				90666C9523DD66F100E1E1D2 /* NanumBarunpenR.otf in Resources */,
 				90D352AC23CC460D00745F56 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -102,10 +102,10 @@ class MainViewController: UIViewController {
         mainCalendar.appearance.borderRadius = Config.Appearance.dayBorderRadius
         
         // Month 폰트 설정
-        mainCalendar.appearance.headerTitleFont = UIFont.systemFont(ofSize: Config.FontSize.monthFontSize)
+        mainCalendar.appearance.headerTitleFont = UIFont(name: "NanumBarunpen", size: Config.FontSize.monthFontSize)
         
         // day 폰트 설정
-        mainCalendar.appearance.titleFont = UIFont.boldSystemFont(ofSize: Config.FontSize.dayFontSize)
+        mainCalendar.appearance.titleFont = UIFont(name: "NanumBarunpen-Bold", size: Config.FontSize.dayFontSize)
         
         // 해당 Month의 날짜만 표시되도록 설정
         mainCalendar.placeholderType = .none
@@ -121,7 +121,8 @@ class MainViewController: UIViewController {
         // 요일 표시 text 색 바꾸기
         for weekday in mainCalendar.calendarWeekdayView.weekdayLabels {
             weekday.textColor = UIColor.fontColor(.weekday)
-            weekday.font = UIFont.boldSystemFont(ofSize: Config.FontSize.weekdayFontSize)
+//            weekday.font = UIFont.boldSystemFont(ofSize: Config.FontSize.weekdayFontSize)
+            weekday.font = UIFont(name: "NanumBarunpen-Bold", size: Config.FontSize.weekdayFontSize)
         }
         
         // 오늘 날짜의 titlecolor
@@ -183,7 +184,13 @@ class MainViewController: UIViewController {
         // 컨텐츠 뷰 영역에 datePickerView를 설정해줌.
         alertView.setValue(datePickerView, forKey: "contentViewController")
         
-        let alertAction = UIAlertAction(title: "확인", style: .default) { action in
+        // 이번달로 돌아가는 alertAction
+        let goTodayAction = UIAlertAction(title: "이번달로 돌아가기", style: .default) { action in
+            let now = Date()
+            self.mainCalendar.setCurrentPage(now, animated: true)
+        }
+        
+        let selectAction = UIAlertAction(title: "확인", style: .default) { action in
            
             // picker view에서 선택한 년, 월을 Date 타입으로 변환하기.
             let movingYear = self.yearList[self.selectedYearIndex]
@@ -198,7 +205,8 @@ class MainViewController: UIViewController {
             
             self.mainCalendar.setCurrentPage(movingPage, animated: true)
         }
-        alertView.addAction(alertAction)
+        alertView.addAction(goTodayAction)
+        alertView.addAction(selectAction)
         
         present(alertView, animated: true) {
             let tapGesture = UITapGestureRecognizer(target: self, action: #selector(self.dismissAlertView(_:)))
@@ -502,7 +510,7 @@ extension MainViewController: UIPickerViewDataSource, UIPickerViewDelegate {
         
         // 왼쪽 component에서는 year에 해당하는 목록을 보여줌
         if component == 0 {
-            return yearList[row]
+            return yearList[row] + "년"
         }else{
             // 오른쪽 component에서는 month에 해당하는 목록을 보여줌
             return monthList[row] + "월"

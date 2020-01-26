@@ -261,7 +261,7 @@ private struct Constants {
         
         let label = UILabel(frame: CGRect(origin: labelOrigin, size: CGSize(width: Constants.margin, height: 20.0)))
         label.textColor = UIColor(white: 1.0, alpha: Constants.colorAlpha)
-        label.font = UIFont.systemFont(ofSize: 10.0)
+        label.font = UIFont(name: "NanumBarunpen", size: 10.0)
         label.textAlignment = .center
         
         return label

@@ -17,7 +17,7 @@ struct Config {
     }
     
     struct FontSize {
-        static let monthFontSize: CGFloat = 23.0
+        static let monthFontSize: CGFloat = 25.0
         static let weekdayFontSize: CGFloat = 15.0
         static let dayFontSize: CGFloat = 13.0
     }
@@ -31,7 +31,7 @@ struct Config {
 // 오늘 날짜에 해당하는 year, month, day 값을 가지는 TodayDateComponent 타입.
 struct TodayDateComponent {
     
-    static let today = Date()
+    static var today = Date()
     
     static var dateComponent = Calendar.current.dateComponents([.year, .month, .day], from: today)
     
@@ -48,6 +48,9 @@ struct TodayDateComponent {
         return dayComponent
     }
     
+    static func updateToday() {
+        TodayDateComponent.today = Date()
+    }
 }
 
 enum Achievement: String {

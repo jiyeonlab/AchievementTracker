@@ -227,6 +227,8 @@ class MainViewController: UIViewController {
     
     // 앱이 foreground로 돌아왔을 때, today가 바뀌었을 수도 있기 때문에 캘린더를 reload 해주기 위한 메소드
     @objc func refreshCalendar(_ noti: Notification) {
+        // today가 바뀌었을 수도 있어서, 한번 업데이트 해줌.
+        TodayDateComponent.updateToday()
         mainCalendar.reloadData()
     }
     

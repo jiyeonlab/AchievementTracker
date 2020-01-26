@@ -19,26 +19,26 @@ extension UIColor {
     static func fontColor(_ name: FontColor) -> UIColor {
         switch name {
         case .weekday:
-            return #colorLiteral(red: 0.4666666687, green: 0.7647058964, blue: 0.2666666806, alpha: 1)
+            return #colorLiteral(red: 0.4810999632, green: 0.7885328531, blue: 0.4410419762, alpha: 1)
         case .memo:
             return #colorLiteral(red: 0.8039215803, green: 0.8039215803, blue: 0.8039215803, alpha: 1)
         case .today:
-            return #colorLiteral(red: 0.9686274529, green: 0.78039217, blue: 0.3450980484, alpha: 1)
+            return #colorLiteral(red: 0.9579854608, green: 0.781021893, blue: 0, alpha: 1)
         }
     }
     
     static func achievementColor(_ achievement: Achievement) -> UIColor {
         switch achievement {
         case .A:
-            return #colorLiteral(red: 0.1294117719, green: 0.2156862766, blue: 0.06666667014, alpha: 1)
+            return #colorLiteral(red: 0.1019607843, green: 0.3803921569, blue: 0.1529411765, alpha: 1)
         case .B:
-            return #colorLiteral(red: 0.1960784346, green: 0.3411764801, blue: 0.1019607857, alpha: 1)
+            return #colorLiteral(red: 0.1411764706, green: 0.6039215686, blue: 0.2352941176, alpha: 1)
         case .C:
-            return #colorLiteral(red: 0.3411764801, green: 0.6235294342, blue: 0.1686274558, alpha: 1)
+            return #colorLiteral(red: 0.4810488224, green: 0.7885745168, blue: 0.4362606406, alpha: 1)
         case .D:
-            return #colorLiteral(red: 0.4666666687, green: 0.7647058964, blue: 0.2666666806, alpha: 1)
+            return #colorLiteral(red: 0.7764705882, green: 0.8941176471, blue: 0.5450980392, alpha: 1)
         case .E:
-            return #colorLiteral(red: 0.721568644, green: 0.8862745166, blue: 0.5921568871, alpha: 1)
+            return #colorLiteral(red: 0.8118950725, green: 0.8901877999, blue: 0.7907294035, alpha: 1)
         }
     }
     

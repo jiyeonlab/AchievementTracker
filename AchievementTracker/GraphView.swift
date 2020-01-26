@@ -29,7 +29,7 @@ private struct Constants {
     
     override func setNeedsDisplay() {
         super.setNeedsDisplay()
-        print("Graph View의 setneedsdisplay()")
+//        print("Graph View의 setneedsdisplay()")
         
         graphPoints = MonthDataCenter.shared.achievementCount
         
@@ -40,7 +40,7 @@ private struct Constants {
     
     // view에 무언가를 그릴 때 사용하는 메소드
     override func draw(_ rect: CGRect) {
-        print("Graph view의 draw()")
+//        print("Graph view의 draw()")
         
         // MARK: - Drawing Gradient
         // 그림을 그리는 곳이 context인데, 이걸 먼저 얻어와야함.

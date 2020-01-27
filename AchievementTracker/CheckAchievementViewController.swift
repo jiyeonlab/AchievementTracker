@@ -141,7 +141,7 @@ class CheckAchievementViewController: UIViewController {
         guard let data = info else { return }
         
         // 오늘 데이터가 있는지 확인
-        let today = data.filter("year == %@", TodayDateComponent.year).filter("month == %@", TodayDateComponent.month).filter("day == %@", TodayDateComponent.day)
+        let today = data.filter("year == %@", TodayDateCenter.shared.year).filter("month == %@", TodayDateCenter.shared.month).filter("day == %@", TodayDateCenter.shared.day)
         
         // 오늘 데이터가 있으면
         if today.count != 0 {

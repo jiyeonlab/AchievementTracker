@@ -36,7 +36,7 @@ class MemoCollectionViewCell: UICollectionViewCell {
         memoView.layer.masksToBounds = true
         
         // cell의 title 설정
-        cellTitle.text = TodayDateComponent.year.description + "." + TodayDateComponent.month.description + "." + TodayDateComponent.day.description + " 기록"
+        cellTitle.text = TodayDateCenter.shared.year.description + "." + TodayDateCenter.shared.month.description + "." + TodayDateCenter.shared.day.description + " 기록"
         
         // db 검색을 위한 realm 객체
         realm = try? Realm()

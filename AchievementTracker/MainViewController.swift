@@ -135,7 +135,7 @@ class MainViewController: UIViewController {
         guard let data = info else { return }
         
         // 현재 보여지는 캘린더의 year, month, day를 db에서 검색해서, 해당 날짜의 데이터가 있는지 없는지 찾아냄.
-        let thisDay = data.filter("year == %@", TodayDateComponent.year).filter("month == %@", TodayDateComponent.month).filter("day == %@", TodayDateComponent.day)
+        let thisDay = data.filter("year == %@", TodayDateCenter.shared.year).filter("month == %@", TodayDateCenter.shared.month).filter("day == %@", TodayDateCenter.shared.day)
         
         print(")))))))))))))))))))))))))) realm의 notification")
         MonthDataCenter.shared.calculateData(currentPage: mainCalendar.currentPage)
@@ -151,7 +151,7 @@ class MainViewController: UIViewController {
             case .update(_, let deletions, let insertions, let modifications):
                 print("noti update \(deletions) \(insertions) \(modifications)")
                 
-                guard let todayCell = self.mainCalendar.cell(for: TodayDateComponent.today, at: .current) else { return }
+                guard let todayCell = self.mainCalendar.cell(for: TodayDateCenter.shared.today, at: .current) else { return }
                 
                 // 데이터를 수정할 수 있는 '오늘'에 해당하는 cell만 reload 하도록!
                 if let index = self.mainCalendar.collectionView.indexPath(for: todayCell){
@@ -228,7 +228,7 @@ class MainViewController: UIViewController {
     // 앱이 foreground로 돌아왔을 때, today가 바뀌었을 수도 있기 때문에 캘린더를 reload 해주기 위한 메소드
     @objc func refreshCalendar(_ noti: Notification) {
         // today가 바뀌었을 수도 있어서, 한번 업데이트 해줌.
-        TodayDateComponent.updateToday()
+        TodayDateCenter.shared.updateToday()
         mainCalendar.reloadData()
     }
     
@@ -246,10 +246,10 @@ extension MainViewController: FSCalendarDataSource {
         let day = dateFormatter.string(from: date)
         
         guard let data = info else { return "" }
-        let thisDay = data.filter("year == %@", TodayDateComponent.year).filter("month == %@", TodayDateComponent.month).filter("day == %@", TodayDateComponent.day)
+        let thisDay = data.filter("year == %@", TodayDateCenter.shared.year).filter("month == %@", TodayDateCenter.shared.month).filter("day == %@", TodayDateCenter.shared.day)
         
         // 오늘 날짜에는 날짜 대신 "Today" 가 찍히도록 함.
-        if TodayDateComponent.year == cellDay.year && TodayDateComponent.month == cellDay.month && TodayDateComponent.day == cellDay.day{
+        if TodayDateCenter.shared.year == cellDay.year && TodayDateCenter.shared.month == cellDay.month && TodayDateCenter.shared.day == cellDay.day{
             print("투데이 title")
             
             if thisDay.count == 0 {
@@ -285,7 +285,7 @@ extension MainViewController: FSCalendarDelegate {
     // 오늘 날짜를 선택하면, 성취도 입력 화면이 나오도록 함.
     func calendar(_ calendar: FSCalendar, shouldSelect date: Date, at monthPosition: FSCalendarMonthPosition) -> Bool {
         
-        let today = TodayDateComponent.today
+        let today = TodayDateCenter.shared.today
         
         // 과거 날짜만 선택 가능
         if date <= today {
@@ -346,7 +346,7 @@ extension MainViewController: FSCalendarDelegateAppearance {
         
         let cellDay = Calendar.current.dateComponents([.year, .month, .day], from: date)
         
-        if TodayDateComponent.year == cellDay.year && TodayDateComponent.month == cellDay.month && TodayDateComponent.day == cellDay.day {
+        if TodayDateCenter.shared.year == cellDay.year && TodayDateCenter.shared.month == cellDay.month && TodayDateCenter.shared.day == cellDay.day {
             return .clear
         }else {
             return UIColor.borderColor()
@@ -483,8 +483,8 @@ extension MainViewController: UIPickerViewDataSource, UIPickerViewDelegate {
         customPickerView?.delegate = self
         
         // 각 component에서 보여줄 초기값.
-        guard let initYearIndex = yearList.firstIndex(of: String(TodayDateComponent.year)) else { return }
-        guard let initMonthIndex = monthList.firstIndex(of: String(TodayDateComponent.month)) else { return }
+        guard let initYearIndex = yearList.firstIndex(of: String(TodayDateCenter.shared.year)) else { return }
+        guard let initMonthIndex = monthList.firstIndex(of: String(TodayDateCenter.shared.month)) else { return }
         customPickerView?.selectRow(initYearIndex, inComponent: 0, animated: true)
         customPickerView?.selectRow(initMonthIndex, inComponent: 1, animated: true)
         

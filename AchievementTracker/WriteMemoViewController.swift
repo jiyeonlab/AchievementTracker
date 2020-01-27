@@ -57,7 +57,7 @@ class WriteMemoViewController: UIViewController {
         guard let data = info else { return }
         
         // 오늘 데이터가 있는지 확인
-        let today = data.filter("year == %@", TodayDateComponent.year).filter("month == %@", TodayDateComponent.month).filter("day == %@", TodayDateComponent.day)
+        let today = data.filter("year == %@", TodayDateCenter.shared.year).filter("month == %@", TodayDateCenter.shared.month).filter("day == %@", TodayDateCenter.shared.day)
         
         if today.first?.memo.count != 0 {
             memoTextView.text = today.first?.memo
@@ -103,15 +103,15 @@ class WriteMemoViewController: UIViewController {
                 guard let data = info else { return }
                 
                 // db에서 오늘 날짜에 해당하는 데이터가 있는지 검색.
-                let todayData = data.filter("year == %@", TodayDateComponent.year).filter("month == %@", TodayDateComponent.month).filter("day == %@", TodayDateComponent.day)
+                let todayData = data.filter("year == %@", TodayDateCenter.shared.year).filter("month == %@", TodayDateCenter.shared.month).filter("day == %@", TodayDateCenter.shared.day)
                 
                 // 기존에 오늘 날짜의 데이터가 있으면, 데이터를 update 해줌.
                 if todayData.first != nil {
                     print("메모 화면에서 데이터 수정")
                     todayData.forEach { (originValue) in
-                        originValue.year = TodayDateComponent.year
-                        originValue.month = TodayDateComponent.month
-                        originValue.day = TodayDateComponent.day
+                        originValue.year = TodayDateCenter.shared.year
+                        originValue.month = TodayDateCenter.shared.month
+                        originValue.day = TodayDateCenter.shared.day
                         
                         guard let userAchievement = inputAchievement else { return }
                         originValue.achievement = userAchievement.rawValue
@@ -122,7 +122,7 @@ class WriteMemoViewController: UIViewController {
                 } else {
                     print("메모 화면에서 데이터 추가")
                     // 기존에 오늘 날짜의 데이터가 없으면, 새롭게 추가해줌.
-                    realm?.add(inputToday(database: DayInfo(), year: TodayDateComponent.year, month: TodayDateComponent.month, day: TodayDateComponent.day ))
+                    realm?.add(inputToday(database: DayInfo(), year: TodayDateCenter.shared.year, month: TodayDateCenter.shared.month, day: TodayDateCenter.shared.day ))
                     
                 }
             }

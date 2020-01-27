@@ -49,7 +49,10 @@ struct TodayDateComponent {
     }
     
     static func updateToday() {
-        TodayDateComponent.today = Date()
+        let now = Date()
+        TodayDateComponent.today = now
+        
+        print("GlobalConstant의 updateToday() -> \(TodayDateComponent.today)")
     }
 }
 

@@ -24,7 +24,6 @@ class MemoCollectionViewCell: UICollectionViewCell {
     
     override func awakeFromNib() {
         super.awakeFromNib()
-        // Initialization code
         
         // cell의 bgcolor
         memoView.backgroundColor = UIColor.viewBackgroundColor(.subView)

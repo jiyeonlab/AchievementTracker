@@ -8,15 +8,10 @@
 
 import UIKit
 
-// 캘린더 폰트 색깔
-enum FontColor {
-    case weekday
-    case memo
-    case today
-}
-
 extension UIColor {
-    static func fontColor(_ name: FontColor) -> UIColor {
+    
+    /// 각 폰트의 색상을 리턴하는 메소드
+    static func fontColor(_ name: FontType) -> UIColor {
         switch name {
         case .weekday:
             return #colorLiteral(red: 0.4810999632, green: 0.7885328531, blue: 0.4410419762, alpha: 1)
@@ -27,6 +22,7 @@ extension UIColor {
         }
     }
     
+    /// 각 성취도 값에 따른 색을 리턴하는 메소드
     static func achievementColor(_ achievement: Achievement) -> UIColor {
         switch achievement {
         case .A:
@@ -42,6 +38,7 @@ extension UIColor {
         }
     }
     
+    /// 각 type에 따라 background 색을 리턴하는 메소드
     static func viewBackgroundColor(_ type: BackGroundType) -> UIColor {
         switch type {
         case .mainView:
@@ -53,6 +50,7 @@ extension UIColor {
         }
     }
     
+    /// 캘린더의 각 날짜의 border 색을 리턴하는 메소드
     static func borderColor() -> UIColor {
         return #colorLiteral(red: 0.1834537089, green: 0.2006109357, blue: 0.266325891, alpha: 1)
     }

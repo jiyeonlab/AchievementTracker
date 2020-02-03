@@ -9,6 +9,7 @@
 import UIKit
 import RealmSwift
 
+// 성취도 입력 화면을 구성하는 클래스
 class CheckAchievementViewController: UIViewController {
     
     @IBOutlet weak var todayDateLabel: UILabel!
@@ -23,11 +24,12 @@ class CheckAchievementViewController: UIViewController {
     @IBOutlet weak var messageLabel: UILabel!
     
     @IBOutlet var achievementLabel: [UILabel]!
-    // realm
+    
+    // realm 객체
     var info: Results<DayInfo>?
     var realm: Realm?
     
-    // 사용자가 선택한 성취도 값
+    /// 사용자가 선택한 성취도 값을 저장하고 있는 변수
     var userAchievement: Achievement?
     
     /// 성취도 선택을 여러번 할 경우를 위해 마지막으로 누른 view를 저장해둘 변수
@@ -44,19 +46,16 @@ class CheckAchievementViewController: UIViewController {
         let dateString = dateFormatter.string(from: now)
         todayDateLabel.text = dateString
         
-        // 성취도를 선택하기 전에는 done 버튼 비활성화.
+        // 성취도를 선택하기 전에는 done 버튼 비활성화해둠.
         doneButton.isEnabled = false
         
-        //realm
+        //realm 객체
         realm = try? Realm()
         info = realm?.objects(DayInfo.self)
         
         configNavigationBar(vcType: .inputView)
         
         configMessage()
-        
-        // donebutton의 초기 이미지 셋팅
-//        doneButton.setImage(UIImage(named: "unchecked"), for: .normal)
         
         // 성취도 칸의 모양 다듬기
         achievementA.layer.cornerRadius = Config.Appearance.achievementRadius
@@ -67,6 +66,7 @@ class CheckAchievementViewController: UIViewController {
 
     }
     
+    // 성취도 0~20%에 해당하는 E 버튼을 눌렀을 경우.
     @IBAction func clickAchievementE(_ sender: UITapGestureRecognizer) {
         userAchievement = Achievement.E
         
@@ -74,12 +74,15 @@ class CheckAchievementViewController: UIViewController {
         configSelectEffect(what: achievementE)
     }
     
+    // 성취도 20~40%에 해당하는 D 버튼을 눌렀을 경우.
     @IBAction func clickAchievementD(_ sender: UITapGestureRecognizer) {
         userAchievement = Achievement.D
         
         configDoneButton()
         configSelectEffect(what: achievementD)
     }
+    
+    // 성취도 40~60%에 해당하는 C 버튼을 눌렀을 경우.
     @IBAction func clickAchievementC(_ sender: UITapGestureRecognizer) {
         userAchievement = Achievement.C
         
@@ -87,6 +90,7 @@ class CheckAchievementViewController: UIViewController {
         configSelectEffect(what: achievementC)
     }
     
+    // 성취도 60~80%에 해당하는 B 버튼을 눌렀을 경우.
     @IBAction func clickAchievementB(_ sender: UITapGestureRecognizer) {
         userAchievement = Achievement.B
         
@@ -94,10 +98,10 @@ class CheckAchievementViewController: UIViewController {
         configSelectEffect(what: achievementB)
     }
     
+    // 성취도 80~100%에 해당하는 A 버튼을 눌렀을 경우.
     @IBAction func clickAchievementA(_ sender: UITapGestureRecognizer) {
         userAchievement = Achievement.A
-        doneButton.titleLabel?.textColor = UIColor.white
-        doneButton.isEnabled = true
+        
         configDoneButton()
         configSelectEffect(what: achievementA)
     }
@@ -108,7 +112,7 @@ class CheckAchievementViewController: UIViewController {
         doneButton.isEnabled = true
     }
     
-    /// 선택한 성취도 칸의 효과를 주기 위한 메소드
+    /// 선택한 성취도 칸에 선택했다는 효과를 보여주기 위한 메소드
     func configSelectEffect(what achievementView: UIView) {
         
         // 성취도 label을 없앰.
@@ -122,11 +126,11 @@ class CheckAchievementViewController: UIViewController {
         // 지금 눌린 view에 효과를 줌
         achievementView.subviews.first?.tintColor = UIColor.viewBackgroundColor(.inputView)
         
+        // 지금 누른 view를 저장해둠.
         lastSelectedView = achievementView
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        print("메모 입력 화면으로 넘어감")
         
         guard let nextVC = segue.destination as? WriteMemoViewController else {
             return

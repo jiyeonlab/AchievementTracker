@@ -413,7 +413,6 @@
                     <navigationItem key="navigationItem" id="5YR-gf-XAv"/>
                     <connections>
                         <outlet property="memoTextView" destination="tch-en-ccy" id="x5v-OI-cVf"/>
-                        <outlet property="messageLabel" destination="9v4-RF-WLq" id="cU6-YH-I1h"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="3Jb-PM-AqT" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>

@@ -8,6 +8,29 @@
 
 import UIKit
 
+/// 쓰이는 폰트 종류
+enum FontType {
+    case weekday
+    case memo
+    case today
+}
+
+/// Background 타입 종류
+enum BackGroundType {
+    case mainView, inputView, subView
+}
+
+/// 성취도 종류
+enum Achievement: String {
+    // E-D-C-B-A 순으로 성취도 등급이 높아짐.
+    case A = "A"
+    case B = "B"
+    case C = "C"
+    case D = "D"
+    case E = "E"
+}
+
+// 각종 상수값 셋팅
 struct Config {
     
     struct Appearance {
@@ -24,45 +47,10 @@ struct Config {
     
     struct AspectRatio {
         static let cellAspectRatio: CGFloat = 1.1
+        static let calendarHeightRatio: CGFloat = 1.8
+        static let pickerViewHeight: CGFloat = 150
     }
     
-}
-
-// 오늘 날짜에 해당하는 year, month, day 값을 가지는 TodayDateComponent 타입.
-struct TodayDateComponent {
-    
-    static var today = Date()
-    
-    static var dateComponent = Calendar.current.dateComponents([.year, .month, .day], from: today)
-    
-    static var year: Int {
-        guard let yearComponent = dateComponent.year else { return 0 }
-        return yearComponent
-    }
-    static var month: Int {
-        guard let monthComponent = dateComponent.month else { return 0 }
-        return monthComponent
-    }
-    static var day: Int {
-        guard let dayComponent = dateComponent.day else { return 0 }
-        return dayComponent
-    }
-    
-    static func updateToday() {
-        let now = Date()
-        TodayDateComponent.today = now
-        
-        print("GlobalConstant의 updateToday() -> \(TodayDateComponent.today)")
-    }
-}
-
-enum Achievement: String {
-    // E-D-C-B-A 순으로 성취도 등급이 높아짐.
-    case A = "A"
-    case B = "B"
-    case C = "C"
-    case D = "D"
-    case E = "E"
 }
 
 // 어떤 날짜를 선택하면, memocell로 notification 보내기 위해 추가

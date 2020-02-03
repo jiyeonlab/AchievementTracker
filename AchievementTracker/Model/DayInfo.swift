@@ -9,18 +9,11 @@
 import Foundation
 import RealmSwift
 
+// Realm에 저장하려는 데이터 타입
 class DayInfo: Object {
-//    @objc dynamic var date = Date()
-//    @objc dynamic var date = DateConvert()
     @objc dynamic var year = 0
     @objc dynamic var month = 0
     @objc dynamic var day = 0
     @objc dynamic var achievement = ""
     @objc dynamic var memo = ""
 }
-
-//class DateConvert: Object {
-//    @objc dynamic var year = 0
-//    @objc dynamic var month = 0
-//    @objc dynamic var day = 0
-//}

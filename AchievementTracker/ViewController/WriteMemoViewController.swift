@@ -9,9 +9,10 @@
 import UIKit
 import RealmSwift
 
+// 메모 입력 화면을 구성하는 클래스
 class WriteMemoViewController: UIViewController {
     
-    @IBOutlet weak var messageLabel: UILabel!
+    /// 사용자가 메모를 입력하기 위한 textView
     @IBOutlet weak var memoTextView: UITextView!
     
     /// 성취도 입력 화면으로부터 사용자가 선택한 성취도 값을 받기 위한 변수
@@ -25,7 +26,7 @@ class WriteMemoViewController: UIViewController {
         
         memoTextView.delegate = self
         
-        //realm
+        //realm 객체
         realm = try? Realm()
         info = realm?.objects(DayInfo.self)
         
@@ -36,29 +37,17 @@ class WriteMemoViewController: UIViewController {
         
         memoTextView.textColor = UIColor.fontColor(.memo)
         
-        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(_:)), name: UIResponder.keyboardWillShowNotification, object: nil)
-    }
-    
-    @objc func keyboardWillShow(_ notification: Notification) {
-        if let keyboardFrame: NSValue = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue {
-            let keyboardRectangle = keyboardFrame.cgRectValue
-            let keyboardHeight = keyboardRectangle.height
-            print("keyboardHeight = \(keyboardHeight)")
-            
-            memoTextView.frame.origin.y -= 10
-        }
-
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        // 기존에 입력한 메모가 있으면, memoview에 보여줌.
         guard let data = info else { return }
         
         // 오늘 데이터가 있는지 확인
         let today = data.filter("year == %@", TodayDateCenter.shared.year).filter("month == %@", TodayDateCenter.shared.month).filter("day == %@", TodayDateCenter.shared.day)
         
+        // 기존에 입력한 메모가 있으면, memoview에 보여줌.
         if today.first?.memo.count != 0 {
             memoTextView.text = today.first?.memo
         }else{
@@ -71,10 +60,6 @@ class WriteMemoViewController: UIViewController {
         
         // 메모 입력 화면이 열리면, 저절로 키보드를 보여주기 위함.
         memoTextView.becomeFirstResponder()
-        
-        // messageLabel과 memoTextField를 안전하게 키보드 위에 위치하도록 하기 위함.
-//        messageLabel.frame.origin.y -= 30
-//        memoTextView.frame.origin.y -= 30
     }
     
     /// 키보드 상단에 UIBar를 붙이고, 오른쪽에 done 버튼을 추가. toolbar의 색상을 view의 배경색과 일치시키는 메소드.
@@ -95,6 +80,7 @@ class WriteMemoViewController: UIViewController {
         UIBarButtonItem.appearance().setTitleTextAttributes([NSAttributedString.Key.font : UIFont(name: "NanumBarunpen", size: 18.0) as Any], for: .normal)
     }
     
+    /// 사용자가 입력한 메모 내용을 저장하는 메소드
     @objc func saveData(_ sender: Any){
         
         do {

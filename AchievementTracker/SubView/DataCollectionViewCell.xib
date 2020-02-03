@@ -37,9 +37,9 @@
                         </subviews>
                         <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
-                            <constraint firstAttribute="trailing" secondItem="SWE-xO-uQE" secondAttribute="trailing" constant="20" id="5dP-DQ-3tc"/>
+                            <constraint firstAttribute="trailing" secondItem="SWE-xO-uQE" secondAttribute="trailing" id="5dP-DQ-3tc"/>
                             <constraint firstItem="7zO-sM-H96" firstAttribute="top" secondItem="mU1-pd-rsj" secondAttribute="top" constant="16" id="MK2-zL-zmP"/>
-                            <constraint firstItem="SWE-xO-uQE" firstAttribute="top" secondItem="7zO-sM-H96" secondAttribute="bottom" constant="20" id="OO8-lI-oBk"/>
+                            <constraint firstItem="SWE-xO-uQE" firstAttribute="top" secondItem="7zO-sM-H96" secondAttribute="bottom" constant="10" id="OO8-lI-oBk"/>
                             <constraint firstItem="7zO-sM-H96" firstAttribute="centerX" secondItem="mU1-pd-rsj" secondAttribute="centerX" id="TjI-G4-84F"/>
                             <constraint firstItem="SWE-xO-uQE" firstAttribute="leading" secondItem="mU1-pd-rsj" secondAttribute="leading" id="WAe-S5-wre"/>
                             <constraint firstAttribute="bottom" secondItem="SWE-xO-uQE" secondAttribute="bottom" id="tEa-NS-OcT"/>

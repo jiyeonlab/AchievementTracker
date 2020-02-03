@@ -9,30 +9,34 @@
 import Foundation
 import RealmSwift
 
+/// 월간 데이터를 가공하고 제공하는 싱글턴 클래스
 class MonthDataCenter {
     static let shared = MonthDataCenter()
     
     var currentPage: Date?
+    
+    /// 월간 성취도 데이터를 나타내는 배열
     var achievementCount: [Int] = [Int]()
+    
+    /// 현재 캘린더 페이지의 월간 일수가 며칠인지 나타내는 변수
     var allDayCount: Int = 0
     
+    /// 현재 캘린더에 나타난 달의 월간 데이터를 계산하는 메소드
     func calculateData(currentPage date: Date) {
         
         achievementCount.removeAll()
         let realm = try? Realm()
         guard let data = realm?.objects(DayInfo.self) else { return }
         
-        let dateComponent = Calendar.current.dateComponents([.year, .month], from: date)
+        let dateComponent = DateComponentConverter.shared.convertDate(from: date)
         
-        guard let year = dateComponent.year else { return }
-        guard let month = dateComponent.month else { return }
-        let thisMonth = data.filter("year == %@", year).filter("month == %@", month)
+        let thisMonth = data.filter("year == %@", dateComponent[0]).filter("month == %@", dateComponent[1])
         
-        countAllDays(currentYear: year, currentMonth: month)
+        countAllDays(currentYear: dateComponent[0], currentMonth: dateComponent[1])
         
         // 선택한 달에 하나라도 데이터가 있다면.
         if thisMonth.count != 0 {
-            // 데이터에 접근은 햇고, 성취도가 몇개인지 알아내야해.
+            // 각 성취도가 몇개인지 알아냄.
             let aCount = thisMonth.filter("achievement == %@", "A").count
             let bCount = thisMonth.filter("achievement == %@", "B").count
             let cCount = thisMonth.filter("achievement == %@", "C").count
@@ -45,8 +49,6 @@ class MonthDataCenter {
             achievementCount.append(bCount)
             achievementCount.append(aCount)
             
-            print("성취도 array =\(achievementCount)")
-            
         }else{  // 선택한 달에 데이터가 하나도 없다면. 성취도 배열에 전부 0을 넣어줌
             achievementCount = [0, 0, 0, 0, 0]
         }
@@ -58,8 +60,12 @@ class MonthDataCenter {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "yyyy-MM-dd"
         
+        // 해당 월의 첫번째 날.
+        guard let firstDate = dateFormatter.date(from: "\(year)-\(month)-1") else { return }
+        
+        // 현재 달이 12월이 아니라면.
         if month != 12 {
-            guard let firstDate = dateFormatter.date(from: "\(year)-\(month)-1") else { return }
+            // 해당 월의 마지막 날.
             guard let lastDate = dateFormatter.date(from: "\(year)-\(month+1)-1") else { return }
             
             let allCount = Calendar.current.dateComponents([.day], from: firstDate, to: lastDate)
@@ -67,7 +73,7 @@ class MonthDataCenter {
             guard let count = allCount.day else { return }
             allDayCount = count
         } else {
-            guard let firstDate = dateFormatter.date(from: "\(year)-\(month)-1") else { return }
+            // 해당 월의 마지막 날.
             guard let lastDate = dateFormatter.date(from: "\(year+1)-1-1") else { return }
             
             let allCount = Calendar.current.dateComponents([.day], from: firstDate, to: lastDate)

@@ -8,10 +8,6 @@
 
 import UIKit
 
-enum BackGroundType {
-    case mainView, inputView, subView
-}
-
 extension UIViewController {
     
     /// 화면과 navigationbar를 연장한 효과를 주기 위한 메소드

@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		9013AD0223E7FFF900165E77 /* DateComponentConverter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9013AD0123E7FFF900165E77 /* DateComponentConverter.swift */; };
 		901422F323D32E2F007473C7 /* DataCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 901422F123D32E2F007473C7 /* DataCollectionViewCell.swift */; };
 		901422F423D32E2F007473C7 /* DataCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 901422F223D32E2F007473C7 /* DataCollectionViewCell.xib */; };
 		9061172723DF27910085E1A6 /* TodayDateCenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9061172623DF27910085E1A6 /* TodayDateCenter.swift */; };
@@ -34,6 +35,7 @@
 /* Begin PBXFileReference section */
 		38EFC41EC5594F393D0684EB /* Pods-AchievementTracker.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AchievementTracker.release.xcconfig"; path = "Target Support Files/Pods-AchievementTracker/Pods-AchievementTracker.release.xcconfig"; sourceTree = "<group>"; };
 		5530F672CDAE3B664441599C /* Pods_AchievementTracker.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_AchievementTracker.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		9013AD0123E7FFF900165E77 /* DateComponentConverter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateComponentConverter.swift; sourceTree = "<group>"; };
 		901422F123D32E2F007473C7 /* DataCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataCollectionViewCell.swift; sourceTree = "<group>"; };
 		901422F223D32E2F007473C7 /* DataCollectionViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = DataCollectionViewCell.xib; sourceTree = "<group>"; };
 		9061172623DF27910085E1A6 /* TodayDateCenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodayDateCenter.swift; sourceTree = "<group>"; };
@@ -89,6 +91,70 @@
 			path = Pods;
 			sourceTree = "<group>";
 		};
+		9013ACFB23E7FDBC00165E77 /* SubView */ = {
+			isa = PBXGroup;
+			children = (
+				90A6EE4B23D6D5FE0068D9E2 /* GraphView.swift */,
+				906B51F823D3412000182EC5 /* MemoCollectionViewCell.swift */,
+				906B51F923D3412000182EC5 /* MemoCollectionViewCell.xib */,
+				901422F123D32E2F007473C7 /* DataCollectionViewCell.swift */,
+				901422F223D32E2F007473C7 /* DataCollectionViewCell.xib */,
+			);
+			path = SubView;
+			sourceTree = "<group>";
+		};
+		9013ACFC23E7FE0A00165E77 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				90D352A423CC460D00745F56 /* AppDelegate.swift */,
+				90D352A623CC460D00745F56 /* SceneDelegate.swift */,
+				90D352AD23CC460E00745F56 /* Assets.xcassets */,
+				90666C9223DD66F000E1E1D2 /* NanumBarunpenB.otf */,
+				90666C9323DD66F000E1E1D2 /* NanumBarunpenR.otf */,
+			);
+			path = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		9013ACFD23E7FE2600165E77 /* Storyboard */ = {
+			isa = PBXGroup;
+			children = (
+				90D352AA23CC460D00745F56 /* Main.storyboard */,
+				90D352AF23CC460E00745F56 /* LaunchScreen.storyboard */,
+			);
+			path = Storyboard;
+			sourceTree = "<group>";
+		};
+		9013ACFE23E7FE4100165E77 /* ViewController */ = {
+			isa = PBXGroup;
+			children = (
+				90D352B823CC476D00745F56 /* MainViewController.swift */,
+				90D352BE23CC662300745F56 /* CheckAchievementViewController.swift */,
+				90A3D65523CDB063003DE13A /* WriteMemoViewController.swift */,
+			);
+			path = ViewController;
+			sourceTree = "<group>";
+		};
+		9013ACFF23E7FE5000165E77 /* Extension */ = {
+			isa = PBXGroup;
+			children = (
+				90D352BA23CC480F00745F56 /* UIColor+Extension.swift */,
+				90851A3023D0BB430044E560 /* UIViewController+Extension.swift */,
+				90A3D65723CF12DF003DE13A /* GlobalConstant.swift */,
+			);
+			path = Extension;
+			sourceTree = "<group>";
+		};
+		9013AD0023E7FE5900165E77 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				90C390FC23D6F7D500C76145 /* MonthDataCenter.swift */,
+				9013AD0123E7FFF900165E77 /* DateComponentConverter.swift */,
+				9061172623DF27910085E1A6 /* TodayDateCenter.swift */,
+				90D352BC23CC4E3700745F56 /* DayInfo.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
 		90D3529823CC460D00745F56 = {
 			isa = PBXGroup;
 			children = (
@@ -110,28 +176,13 @@
 		90D352A323CC460D00745F56 /* AchievementTracker */ = {
 			isa = PBXGroup;
 			children = (
-				90D352A423CC460D00745F56 /* AppDelegate.swift */,
-				90D352A623CC460D00745F56 /* SceneDelegate.swift */,
-				90D352AA23CC460D00745F56 /* Main.storyboard */,
-				90D352B823CC476D00745F56 /* MainViewController.swift */,
-				90A6EE4B23D6D5FE0068D9E2 /* GraphView.swift */,
-				90C390FC23D6F7D500C76145 /* MonthDataCenter.swift */,
-				9061172623DF27910085E1A6 /* TodayDateCenter.swift */,
-				906B51F823D3412000182EC5 /* MemoCollectionViewCell.swift */,
-				906B51F923D3412000182EC5 /* MemoCollectionViewCell.xib */,
-				901422F123D32E2F007473C7 /* DataCollectionViewCell.swift */,
-				901422F223D32E2F007473C7 /* DataCollectionViewCell.xib */,
-				90D352BE23CC662300745F56 /* CheckAchievementViewController.swift */,
-				90A3D65523CDB063003DE13A /* WriteMemoViewController.swift */,
-				90D352BC23CC4E3700745F56 /* DayInfo.swift */,
-				90D352BA23CC480F00745F56 /* UIColor+Extension.swift */,
-				90851A3023D0BB430044E560 /* UIViewController+Extension.swift */,
-				90A3D65723CF12DF003DE13A /* GlobalConstant.swift */,
-				90D352AD23CC460E00745F56 /* Assets.xcassets */,
-				90D352AF23CC460E00745F56 /* LaunchScreen.storyboard */,
+				9013ACFC23E7FE0A00165E77 /* Supporting Files */,
+				9013ACFD23E7FE2600165E77 /* Storyboard */,
+				9013ACFE23E7FE4100165E77 /* ViewController */,
+				9013ACFB23E7FDBC00165E77 /* SubView */,
+				9013AD0023E7FE5900165E77 /* Model */,
+				9013ACFF23E7FE5000165E77 /* Extension */,
 				90D352B223CC460E00745F56 /* Info.plist */,
-				90666C9223DD66F000E1E1D2 /* NanumBarunpenB.otf */,
-				90666C9323DD66F000E1E1D2 /* NanumBarunpenR.otf */,
 			);
 			path = AchievementTracker;
 			sourceTree = "<group>";
@@ -256,6 +307,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				9061172723DF27910085E1A6 /* TodayDateCenter.swift in Sources */,
+				9013AD0223E7FFF900165E77 /* DateComponentConverter.swift in Sources */,
 				90851A3123D0BB430044E560 /* UIViewController+Extension.swift in Sources */,
 				90D352B923CC476D00745F56 /* MainViewController.swift in Sources */,
 				906B51FA23D3412000182EC5 /* MemoCollectionViewCell.swift in Sources */,

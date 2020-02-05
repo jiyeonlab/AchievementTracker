@@ -21,6 +21,8 @@ class MonthDataCenter {
     /// 현재 캘린더 페이지의 월간 일수가 며칠인지 나타내는 변수
     var allDayCount: Int = 0
     
+    private init() { }
+    
     /// 현재 캘린더에 나타난 달의 월간 데이터를 계산하는 메소드
     func calculateData(currentPage date: Date) {
         

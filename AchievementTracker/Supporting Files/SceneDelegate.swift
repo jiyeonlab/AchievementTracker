@@ -40,7 +40,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     func sceneWillEnterForeground(_ scene: UIScene) {
         // Called as the scene transitions from the background to the foreground.
         // Use this method to undo the changes made on entering the background.
-        print("scene will enter foreground")
+        
+        // 앱이 foreground로 돌아왔을 때, today 날짜가 바뀌었을 수도 있기 때문에 refresh를 해줌.
         NotificationCenter.default.post(name: RefreshCalendarNotification, object: nil)
     }
 

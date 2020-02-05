@@ -9,7 +9,7 @@
 import Foundation
 import RealmSwift
 
-// Realm에 저장하려는 데이터 타입
+// Realm에 들어갈 데이터 모델링.
 class DayInfo: Object {
     @objc dynamic var year = 0
     @objc dynamic var month = 0

@@ -12,15 +12,18 @@ import RealmSwift
 // 메모 입력 화면을 구성하는 클래스
 class WriteMemoViewController: UIViewController {
     
+    // MARK: - IBOutlet
     /// 사용자가 메모를 입력하기 위한 textView
     @IBOutlet weak var memoTextView: UITextView!
     
+    // MARK: - Variable
     /// 성취도 입력 화면으로부터 사용자가 선택한 성취도 값을 받기 위한 변수
     var inputAchievement: Achievement?
     
     var info: Results<DayInfo>?
     var realm: Realm?
     
+    // MARK: - View Life Cycle Method
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -61,6 +64,8 @@ class WriteMemoViewController: UIViewController {
         // 메모 입력 화면이 열리면, 저절로 키보드를 보여주기 위함.
         memoTextView.becomeFirstResponder()
     }
+    
+    // MARK: - Method
     
     /// 키보드 상단에 UIBar를 붙이고, 오른쪽에 done 버튼을 추가. toolbar의 색상을 view의 배경색과 일치시키는 메소드.
     func configToolBar() {
@@ -114,6 +119,7 @@ class WriteMemoViewController: UIViewController {
             }
         }catch{
             print("save error")
+            self.showErrorAlert()
         }
         
         dismiss(animated: true) {
@@ -139,6 +145,8 @@ class WriteMemoViewController: UIViewController {
         return database
     }
 }
+
+// MARK: - UITextViewDelegate
 
 extension WriteMemoViewController: UITextViewDelegate {
     

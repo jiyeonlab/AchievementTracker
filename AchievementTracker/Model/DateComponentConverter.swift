@@ -12,6 +12,8 @@ import Foundation
 class DateComponentConverter {
     static let shared = DateComponentConverter()
     
+    private init() { }
+    
     func convertDate(from date: Date) -> [Int] {
 
         let dateComponent = Calendar.current.dateComponents([.year, .month, .day], from: date)

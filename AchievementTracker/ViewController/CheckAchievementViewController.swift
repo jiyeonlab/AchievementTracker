@@ -12,7 +12,11 @@ import RealmSwift
 // 성취도 입력 화면을 구성하는 클래스
 class CheckAchievementViewController: UIViewController {
     
+    // MARK: - IBOutlet
+    
+    /// 오늘 날짜를 표시하기 위한 label
     @IBOutlet weak var todayDateLabel: UILabel!
+    @IBOutlet weak var messageLabel: UILabel!
     @IBOutlet weak var doneButton: UIButton!
     
     @IBOutlet weak var achievementE: UIView!
@@ -20,13 +24,11 @@ class CheckAchievementViewController: UIViewController {
     @IBOutlet weak var achievementC: UIView!
     @IBOutlet weak var achievementB: UIView!
     @IBOutlet weak var achievementA: UIView!
-    
-    @IBOutlet weak var messageLabel: UILabel!
-    
     @IBOutlet var achievementLabel: [UILabel]!
     
-    // realm 객체
-    var info: Results<DayInfo>?
+    // MARK: - Variable
+    
+    var dayInfo: Results<DayInfo>?
     var realm: Realm?
     
     /// 사용자가 선택한 성취도 값을 저장하고 있는 변수
@@ -35,6 +37,7 @@ class CheckAchievementViewController: UIViewController {
     /// 성취도 선택을 여러번 할 경우를 위해 마지막으로 누른 view를 저장해둘 변수
     var lastSelectedView: UIView?
     
+    // MARK: - View Life Cycle Method
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -51,7 +54,7 @@ class CheckAchievementViewController: UIViewController {
         
         //realm 객체
         realm = try? Realm()
-        info = realm?.objects(DayInfo.self)
+        dayInfo = realm?.objects(DayInfo.self)
         
         configNavigationBar(vcType: .inputView)
         
@@ -66,7 +69,9 @@ class CheckAchievementViewController: UIViewController {
 
     }
     
-    // 성취도 0~20%에 해당하는 E 버튼을 눌렀을 경우.
+    // MARK: - IBAction
+    
+    /// 성취도 0~20%에 해당하는 E 버튼을 눌렀을 경우.
     @IBAction func clickAchievementE(_ sender: UITapGestureRecognizer) {
         userAchievement = Achievement.E
         
@@ -74,7 +79,7 @@ class CheckAchievementViewController: UIViewController {
         configSelectEffect(what: achievementE)
     }
     
-    // 성취도 20~40%에 해당하는 D 버튼을 눌렀을 경우.
+    /// 성취도 20~40%에 해당하는 D 버튼을 눌렀을 경우.
     @IBAction func clickAchievementD(_ sender: UITapGestureRecognizer) {
         userAchievement = Achievement.D
         
@@ -82,7 +87,7 @@ class CheckAchievementViewController: UIViewController {
         configSelectEffect(what: achievementD)
     }
     
-    // 성취도 40~60%에 해당하는 C 버튼을 눌렀을 경우.
+    /// 성취도 40~60%에 해당하는 C 버튼을 눌렀을 경우.
     @IBAction func clickAchievementC(_ sender: UITapGestureRecognizer) {
         userAchievement = Achievement.C
         
@@ -90,7 +95,7 @@ class CheckAchievementViewController: UIViewController {
         configSelectEffect(what: achievementC)
     }
     
-    // 성취도 60~80%에 해당하는 B 버튼을 눌렀을 경우.
+    /// 성취도 60~80%에 해당하는 B 버튼을 눌렀을 경우.
     @IBAction func clickAchievementB(_ sender: UITapGestureRecognizer) {
         userAchievement = Achievement.B
         
@@ -98,13 +103,15 @@ class CheckAchievementViewController: UIViewController {
         configSelectEffect(what: achievementB)
     }
     
-    // 성취도 80~100%에 해당하는 A 버튼을 눌렀을 경우.
+    /// 성취도 80~100%에 해당하는 A 버튼을 눌렀을 경우.
     @IBAction func clickAchievementA(_ sender: UITapGestureRecognizer) {
         userAchievement = Achievement.A
         
         configDoneButton()
         configSelectEffect(what: achievementA)
     }
+    
+    // MARK: - Method
     
     /// 성취도 중 하나를 선택하면, 아래 done 버튼을 활성화하는 메소드
     func configDoneButton() {
@@ -130,19 +137,9 @@ class CheckAchievementViewController: UIViewController {
         lastSelectedView = achievementView
     }
     
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        
-        guard let nextVC = segue.destination as? WriteMemoViewController else {
-            return
-        }
-        
-        // 사용자가 입력한 성취도 값을 WriteMemoVC로 전달함.
-        nextVC.inputAchievement = userAchievement
-    }
-    
     /// 오늘 데이터 입력이 처음이면 "check ~"로, 오늘 데이터를 수정하는 거면 "change ~"로 메시지를 바꾸는 메소드
     func configMessage() {
-        guard let data = info else { return }
+        guard let data = dayInfo else { return }
         
         // 오늘 데이터가 있는지 확인
         let today = data.filter("year == %@", TodayDateCenter.shared.year).filter("month == %@", TodayDateCenter.shared.month).filter("day == %@", TodayDateCenter.shared.day)
@@ -179,4 +176,16 @@ class CheckAchievementViewController: UIViewController {
             }
         }
     }
+    
+    // MARK: - Segue
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        
+        guard let nextVC = segue.destination as? WriteMemoViewController else {
+            return
+        }
+        
+        // 사용자가 입력한 성취도 값을 WriteMemoVC로 전달함.
+        nextVC.inputAchievement = userAchievement
+    }
+    
 }

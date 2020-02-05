@@ -94,11 +94,11 @@
 		9013ACFB23E7FDBC00165E77 /* SubView */ = {
 			isa = PBXGroup;
 			children = (
+				901422F123D32E2F007473C7 /* DataCollectionViewCell.swift */,
+				901422F223D32E2F007473C7 /* DataCollectionViewCell.xib */,
 				90A6EE4B23D6D5FE0068D9E2 /* GraphView.swift */,
 				906B51F823D3412000182EC5 /* MemoCollectionViewCell.swift */,
 				906B51F923D3412000182EC5 /* MemoCollectionViewCell.xib */,
-				901422F123D32E2F007473C7 /* DataCollectionViewCell.swift */,
-				901422F223D32E2F007473C7 /* DataCollectionViewCell.xib */,
 			);
 			path = SubView;
 			sourceTree = "<group>";
@@ -147,10 +147,10 @@
 		9013AD0023E7FE5900165E77 /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				90C390FC23D6F7D500C76145 /* MonthDataCenter.swift */,
-				9013AD0123E7FFF900165E77 /* DateComponentConverter.swift */,
-				9061172623DF27910085E1A6 /* TodayDateCenter.swift */,
 				90D352BC23CC4E3700745F56 /* DayInfo.swift */,
+				90C390FC23D6F7D500C76145 /* MonthDataCenter.swift */,
+				9061172623DF27910085E1A6 /* TodayDateCenter.swift */,
+				9013AD0123E7FFF900165E77 /* DateComponentConverter.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";

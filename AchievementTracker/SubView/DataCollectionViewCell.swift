@@ -8,6 +8,7 @@
 
 import UIKit
 
+// MainVC의 subview에 들어가는 월간기록 셀 클래스
 class DataCollectionViewCell: UICollectionViewCell {
 
     @IBOutlet weak var dataView: UIView!

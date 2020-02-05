@@ -9,19 +9,20 @@
 import UIKit
 import RealmSwift
 
+// MainVC의 subview에 들어가는 메모 셀 클래스
 class MemoCollectionViewCell: UICollectionViewCell {
     
+    static let identifier = "MemoCollectionViewCell"
+
     @IBOutlet weak var memoView: UIView!
     @IBOutlet weak var cellTitle: UILabel!
     @IBOutlet weak var memoContent: UITextView!
     @IBOutlet weak var sectionLine: UIView!
     @IBOutlet weak var sectionLineWidth: NSLayoutConstraint!
     
-    var info: Results<DayInfo>?
+    var dayInfo: Results<DayInfo>?
     var realm: Realm?
-    
-    static let identifier = "MemoCollectionViewCell"
-    
+        
     override func awakeFromNib() {
         super.awakeFromNib()
         
@@ -39,7 +40,7 @@ class MemoCollectionViewCell: UICollectionViewCell {
         
         // db 검색을 위한 realm 객체
         realm = try? Realm()
-        info = realm?.objects(DayInfo.self)
+        dayInfo = realm?.objects(DayInfo.self)
         
         // 메모 내용을 보여주는 textview 설정
         memoContent.textColor = UIColor.lightGray
@@ -69,7 +70,7 @@ class MemoCollectionViewCell: UICollectionViewCell {
         }
         
         // db에서 해당 날짜의 메모를 찾아서 memocontent textview에 보여주기
-        guard let data = info else { return }
+        guard let data = dayInfo else { return }
         
         // 현재 보여지는 캘린더의 year, month, day를 db에서 검색해서, 해당 날짜의 데이터가 있는지 없는지 찾아냄.
         let clickDayComponent = Calendar.current.dateComponents([.year, .month, .day], from: clickDate)

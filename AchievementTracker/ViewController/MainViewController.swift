@@ -10,25 +10,36 @@ import UIKit
 import FSCalendar
 import RealmSwift
 
+// 캘린더와 subview(월간기록, 메모)가 있는 메인 ViewController 클래스.
 class MainViewController: UIViewController {
     
+    // MARK: - IBOutlet
     @IBOutlet weak var mainCalendar: FSCalendar!
+    
+    /// 월간기록, 메모를 포함하는 collection view.
     @IBOutlet weak var subView: UICollectionView!
+    
+    /// customPickerView를 띄우기 위한 탭이 적용된 UIView.
     @IBOutlet weak var datePickerTapView: UIView!
+    
+    /// 캘린더의 높이를 비율로 정해주기 위해 추가한 constraint outlet.
     @IBOutlet weak var calendarHeight: NSLayoutConstraint!
     
-    // realm 추가
-    var info: Results<DayInfo>?
+    // MARK: - Variable
+    /// DayInfo 데이터 변수
+    var dayInfo: Results<DayInfo>?
+    
+    /// Realm 변수
     var realm: Realm?
     
-    // notification token
-    var token: NotificationToken?
+    /// realm의 변화를 실시간으로 알아내기 위한 Notification Token
+    var notificationToken: NotificationToken?
     
     /// 사용자가 캘린더에서 어떤 날짜를 누르면,  메모 cell을 subview의 중간으로 옮기기 위한 핸들러.
-    var centerToMemoCell: (() -> Void)?
+    var centerToMemoCellHandler: (() -> Void)?
     
     /// 캘린더 페이지를 변경하면 월간 기록 cell을 subview의 중간으로 옯기기 위한 핸들러.
-    var centerToDataCell: (() -> Void)?
+    var centerToDataCellHandler: (() -> Void)?
     
     /// 캘린더 이동을 위한 년, 월을 선택할 수 있는 Custom Picker View
     var customPickerView: UIPickerView?
@@ -48,6 +59,8 @@ class MainViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        // 싱글턴 클래스의 날짜 프로퍼티 초기 설정
+        TodayDateCenter.shared.updateToday()
         
         mainCalendar.dataSource = self
         mainCalendar.delegate = self
@@ -55,9 +68,9 @@ class MainViewController: UIViewController {
         configNavigationBar(vcType: .mainView)
         configCalendar()
         
-        // realm 추가
+        // realm에서 DayInfo 객체를 가져옴
         realm = try? Realm()
-        info = realm?.objects(DayInfo.self)
+        dayInfo = realm?.objects(DayInfo.self)
         print("realm 경로 = \(Realm.Configuration.defaultConfiguration.fileURL!)")
         
         receiveRealmNotification()
@@ -87,7 +100,7 @@ class MainViewController: UIViewController {
         // 캘린더의 높이 설정
         calendarHeight.constant = view.frame.height / Config.AspectRatio.calendarHeightRatio
         
-        // 캘린더 스크롤 방향
+        // 캘린더 스크롤 방향 설정
         mainCalendar.scrollDirection = .horizontal
         
         // 각 날짜를 원형 말고 사각형으로 표시
@@ -99,7 +112,7 @@ class MainViewController: UIViewController {
         // day 폰트 설정
         mainCalendar.appearance.titleFont = UIFont(name: "NanumBarunpen-Bold", size: Config.FontSize.dayFontSize)
         
-        // 이번달에 해당하는 날짜만 표시하기 위함
+        // 캘린더에 이번달 날짜만 표시하기 위함
         mainCalendar.placeholderType = .none
         
         // MON -> M으로 표시
@@ -108,7 +121,7 @@ class MainViewController: UIViewController {
         // 이전달, 다음달 표시의 알파값 조정
         mainCalendar.appearance.headerMinimumDissolvedAlpha = Config.Appearance.headerAlpha
         
-        // 요일 표시 text 색 바꾸기
+        // 요일 text 색 바꾸기
         for weekday in mainCalendar.calendarWeekdayView.weekdayLabels {
             weekday.textColor = UIColor.fontColor(.weekday)
             weekday.font = UIFont(name: "NanumBarunpen-Bold", size: Config.FontSize.weekdayFontSize)
@@ -118,22 +131,26 @@ class MainViewController: UIViewController {
         mainCalendar.appearance.titleTodayColor = UIColor.fontColor(.today)
     }
     
-    /// realm 의 notification을 받아, DB의 변화에 따른 일을 처리하는 메소드
+    /// Realm 의 Notification을 받아, DB의 변화에 따른 일을 처리하는 메소드
     func receiveRealmNotification() {
         
-        guard let data = info else { return }
+        guard let data = dayInfo else { return }
         
         // 현재 보여지는 캘린더의 year, month, day를 db에서 검색해서, 해당 날짜의 데이터가 있는지 없는지 찾아냄.
         let thisDay = data.filter("year == %@", TodayDateCenter.shared.year).filter("month == %@", TodayDateCenter.shared.month).filter("day == %@", TodayDateCenter.shared.day)
         
         MonthDataCenter.shared.calculateData(currentPage: mainCalendar.currentPage)
+        
+        // subview의 월간 기록 그래프를 새로 그려달라는 노티피케이션 보냄.
         NotificationCenter.default.post(name: ReloadGraphViewNotification, object: nil)
         
-        token = thisDay.observe({ (changes: RealmCollectionChange) in
+        // Realm의 변화를 실시간으로 받는 곳.
+        notificationToken = thisDay.observe({ (changes: RealmCollectionChange) in
             
             switch changes {
             case .error(let error):
                 print("noti error \(error)")
+                self.showErrorAlert()
             case .initial:
                 print("noti init")
             case .update(_, let deletions, let insertions, let modifications):
@@ -146,6 +163,7 @@ class MainViewController: UIViewController {
                     self.mainCalendar.collectionView.reloadItems(at: [index])
                 }
                 
+                // '오늘' 데이터 수정에 따라 월간 기록 데이터를 다시 계산하고, 그래프를 다시 그려줌.
                 MonthDataCenter.shared.calculateData(currentPage: self.mainCalendar.currentPage)
                 NotificationCenter.default.post(name: ReloadGraphViewNotification, object: nil)
             }
@@ -153,10 +171,11 @@ class MainViewController: UIViewController {
     }
     
     deinit {
-        token?.invalidate()
+        // Realm을 실시간으로 구독하는 notificationToken을 해제해줌.
+        notificationToken?.invalidate()
     }
     
-    // 캘린더의 title 부분을 설정하면 datepicker가 뜨도록 함
+    /// 캘린더의 title 부분을 tap하면 datepicker를 띄우는 메소드
     @objc func selectDatePickerView(_ sender: UITapGestureRecognizer){
         
         let alertView = UIAlertController(title: "이동하려는 날짜 선택", message: nil, preferredStyle: .actionSheet)
@@ -177,6 +196,7 @@ class MainViewController: UIViewController {
             self.mainCalendar.setCurrentPage(now, animated: true)
         }
         
+        // 선택한 년, 월로 이동하기 위한 alertAction
         let selectAction = UIAlertAction(title: "확인", style: .default) { action in
             
             // picker view에서 선택한 년, 월을 Date 타입으로 변환하기.
@@ -195,6 +215,7 @@ class MainViewController: UIViewController {
         alertView.addAction(goTodayAction)
         alertView.addAction(selectAction)
         
+        // alertView 띄우기
         present(alertView, animated: true) {
             let tapGesture = UITapGestureRecognizer(target: self, action: #selector(self.dismissAlertView(_:)))
             alertView.view.superview?.subviews[0].addGestureRecognizer(tapGesture)
@@ -202,18 +223,19 @@ class MainViewController: UIViewController {
         
     }
     
-    // actionsheet가 열려있는데, 화면의 다른 부분을 tap하면 actionsheet가 사라지게 하기 위함.
+    /// actionsheet가 열려있는데, 화면의 다른 부분을 tap하면 actionsheet가 사라지게 하기 위한 메소드
     @objc func dismissAlertView(_ tapGesture: UITapGestureRecognizer) {
         self.dismiss(animated: true, completion: nil)
     }
     
-    // 메모입력 화면에서 done 버튼을 누르면 받는 노티피케이션을 받아 핸들러를 수행함.
+    /// 메모입력 화면에서 done 버튼을 누르면 받는 노티피케이션을 받아 해당 핸들러를 수행하는 메소드
     @objc func moveMemoCell(_ noti: Notification){
-        centerToMemoCell?()
+        centerToMemoCellHandler?()
     }
     
     /// 앱이 background에서  foreground로 이동 시, 오늘 날짜가 바뀌었을 수도 있기 때문에 캘린더를 reload 해주기 위한 메소드
     @objc func refreshCalendar(_ noti: Notification) {
+        
         // today가 바뀌었을 수도 있어서, 한번 업데이트 해줌.
         TodayDateCenter.shared.updateToday()
         mainCalendar.reloadData()
@@ -221,6 +243,7 @@ class MainViewController: UIViewController {
     
 }
 
+// MARK: - FSCalendarDataSource
 extension MainViewController: FSCalendarDataSource {
     
     // 각 날짜가 찍히는 위치를 cell의 중간으로 조정하는 메소드.
@@ -232,7 +255,7 @@ extension MainViewController: FSCalendarDataSource {
         dateFormatter.dateFormat = "dd"
         let day = dateFormatter.string(from: date)
         
-        guard let data = info else { return "" }
+        guard let data = dayInfo else { return "" }
         let thisDay = data.filter("year == %@", TodayDateCenter.shared.year).filter("month == %@", TodayDateCenter.shared.month).filter("day == %@", TodayDateCenter.shared.day)
         
         // 오늘 날짜에는 날짜 대신 "Today" 가 찍히도록 함.
@@ -251,13 +274,14 @@ extension MainViewController: FSCalendarDataSource {
     }
 }
 
+// MARK: - FSCalendarDelegate
 extension MainViewController: FSCalendarDelegate {
     
     // 캘린더 페이지가 바뀌면 호출되는 메소드
     func calendarCurrentPageDidChange(_ calendar: FSCalendar) {
         
-        // datacell을 중간으로 보이게 함
-        centerToDataCell?()
+        // datacell을 중간으로 오도록 함.
+        centerToDataCellHandler?()
         
         MonthDataCenter.shared.calculateData(currentPage: mainCalendar.currentPage)
         
@@ -277,7 +301,7 @@ extension MainViewController: FSCalendarDelegate {
             NotificationCenter.default.post(name: UserClickSomeDayNotification, object: date)
             
             // 어떤 날짜를 누르면, 아래의 memocell이 화면의 중간으로 오도록 하는 핸들러 호출
-            centerToMemoCell?()
+            centerToMemoCellHandler?()
             
             return false
         }else{
@@ -286,12 +310,13 @@ extension MainViewController: FSCalendarDelegate {
     }
 }
 
+// MARK: - FSCalendarDelegateApperance
 extension MainViewController: FSCalendarDelegateAppearance {
     
     // 기본적으로 채우는 색. 즉, 여기서 DB와 날짜 매칭해서 해당 날짜에 맞는 각 컬러를 입혀줘야함. (이건 캘린더의 날짜 수만큼 수행됨.). calendarCurrentPageDidChange호출 후, 여기로 옴.
     func calendar(_ calendar: FSCalendar, appearance: FSCalendarAppearance, fillDefaultColorFor date: Date) -> UIColor? {
         
-        guard let data = info else { return UIColor.clear }
+        guard let data = dayInfo else { return UIColor.clear }
         
         let convertDate = DateComponentConverter.shared.convertDate(from: date)
         
@@ -336,6 +361,7 @@ extension MainViewController: FSCalendarDelegateAppearance {
     }
 }
 
+// MARK: - UICollectionViewDataSource
 extension MainViewController: UICollectionViewDataSource {
     
     /// subview의 스타일을 지정하는 메소드
@@ -363,7 +389,7 @@ extension MainViewController: UICollectionViewDataSource {
             }
             
             // 캘린더 페이지를 이동하면, datacell이 subview의 중간으로 오도록 하는 핸들러
-            centerToDataCell = {
+            centerToDataCellHandler = {
                 self.subView.scrollToItem(at: indexPath, at: .centeredHorizontally, animated: true)
             }
             
@@ -375,7 +401,7 @@ extension MainViewController: UICollectionViewDataSource {
             }
             
             // 캘린더에서 어떤 날짜를 누르면, memocell이 subview의 중간으로 오도록 하는 핸들러
-            centerToMemoCell = {
+            centerToMemoCellHandler = {
                 self.subView.scrollToItem(at: indexPath, at: .centeredHorizontally, animated: true)
             }
             
@@ -387,6 +413,7 @@ extension MainViewController: UICollectionViewDataSource {
     }
 }
 
+// MARK: - UICollectionViewDelegate, UICollectionViewDelegateFlowLayout
 extension MainViewController: UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
     
     // dataCell과 memoCell의 사이즈를 결정하는 메소드
@@ -403,6 +430,7 @@ extension MainViewController: UICollectionViewDelegate, UICollectionViewDelegate
     
 }
 
+// MARK: - UIPickerViewDataSource, UIPickerViewDelegate
 extension MainViewController: UIPickerViewDataSource, UIPickerViewDelegate {
     
     /// DatePicker에 필요한  yearlist와 monthlist를 초기화하는 메소드

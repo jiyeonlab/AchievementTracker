@@ -17,4 +17,13 @@ extension UIViewController {
         self.navigationController?.navigationBar.isTranslucent = false
         self.navigationController?.navigationBar.shadowImage = UIImage()
     }
+    
+    // 각종 에러 상황에서 띄워줄 action sheet
+    func showErrorAlert() {
+        let alertController = UIAlertController(title: "경고", message: "다시 시도하세요", preferredStyle: .alert)
+        let okAction = UIAlertAction(title: "확인", style: .default, handler: nil)
+        alertController.addAction(okAction)
+        
+        present(alertController, animated: true, completion: nil)
+    }
 }

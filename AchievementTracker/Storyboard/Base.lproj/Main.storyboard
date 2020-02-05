@@ -106,7 +106,7 @@
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
                     <navigationItem key="navigationItem" id="Xxb-wu-TY2">
-                        <barButtonItem key="rightBarButtonItem" style="plain" systemItem="add" id="9dA-Dh-tVV">
+                        <barButtonItem key="rightBarButtonItem" systemItem="add" id="9dA-Dh-tVV">
                             <connections>
                                 <segue destination="JOV-p7-A2r" kind="show" id="rEp-Kh-ZgD"/>
                             </connections>

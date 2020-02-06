@@ -48,7 +48,7 @@
 		90A3D65723CF12DF003DE13A /* GlobalConstant.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlobalConstant.swift; sourceTree = "<group>"; };
 		90A6EE4B23D6D5FE0068D9E2 /* GraphView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GraphView.swift; sourceTree = "<group>"; };
 		90C390FC23D6F7D500C76145 /* MonthDataCenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MonthDataCenter.swift; sourceTree = "<group>"; };
-		90D352A123CC460D00745F56 /* AchievementTracker.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AchievementTracker.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		90D352A123CC460D00745F56 /* 오늘의 성취도.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "오늘의 성취도.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		90D352A423CC460D00745F56 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		90D352A623CC460D00745F56 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		90D352AB23CC460D00745F56 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -168,7 +168,7 @@
 		90D352A223CC460D00745F56 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				90D352A123CC460D00745F56 /* AchievementTracker.app */,
+				90D352A123CC460D00745F56 /* 오늘의 성취도.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -206,7 +206,7 @@
 			);
 			name = AchievementTracker;
 			productName = AchievementTracker;
-			productReference = 90D352A123CC460D00745F56 /* AchievementTracker.app */;
+			productReference = 90D352A123CC460D00745F56 /* 오늘의 성취도.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -473,7 +473,7 @@
 					"@executable_path/Frameworks",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.jiyeonlab.AchievementTracker;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = "오늘의 성취도";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;
 			};
@@ -492,7 +492,7 @@
 					"@executable_path/Frameworks",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.jiyeonlab.AchievementTracker;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = "오늘의 성취도";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;
 			};

@@ -18,7 +18,9 @@ class TodayDateCenter {
     lazy var month: Int = 0
     lazy var day: Int = 0
     
-    private init() { }
+    private init() {
+        self.updateToday()
+    }
     
     /// 앱이 foreground로 돌아왔을 때, today 값이 바뀌었을 수도 있기 때문에 업데이트하기 위한 메소드.
     func updateToday() {

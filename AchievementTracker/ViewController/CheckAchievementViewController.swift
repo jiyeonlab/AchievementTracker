@@ -181,15 +181,19 @@ class CheckAchievementViewController: UIViewController {
                 switch achievement {
                 case "A":
                     configSelectEffect(what: achievementA)
+                    userAchievement = Achievement.A
                 case "B":
                     configSelectEffect(what: achievementB)
+                    userAchievement = Achievement.B
                 case "C":
                     configSelectEffect(what: achievementC)
+                    userAchievement = Achievement.C
                 case "D":
                     configSelectEffect(what: achievementD)
+                    userAchievement = Achievement.D
                 case "E":
                     configSelectEffect(what: achievementE)
-                    
+                    userAchievement = Achievement.E
                 default:
                     return
                 }
@@ -218,15 +222,19 @@ class CheckAchievementViewController: UIViewController {
                 switch achievement {
                 case "A":
                     configSelectEffect(what: achievementA)
+                    userAchievement = Achievement.A
                 case "B":
                     configSelectEffect(what: achievementB)
+                    userAchievement = Achievement.B
                 case "C":
                     configSelectEffect(what: achievementC)
+                    userAchievement = Achievement.C
                 case "D":
                     configSelectEffect(what: achievementD)
+                    userAchievement = Achievement.D
                 case "E":
                     configSelectEffect(what: achievementE)
-                    
+                    userAchievement = Achievement.E
                 default:
                     return
                 }

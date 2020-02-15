@@ -23,12 +23,16 @@ class WriteMemoViewController: UIViewController {
     var info: Results<DayInfo>?
     var realm: Realm?
     
+    var userClickDate: Date?
+    
+    var isToday = false
+    
     // MARK: - View Life Cycle Method
     override func viewDidLoad() {
         super.viewDidLoad()
         
         memoTextView.delegate = self
-        
+                
         //realm 객체
         realm = try? Realm()
         info = realm?.objects(DayInfo.self)
@@ -40,22 +44,8 @@ class WriteMemoViewController: UIViewController {
         
         memoTextView.textColor = UIColor.fontColor(.memo)
         
-    }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        
-        guard let data = info else { return }
-        
-        // 오늘 데이터가 있는지 확인
-        let today = data.filter("year == %@", TodayDateCenter.shared.year).filter("month == %@", TodayDateCenter.shared.month).filter("day == %@", TodayDateCenter.shared.day)
-        
-        // 기존에 입력한 메모가 있으면, memoview에 보여줌.
-        if today.first?.memo.count != 0 {
-            memoTextView.text = today.first?.memo
-        }else{
-            return
-        }
+        configMemoContent()
+
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -66,6 +56,42 @@ class WriteMemoViewController: UIViewController {
     }
     
     // MARK: - Method
+    
+    func configMemoContent() {
+        
+        guard let data = info else { return }
+        
+        if userClickDate == nil {
+            isToday = true
+            
+            // 오늘 데이터가 있는지 확인
+            let today = data.filter("year == %@", TodayDateCenter.shared.year).filter("month == %@", TodayDateCenter.shared.month).filter("day == %@", TodayDateCenter.shared.day)
+            
+            // 기존에 입력한 메모가 있으면, memoview에 보여줌.
+            if today.first?.memo.count != 0 {
+                memoTextView.text = today.first?.memo
+            }else{
+                return
+            }
+        }else{
+            isToday = false
+            
+            guard let userClickDate = userClickDate else {
+                return
+            }
+            let dateInfo = DateComponentConverter.shared.convertDate(from: userClickDate)
+            let clickDate = data.filter("year == %@", dateInfo[0]).filter("month == %@", dateInfo[1]).filter("day == %@", dateInfo[2])
+            
+            if clickDate.first?.memo.count != 0 {
+                print("기존 메모가 있음")
+                memoTextView.text = clickDate.first?.memo
+            }else{
+                print("기존 메모가 없음")
+                return
+            }
+        }
+        
+    }
     
     /// 키보드 상단에 UIBar를 붙이고, 오른쪽에 done 버튼을 추가. toolbar의 색상을 view의 배경색과 일치시키는 메소드.
     func configToolBar() {
@@ -93,29 +119,62 @@ class WriteMemoViewController: UIViewController {
                 
                 guard let data = info else { return }
                 
-                // db에서 오늘 날짜에 해당하는 데이터가 있는지 검색.
-                let todayData = data.filter("year == %@", TodayDateCenter.shared.year).filter("month == %@", TodayDateCenter.shared.month).filter("day == %@", TodayDateCenter.shared.day)
-                
-                // 기존에 오늘 날짜의 데이터가 있으면, 데이터를 update 해줌.
-                if todayData.first != nil {
-                    print("메모 화면에서 데이터 수정")
-                    todayData.forEach { (originValue) in
-                        originValue.year = TodayDateCenter.shared.year
-                        originValue.month = TodayDateCenter.shared.month
-                        originValue.day = TodayDateCenter.shared.day
-                        
-                        guard let userAchievement = inputAchievement else { return }
-                        originValue.achievement = userAchievement.rawValue
-                        
-                        guard let userMemo = memoTextView.text else { return }
-                        originValue.memo = userMemo
-                    }
-                } else {
-                    print("메모 화면에서 데이터 추가")
-                    // 기존에 오늘 날짜의 데이터가 없으면, 새롭게 추가해줌.
-                    realm?.add(inputToday(database: DayInfo(), year: TodayDateCenter.shared.year, month: TodayDateCenter.shared.month, day: TodayDateCenter.shared.day ))
+                if isToday {
+                    print("+ 버튼으로 선택해서 메모저장할 경우 \(inputAchievement)")
+                    // db에서 오늘 날짜에 해당하는 데이터가 있는지 검색.
+                    let todayData = data.filter("year == %@", TodayDateCenter.shared.year).filter("month == %@", TodayDateCenter.shared.month).filter("day == %@", TodayDateCenter.shared.day)
                     
+                    // 기존에 오늘 날짜의 데이터가 있으면, 데이터를 update 해줌.
+                    if todayData.first != nil {
+                        print("메모 화면에서 데이터 수정")
+                        todayData.forEach { (originValue) in
+                            originValue.year = TodayDateCenter.shared.year
+                            originValue.month = TodayDateCenter.shared.month
+                            originValue.day = TodayDateCenter.shared.day
+                            
+                            guard let userAchievement = inputAchievement else { return }
+                            originValue.achievement = userAchievement.rawValue
+                            
+                            guard let userMemo = memoTextView.text else { return }
+                            originValue.memo = userMemo
+                        }
+                    } else {
+                        print("메모 화면에서 데이터 추가")
+                        // 기존에 오늘 날짜의 데이터가 없으면, 새롭게 추가해줌.
+                        realm?.add(inputToday(database: DayInfo(), year: TodayDateCenter.shared.year, month: TodayDateCenter.shared.month, day: TodayDateCenter.shared.day ))
+                        
+                    }
+                }else{
+                    print("메모셀에서 선택해서 메모저장할 경우 \(inputAchievement)")
+                    guard let userClickDate = userClickDate else {
+                        return
+                    }
+                    let dateInfo = DateComponentConverter.shared.convertDate(from: userClickDate)
+                    let clickDate = data.filter("year == %@", dateInfo[0]).filter("month == %@", dateInfo[1]).filter("day == %@", dateInfo[2])
+                    
+                    if clickDate.first != nil {
+                        print("메모 화면에서 데이터 수정")
+                        clickDate.forEach { (originValue) in
+                            
+                            originValue.year = dateInfo[0]
+                            originValue.month = dateInfo[1]
+                            originValue.day = dateInfo[2]
+                            
+                            guard let userAchievement = inputAchievement else { return }
+                            originValue.achievement = userAchievement.rawValue
+                            
+                            print("userMemo")
+                            guard let userMemo = memoTextView.text else { return }
+                            originValue.memo = userMemo
+                            
+                            print("여기까지 안오는건가")
+                        }
+                    }else{
+                        print("메모 화면에서 데이터 추가")
+                        realm?.add(inputToday(database: DayInfo(), year: dateInfo[0], month: dateInfo[1], day: dateInfo[2]))
+                    }
                 }
+                
             }
         }catch{
             print("save error")
@@ -124,7 +183,13 @@ class WriteMemoViewController: UIViewController {
         
         dismiss(animated: true) {
             // 메모 입력까지 하고나면, MemoCell을 reload해주고, 화면의 중간으로 오도록 함.
-            NotificationCenter.default.post(name: UserClickSomeDayNotification, object: Date())
+            if self.isToday {
+                 NotificationCenter.default.post(name: UserClickSomeDayNotification, object: Date())
+            }else{
+                guard let date = self.userClickDate else { return }
+                NotificationCenter.default.post(name: UserClickSomeDayNotification, object: date)
+            }
+           
             NotificationCenter.default.post(name: CenterToMemoCellNotification, object: nil)
         }
     }

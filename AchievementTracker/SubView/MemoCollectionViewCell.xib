@@ -17,7 +17,7 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
-        <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="MemoCollectionViewCell" id="gTV-IL-0wX" customClass="MemoCollectionViewCell" customModule="AchievementTracker" customModuleProvider="target">
+        <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="MemoCollectionViewCell" id="gTV-IL-0wX" customClass="MemoCollectionViewCell" customModule="오늘의_성취도" customModuleProvider="target">
             <rect key="frame" x="0.0" y="0.0" width="181" height="185"/>
             <autoresizingMask key="autoresizingMask"/>
             <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
@@ -48,16 +48,29 @@
                                     <constraint firstAttribute="width" priority="250" constant="180" id="Whu-OE-AAp"/>
                                 </constraints>
                             </view>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9bo-sU-3hu">
+                                <rect key="frame" x="146" y="15" width="20" height="20"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="20" id="4bc-a5-IeH"/>
+                                    <constraint firstAttribute="width" constant="20" id="6ij-Vr-D5b"/>
+                                </constraints>
+                                <state key="normal" image="EditIcon"/>
+                                <connections>
+                                    <action selector="addNewMemo:" destination="gTV-IL-0wX" eventType="touchUpInside" id="LDX-JX-Nzb"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstItem="Khj-kA-wqC" firstAttribute="centerX" secondItem="SFw-fh-AJX" secondAttribute="centerX" id="BEt-Sk-9wD"/>
                             <constraint firstItem="Knj-Cw-eD1" firstAttribute="centerX" secondItem="SFw-fh-AJX" secondAttribute="centerX" id="Jz0-bg-wJR"/>
+                            <constraint firstItem="9bo-sU-3hu" firstAttribute="top" secondItem="SFw-fh-AJX" secondAttribute="top" constant="15" id="XXt-Xh-zRU"/>
                             <constraint firstItem="Khj-kA-wqC" firstAttribute="top" secondItem="iWd-Uz-WTd" secondAttribute="bottom" constant="6" id="acQ-vt-aq2"/>
                             <constraint firstItem="iWd-Uz-WTd" firstAttribute="centerX" secondItem="SFw-fh-AJX" secondAttribute="centerX" id="d6J-Fp-zo7"/>
                             <constraint firstItem="Knj-Cw-eD1" firstAttribute="top" secondItem="SFw-fh-AJX" secondAttribute="top" constant="16" id="dZM-Oc-7je"/>
                             <constraint firstItem="Khj-kA-wqC" firstAttribute="leading" secondItem="SFw-fh-AJX" secondAttribute="leading" constant="8" id="ebT-gD-1rx"/>
                             <constraint firstAttribute="trailing" secondItem="Khj-kA-wqC" secondAttribute="trailing" constant="8" id="fWv-ev-bix"/>
+                            <constraint firstAttribute="trailing" secondItem="9bo-sU-3hu" secondAttribute="trailing" constant="15" id="hco-vz-dFW"/>
                             <constraint firstItem="Khj-kA-wqC" firstAttribute="top" secondItem="iWd-Uz-WTd" secondAttribute="bottom" constant="6" id="rNf-Qa-tuQ"/>
                             <constraint firstItem="iWd-Uz-WTd" firstAttribute="top" secondItem="Knj-Cw-eD1" secondAttribute="bottom" constant="6" id="ssj-Vx-JVQ"/>
                             <constraint firstAttribute="bottom" secondItem="Khj-kA-wqC" secondAttribute="bottom" constant="8" id="vnb-l4-aaV"/>
@@ -83,4 +96,7 @@
             <point key="canvasLocation" x="232.60869565217394" y="146.98660714285714"/>
         </collectionViewCell>
     </objects>
+    <resources>
+        <image name="EditIcon" width="512" height="512"/>
+    </resources>
 </document>

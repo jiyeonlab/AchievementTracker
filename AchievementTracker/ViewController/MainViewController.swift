@@ -231,6 +231,7 @@ class MainViewController: UIViewController {
     /// 메모입력 화면에서 done 버튼을 누르면 받는 노티피케이션을 받아 해당 핸들러를 수행하는 메소드
     @objc func moveMemoCell(_ noti: Notification){
         centerToMemoCellHandler?()
+        mainCalendar.reloadData()
     }
     
     /// 앱이 background에서  foreground로 이동 시, 오늘 날짜가 바뀌었을 수도 있기 때문에 캘린더를 reload 해주기 위한 메소드
@@ -400,6 +401,8 @@ extension MainViewController: UICollectionViewDataSource {
                 return UICollectionViewCell()
             }
             
+            cell.editDelegate = self
+            
             // 캘린더에서 어떤 날짜를 누르면, memocell이 subview의 중간으로 오도록 하는 핸들러
             centerToMemoCellHandler = {
                 self.subView.scrollToItem(at: indexPath, at: .centeredHorizontally, animated: true)
@@ -509,5 +512,23 @@ extension MainViewController: UIPickerViewDataSource, UIPickerViewDelegate {
         }else{
             selectedMonthIndex = row
         }
+    }
+}
+
+// MemoCell에서 edit 버튼을 누르면 클릭한 날짜를 기준으로 Modal을 열기 위함.
+extension MainViewController: UserWantEditDelegate {
+    func showInputModal(from date: Date) {
+        print("MainVC에서 delegate 받음")
+        
+        // 성취도 입력 화면인 ModalView를 present 하기.
+        guard let modalVC = self.storyboard?.instantiateViewController(withIdentifier: "InputVC") as? UINavigationController else {
+            return
+        }
+        
+        guard let checkVC = modalVC.topViewController as? CheckAchievementViewController else {
+            return
+        }
+        checkVC.showingDate = date
+        present(modalVC, animated: true, completion: nil)
     }
 }

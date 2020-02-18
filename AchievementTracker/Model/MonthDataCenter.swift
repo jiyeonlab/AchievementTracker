@@ -42,8 +42,8 @@ class MonthDataCenter {
             let aCount = thisMonth.filter("achievement == %@", "A").count
             let bCount = thisMonth.filter("achievement == %@", "B").count
             let cCount = thisMonth.filter("achievement == %@", "C").count
-            let dCount = thisMonth.filter("achievement == %@", "E").count
-            let eCount = thisMonth.filter("achievement == %@", "D").count
+            let dCount = thisMonth.filter("achievement == %@", "D").count
+            let eCount = thisMonth.filter("achievement == %@", "E").count
             
             achievementCount.append(eCount)
             achievementCount.append(dCount)

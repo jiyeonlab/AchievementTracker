@@ -472,6 +472,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
+				MARKETING_VERSION = 1.2;
 				PRODUCT_BUNDLE_IDENTIFIER = com.jiyeonlab.AchievementTracker;
 				PRODUCT_NAME = "오늘의 성취도";
 				SWIFT_VERSION = 5.0;
@@ -491,6 +492,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
+				MARKETING_VERSION = 1.2;
 				PRODUCT_BUNDLE_IDENTIFIER = com.jiyeonlab.AchievementTracker;
 				PRODUCT_NAME = "오늘의 성취도";
 				SWIFT_VERSION = 5.0;

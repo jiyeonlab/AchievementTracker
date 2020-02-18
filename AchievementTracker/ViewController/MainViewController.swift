@@ -136,16 +136,13 @@ class MainViewController: UIViewController {
         
         guard let data = dayInfo else { return }
         
-        // 현재 보여지는 캘린더의 year, month, day를 db에서 검색해서, 해당 날짜의 데이터가 있는지 없는지 찾아냄.
-        let thisDay = data.filter("year == %@", TodayDateCenter.shared.year).filter("month == %@", TodayDateCenter.shared.month).filter("day == %@", TodayDateCenter.shared.day)
-        
         MonthDataCenter.shared.calculateData(currentPage: mainCalendar.currentPage)
         
         // subview의 월간 기록 그래프를 새로 그려달라는 노티피케이션 보냄.
         NotificationCenter.default.post(name: ReloadGraphViewNotification, object: nil)
         
         // Realm의 변화를 실시간으로 받는 곳.
-        notificationToken = thisDay.observe({ (changes: RealmCollectionChange) in
+        notificationToken = data.observe({ (changes: RealmCollectionChange) in
             
             switch changes {
             case .error(let error):
@@ -156,12 +153,12 @@ class MainViewController: UIViewController {
             case .update(_, let deletions, let insertions, let modifications):
                 print("noti update \(deletions) \(insertions) \(modifications)")
                 
-                guard let todayCell = self.mainCalendar.cell(for: TodayDateCenter.shared.today, at: .current) else { return }
-                
-                // 데이터를 수정할 수 있는 '오늘'에 해당하는 cell만 reload 하도록!
-                if let index = self.mainCalendar.collectionView.indexPath(for: todayCell){
-                    self.mainCalendar.collectionView.reloadItems(at: [index])
-                }
+//                guard let todayCell = self.mainCalendar.cell(for: TodayDateCenter.shared.today, at: .current) else { return }
+//
+//                // 데이터를 수정할 수 있는 '오늘'에 해당하는 cell만 reload 하도록!
+//                if let index = self.mainCalendar.collectionView.indexPath(for: todayCell){
+//                    self.mainCalendar.collectionView.reloadItems(at: [index])
+//                }
                 
                 // '오늘' 데이터 수정에 따라 월간 기록 데이터를 다시 계산하고, 그래프를 다시 그려줌.
                 MonthDataCenter.shared.calculateData(currentPage: self.mainCalendar.currentPage)

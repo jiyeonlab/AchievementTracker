@@ -23,9 +23,8 @@ class MemoCollectionViewCell: UICollectionViewCell {
     var dayInfo: Results<DayInfo>?
     var realm: Realm?
     
-//    var clickedDay = [Int]()
     var userClickDate: Date?
-    var editDelegate: UserWantEditDelegate?
+    var addNewAchievementDelegate: UserAddNewAchievementDelegate?
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -85,7 +84,6 @@ class MemoCollectionViewCell: UICollectionViewCell {
         
         // 메모 cell의 title
         cellTitle.text = "\(year).\(month).\(day) 기록"
-//        clickedDay += [year, month, day]
         userClickDate = clickDate
         
         if clickDay.count != 0 {    // clickDay는 초기 실행 시는 today이고, 특정 날짜 선택 시 호출될 때는 특정 날짜 date임.
@@ -124,11 +122,6 @@ class MemoCollectionViewCell: UICollectionViewCell {
     @IBAction func addNewMemo(_ sender: UIButton) {
 
         guard let clickDateInfo = userClickDate else { return }
-        editDelegate?.showInputModal(from: clickDateInfo)
+        addNewAchievementDelegate?.showInputModal(from: clickDateInfo)
     }
-}
-
-// MemoCell에서 MainVC로 성취도 입력 화면 모달을 열어달라고 요청하기 위해 추가한 프로토콜
-protocol UserWantEditDelegate {
-    func showInputModal(from date: Date)
 }

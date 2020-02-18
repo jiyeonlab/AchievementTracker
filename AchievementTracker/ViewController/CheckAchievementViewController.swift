@@ -40,14 +40,11 @@ class CheckAchievementViewController: UIViewController {
     /// MainVC로 부터 받은 Memocell에 선택되어있는 날짜
     var showingDate: Date?
     
-    /// + 버튼을 통해 온건지, 메모셀의 edit 버튼을 통해 온건지 구분하기 위함
-    var isToday = false
-    
     // MARK: - View Life Cycle Method
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        configDate()
+        configDateLabel()
         
         // 성취도를 선택하기 전에는 done 버튼 비활성화해둠.
         doneButton.isEnabled = false
@@ -113,31 +110,15 @@ class CheckAchievementViewController: UIViewController {
     
     // MARK: - Method
     
-    func configDate() {
+    func configDateLabel() {
 
         let dateFormatter = DateFormatter()
         dateFormatter.dateStyle = .medium
         dateFormatter.locale = Locale(identifier: "ko_KR")
         
-        // MainVC에서 present로 이 Modal 뷰를 띄웠을 때와 스토리보드에서 segue로 연결되어서 왔을 때랑 구분
-        if showingDate != nil {
-            print("선택한 날짜를 보여줘야함")
-            guard let userClickDate = showingDate else { return }
-            let dateString = dateFormatter.string(from: userClickDate)
-            todayDateLabel.text = dateString
-            
-            isToday = false
-        }else{
-            print("segue로 왔기 때문에 오늘 날짜 보여줘야함")
-
-            // 오늘 날짜를 label에 입력.
-            let now = Date()
-            let dateString = dateFormatter.string(from: now)
-            todayDateLabel.text = dateString
-            
-            isToday = true
-        }
-        
+        guard let userClickDate = showingDate else { return }
+        let dateString = dateFormatter.string(from: userClickDate)
+        todayDateLabel.text = dateString
     }
     
     /// 성취도 중 하나를 선택하면, 아래 done 버튼을 활성화하는 메소드
@@ -168,88 +149,67 @@ class CheckAchievementViewController: UIViewController {
     func configMessage() {
         guard let data = dayInfo else { return }
         
-        if isToday {
-            // 오늘 데이터가 있는지 확인
-            let today = data.filter("year == %@", TodayDateCenter.shared.year).filter("month == %@", TodayDateCenter.shared.month).filter("day == %@", TodayDateCenter.shared.day)
-            
-            // 오늘 데이터가 있으면
-            if today.count != 0 {
-                messageLabel.text = "오늘의 성취도를 수정해보세요!"
-               
-                // 기존에 선택한 성취도 값을 셋팅해두기 위함.
-                guard let achievement = today.first?.achievement else { return }
-                switch achievement {
-                case "A":
-                    configSelectEffect(what: achievementA)
-                    userAchievement = Achievement.A
-                case "B":
-                    configSelectEffect(what: achievementB)
-                    userAchievement = Achievement.B
-                case "C":
-                    configSelectEffect(what: achievementC)
-                    userAchievement = Achievement.C
-                case "D":
-                    configSelectEffect(what: achievementD)
-                    userAchievement = Achievement.D
-                case "E":
-                    configSelectEffect(what: achievementE)
-                    userAchievement = Achievement.E
-                default:
-                    return
-                }
-                
-                configDoneButton()
-            }else{
-                messageLabel.text = "오늘의 성취도를 입력해보세요!"
-                
-                // 성취도를 선택한 적이 없다면, 각 성취도 버튼에 % label을 띄워줌.
-                achievementLabel.forEach { label in
-                    label.textColor = UIColor.viewBackgroundColor(.inputView)
-                }
-            }
-        }else{
-            guard let userClickDate = showingDate else {
-                return
-            }
-            let dateInfo = DateComponentConverter.shared.convertDate(from: userClickDate)
-            let clickDate = data.filter("year == %@", dateInfo[0]).filter("month == %@", dateInfo[1]).filter("day == %@", dateInfo[2])
-            
-            if clickDate.count != 0 {
-                messageLabel.text = "선택한 날의 성취도를 수정해보세요!"
-                
-                // 기존에 선택한 성취도 값을 셋팅해두기 위함.
-                guard let achievement = clickDate.first?.achievement else { return }
-                switch achievement {
-                case "A":
-                    configSelectEffect(what: achievementA)
-                    userAchievement = Achievement.A
-                case "B":
-                    configSelectEffect(what: achievementB)
-                    userAchievement = Achievement.B
-                case "C":
-                    configSelectEffect(what: achievementC)
-                    userAchievement = Achievement.C
-                case "D":
-                    configSelectEffect(what: achievementD)
-                    userAchievement = Achievement.D
-                case "E":
-                    configSelectEffect(what: achievementE)
-                    userAchievement = Achievement.E
-                default:
-                    return
-                }
-                
-                configDoneButton()
-            }else{
-                messageLabel.text = "선택한 날의 성취도를 입력해보세요!"
-                
-                // 성취도를 선택한 적이 없다면, 각 성취도 버튼에 % label을 띄워줌.
-                achievementLabel.forEach { label in
-                    label.textColor = UIColor.viewBackgroundColor(.inputView)
-                }
-            }
+        guard let userClickDate = showingDate else { return }
+        
+        let dateInfo = DateComponentConverter.shared.convertDate(from: userClickDate)
+        let clickDate = data.filter("year == %@", dateInfo[0]).filter("month == %@", dateInfo[1]).filter("day == %@", dateInfo[2])
+        
+        // Date()자체를 비교하면, 오차가 있어서 원하는 경우대로 안됨. DateFormatter이용하여, string을 비교.
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateStyle = .short
+        let today = dateFormatter.string(from: Date())
+        let clickDay = dateFormatter.string(from: userClickDate)
+        
+        if clickDay == today && clickDate.count == 0 {
+            messageLabel.text = "오늘의 성취도를 입력하세요!"
+            configAchievementView(for: .empty, from: clickDate)
+        }else if clickDay == today && clickDate.count != 0{
+            messageLabel.text = "오늘의 성취도를 수정해보세요!"
+            configAchievementView(for: .fill, from: clickDate)
+        }else if clickDay != today && clickDate.count == 0 {
+            messageLabel.text = "선택한 날의 성취도를 입력하세요!"
+            configAchievementView(for: .empty, from: clickDate)
+        }else if clickDay != today && clickDate.count != 0 {
+            messageLabel.text = "선택한 날의 성취도를 수정해보세요!"
+            configAchievementView(for: .fill, from: clickDate)
         }
         
+    }
+    
+    /// 경우에 따른 성취도 uiview를 셋팅하기 위한 메소드
+    func configAchievementView(for state: AchievementState, from dayInfo: Results<DayInfo> ) {
+        switch state {
+        case .fill:
+            
+            // 기존에 선택한 성취도 정보를 성취도 버튼에 표시해줌.
+            guard let achievement = dayInfo.first?.achievement else { return }
+            switch achievement {
+            case "A":
+                configSelectEffect(what: achievementA)
+                userAchievement = Achievement.A
+            case "B":
+                configSelectEffect(what: achievementB)
+                userAchievement = Achievement.B
+            case "C":
+                configSelectEffect(what: achievementC)
+                userAchievement = Achievement.C
+            case "D":
+                configSelectEffect(what: achievementD)
+                userAchievement = Achievement.D
+            case "E":
+                configSelectEffect(what: achievementE)
+                userAchievement = Achievement.E
+            default:
+                return
+            }
+            
+            configDoneButton()
+        case .empty:
+            // 성취도를 선택한 적이 없다면, 각 성취도 버튼에 % label을 띄워줌.
+            achievementLabel.forEach { label in
+                label.textColor = UIColor.viewBackgroundColor(.inputView)
+            }
+        }
     }
     
     // MARK: - Segue
@@ -263,10 +223,9 @@ class CheckAchievementViewController: UIViewController {
         nextVC.inputAchievement = userAchievement
         
         if showingDate != nil {
-            nextVC.userClickDate = showingDate
+            nextVC.selectedDate = showingDate
         }else{
             return
         }
     }
-    
 }

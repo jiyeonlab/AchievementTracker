@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="15705" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="jma-Ab-05X">
-    <device id="retina5_9" orientation="portrait" appearance="light"/>
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15706"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
@@ -19,13 +19,13 @@
         <!--Main View Controller-->
         <scene sceneID="tne-QT-ifu">
             <objects>
-                <viewController id="BYZ-38-t0r" customClass="MainViewController" customModule="AchievementTracker" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="BYZ-38-t0r" customClass="MainViewController" customModule="오늘의_성취도" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="kqt-pc-XQ6" customClass="FSCalendar">
-                                <rect key="frame" x="20" y="88" width="335" height="450"/>
+                                <rect key="frame" x="20" y="88" width="374" height="450"/>
                                 <constraints>
                                     <constraint firstAttribute="height" priority="250" constant="450" id="ayf-5f-rOj"/>
                                 </constraints>
@@ -54,7 +54,7 @@
                                 </userDefinedRuntimeAttributes>
                             </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="GSO-Me-HHO">
-                                <rect key="frame" x="112.66666666666669" y="88" width="150" height="42"/>
+                                <rect key="frame" x="132" y="88" width="150" height="42"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="42" id="6C2-9a-jrJ"/>
@@ -62,7 +62,7 @@
                                 </constraints>
                             </view>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" pagingEnabled="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="teU-Cd-oQt">
-                                <rect key="frame" x="20" y="539" width="335" height="231"/>
+                                <rect key="frame" x="20" y="539" width="374" height="315"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" scrollDirection="horizontal" minimumLineSpacing="5" minimumInteritemSpacing="5" id="T0A-u5-TYe">
                                     <size key="itemSize" width="50" height="50"/>
@@ -80,7 +80,7 @@
                                         </collectionViewCellContentView>
                                     </collectionViewCell>
                                     <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" reuseIdentifier="MemoCollectionViewCell" id="mRp-fQ-8dA">
-                                        <rect key="frame" x="0.0" y="60.333333333333336" width="50" height="50"/>
+                                        <rect key="frame" x="0.0" y="66.5" width="50" height="50"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <collectionViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" id="rEA-dd-V3T">
                                             <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
@@ -106,13 +106,10 @@
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
                     <navigationItem key="navigationItem" id="Xxb-wu-TY2">
-                        <barButtonItem key="rightBarButtonItem" systemItem="add" id="9dA-Dh-tVV">
-                            <connections>
-                                <segue destination="JOV-p7-A2r" kind="show" id="rEp-Kh-ZgD"/>
-                            </connections>
-                        </barButtonItem>
+                        <barButtonItem key="rightBarButtonItem" systemItem="add" id="9dA-Dh-tVV"/>
                     </navigationItem>
                     <connections>
+                        <outlet property="achievementAddButton" destination="9dA-Dh-tVV" id="dQr-rj-6g7"/>
                         <outlet property="calendarHeight" destination="ayf-5f-rOj" id="oPq-ek-Lko"/>
                         <outlet property="datePickerTapView" destination="GSO-Me-HHO" id="2ec-Q7-dxd"/>
                         <outlet property="mainCalendar" destination="kqt-pc-XQ6" id="hgO-ku-BC6"/>
@@ -126,25 +123,25 @@
         <!--Check Achievement View Controller-->
         <scene sceneID="9LM-iK-lKo">
             <objects>
-                <viewController wantsFullScreenLayout="YES" id="1nk-gf-MdS" customClass="CheckAchievementViewController" customModule="AchievementTracker" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController wantsFullScreenLayout="YES" id="1nk-gf-MdS" customClass="CheckAchievementViewController" customModule="오늘의_성취도" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="VJn-vb-atO">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="50" translatesAutoresizingMaskIntoConstraints="NO" id="FUg-Pd-K89">
-                                <rect key="frame" x="72" y="174" width="231" height="157.33333333333337"/>
+                                <rect key="frame" x="91.5" y="174" width="231" height="157"/>
                                 <subviews>
                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="6Hn-zy-qt4">
-                                        <rect key="frame" x="0.0" y="0.0" width="231" height="59.333333333333336"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="231" height="59"/>
                                         <subviews>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="2020/01/13" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0kT-3e-MDl">
-                                                <rect key="frame" x="71.333333333333343" y="0.0" width="88.666666666666657" height="25.666666666666668"/>
+                                                <rect key="frame" x="71.5" y="0.0" width="88.5" height="25.5"/>
                                                 <fontDescription key="fontDescription" name="NanumBarunpen-Bold" family="NanumBarunpen" pointSize="20"/>
                                                 <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Check your today contribution!" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="EEK-1f-wuD">
-                                                <rect key="frame" x="0.0" y="33.666666666666657" width="231" height="25.666666666666671"/>
+                                                <rect key="frame" x="0.0" y="33.5" width="231" height="25.5"/>
                                                 <fontDescription key="fontDescription" name="NanumBarunpen" family="NanumBarunpen" pointSize="20"/>
                                                 <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 <nil key="highlightedColor"/>
@@ -152,7 +149,7 @@
                                         </subviews>
                                     </stackView>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="🧑🏻‍💻" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fsN-9i-DfM">
-                                        <rect key="frame" x="93" y="109.33333333333331" width="45" height="48"/>
+                                        <rect key="frame" x="93" y="109" width="45" height="48"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="40"/>
                                         <nil key="textColor"/>
                                         <nil key="highlightedColor"/>
@@ -160,7 +157,7 @@
                                 </subviews>
                             </stackView>
                             <stackView opaque="NO" contentMode="scaleToFill" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="YRz-iH-qmG">
-                                <rect key="frame" x="34" y="411.33333333333331" width="307" height="60"/>
+                                <rect key="frame" x="53.5" y="411" width="307" height="60"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="mau-f0-Bfe">
                                         <rect key="frame" x="0.0" y="0.0" width="55" height="60"/>
@@ -172,7 +169,7 @@
                                                 <state key="normal" image="checkmark" catalog="system"/>
                                             </button>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0~20점" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wxf-QX-iFz">
-                                                <rect key="frame" x="10.333333333333336" y="21.666666666666686" width="34.666666666666664" height="16.666666666666671"/>
+                                                <rect key="frame" x="10.5" y="21.5" width="34.5" height="17"/>
                                                 <fontDescription key="fontDescription" name="NanumBarunpen" family="NanumBarunpen" pointSize="13"/>
                                                 <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 <nil key="highlightedColor"/>
@@ -200,7 +197,7 @@
                                                 <state key="normal" image="checkmark" catalog="system"/>
                                             </button>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="20~40점" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rm0-fN-wkw">
-                                                <rect key="frame" x="6.6666666666666714" y="21.666666666666686" width="41.666666666666664" height="16.666666666666671"/>
+                                                <rect key="frame" x="7" y="21.5" width="41.5" height="17"/>
                                                 <fontDescription key="fontDescription" name="NanumBarunpen" family="NanumBarunpen" pointSize="13"/>
                                                 <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 <nil key="highlightedColor"/>
@@ -228,7 +225,7 @@
                                                 <state key="normal" image="checkmark" catalog="system"/>
                                             </button>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="40~60점" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="eXQ-ch-ci8">
-                                                <rect key="frame" x="6.6666666666666572" y="21.666666666666686" width="41.666666666666664" height="16.666666666666671"/>
+                                                <rect key="frame" x="6.5" y="21.5" width="42" height="17"/>
                                                 <fontDescription key="fontDescription" name="NanumBarunpen" family="NanumBarunpen" pointSize="13"/>
                                                 <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 <nil key="highlightedColor"/>
@@ -256,7 +253,7 @@
                                                 <state key="normal" image="checkmark" catalog="system"/>
                                             </button>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="60~80점" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ty8-2w-mJm">
-                                                <rect key="frame" x="7" y="21.666666666666686" width="41" height="16.666666666666671"/>
+                                                <rect key="frame" x="7" y="21.5" width="41" height="17"/>
                                                 <fontDescription key="fontDescription" name="NanumBarunpen" family="NanumBarunpen" pointSize="13"/>
                                                 <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 <nil key="highlightedColor"/>
@@ -284,7 +281,7 @@
                                                 <state key="normal" image="checkmark" catalog="system"/>
                                             </button>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="80~100점" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="C6M-ta-F3g">
-                                                <rect key="frame" x="5" y="21.666666666666686" width="45.333333333333336" height="16.666666666666671"/>
+                                                <rect key="frame" x="5" y="21.5" width="45.5" height="17"/>
                                                 <fontDescription key="fontDescription" name="NanumBarunpen" family="NanumBarunpen" pointSize="13"/>
                                                 <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 <nil key="highlightedColor"/>
@@ -305,7 +302,7 @@
                                 </subviews>
                             </stackView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="pfg-lc-W3t">
-                                <rect key="frame" x="171.66666666666666" y="581.33333333333337" width="32" height="38"/>
+                                <rect key="frame" x="191" y="581" width="32" height="38"/>
                                 <fontDescription key="fontDescription" name="NanumBarunpen-Bold" family="NanumBarunpen" pointSize="20"/>
                                 <state key="normal" title="다음">
                                     <color key="titleColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -378,20 +375,20 @@
         <!--Write Memo View Controller-->
         <scene sceneID="FfJ-mb-CvN">
             <objects>
-                <viewController wantsFullScreenLayout="YES" id="kew-1A-1Vs" customClass="WriteMemoViewController" customModule="AchievementTracker" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController wantsFullScreenLayout="YES" id="kew-1A-1Vs" customClass="WriteMemoViewController" customModule="오늘의_성취도" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="P0A-lZ-XwD">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" textAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="tch-en-ccy">
-                                <rect key="frame" x="30" y="242.66666666666663" width="315" height="235.33333333333337"/>
+                                <rect key="frame" x="30" y="242.5" width="354" height="319.5"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <fontDescription key="fontDescription" name="NanumBarunpen" family="NanumBarunpen" pointSize="15"/>
                                 <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" enablesReturnKeyAutomatically="YES" smartDashesType="no" smartInsertDeleteType="no" smartQuotesType="no"/>
                             </textView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="더 적어보세요" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9v4-RF-WLq">
-                                <rect key="frame" x="139" y="197" width="97.333333333333314" height="25.666666666666657"/>
+                                <rect key="frame" x="158.5" y="197" width="97.5" height="25.5"/>
                                 <fontDescription key="fontDescription" name="NanumBarunpen-Bold" family="NanumBarunpen" pointSize="20"/>
                                 <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
@@ -425,7 +422,7 @@
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="jma-Ab-05X" sceneMemberID="viewController">
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="8G1-7X-xpJ">
-                        <rect key="frame" x="0.0" y="44" width="375" height="44"/>
+                        <rect key="frame" x="0.0" y="44" width="414" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <nil name="viewControllers"/>

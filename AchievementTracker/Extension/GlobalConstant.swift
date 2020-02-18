@@ -30,6 +30,12 @@ enum Achievement: String {
     case E = "E"
 }
 
+/// 해당 날짜의 성취도 정보가 있는지 없는지를 위한 enum
+enum AchievementState {
+    case fill
+    case empty
+}
+
 // 각종 상수값 셋팅
 struct Config {
     
@@ -51,6 +57,11 @@ struct Config {
         static let pickerViewHeight: CGFloat = 150
     }
     
+}
+
+// MemoCell에서 MainVC로 성취도 입력 화면 모달을 열어달라고 요청하기 위해 추가한 프로토콜
+protocol UserAddNewAchievementDelegate {
+    func showInputModal(from date: Date)
 }
 
 // 어떤 날짜를 선택하면, memocell로 notification 보내기 위해 추가

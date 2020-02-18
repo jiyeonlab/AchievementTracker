@@ -16,7 +16,6 @@ class DataCollectionViewCell: UICollectionViewCell {
     
     override func awakeFromNib() {
         super.awakeFromNib()
-        // Initialization code
         
         // cell의 bgcolor
         dataView.backgroundColor = UIColor.viewBackgroundColor(.subView)

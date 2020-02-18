@@ -25,6 +25,9 @@ class MainViewController: UIViewController {
     /// 캘린더의 높이를 비율로 정해주기 위해 추가한 constraint outlet.
     @IBOutlet weak var calendarHeight: NSLayoutConstraint!
     
+    /// 오른쪽 상단의 + 버튼
+    @IBOutlet weak var achievementAddButton: UIBarButtonItem!
+
     // MARK: - Variable
     /// DayInfo 데이터 변수
     var dayInfo: Results<DayInfo>?
@@ -92,6 +95,10 @@ class MainViewController: UIViewController {
         
         // 앱이 foreground로 올라오면, 캘린더를 reload 하기 위한 옵저버 등록
         NotificationCenter.default.addObserver(self, selector: #selector(refreshCalendar(_:)), name: RefreshCalendarNotification, object: nil)
+        
+        // barbutton의 target-action 관계 연결
+        achievementAddButton.target = self
+        achievementAddButton.action = #selector(clickAddButton(_:))
     }
     
     /// 캘린더의 각종 초기 셋팅을 위한 메소드
@@ -152,15 +159,8 @@ class MainViewController: UIViewController {
                 print("noti init")
             case .update(_, let deletions, let insertions, let modifications):
                 print("noti update \(deletions) \(insertions) \(modifications)")
-                
-//                guard let todayCell = self.mainCalendar.cell(for: TodayDateCenter.shared.today, at: .current) else { return }
-//
-//                // 데이터를 수정할 수 있는 '오늘'에 해당하는 cell만 reload 하도록!
-//                if let index = self.mainCalendar.collectionView.indexPath(for: todayCell){
-//                    self.mainCalendar.collectionView.reloadItems(at: [index])
-//                }
-                
-                // '오늘' 데이터 수정에 따라 월간 기록 데이터를 다시 계산하고, 그래프를 다시 그려줌.
+
+                // 데이터 수정에 따라 월간 기록 데이터를 다시 계산하고, 그래프를 다시 그려줌.
                 MonthDataCenter.shared.calculateData(currentPage: self.mainCalendar.currentPage)
                 NotificationCenter.default.post(name: ReloadGraphViewNotification, object: nil)
             }
@@ -170,6 +170,11 @@ class MainViewController: UIViewController {
     deinit {
         // Realm을 실시간으로 구독하는 notificationToken을 해제해줌.
         notificationToken?.invalidate()
+    }
+    
+    /// 오른쪽 상단의 + 버튼을 누르면 실행되는 메소드
+    @objc func clickAddButton(_ sender: UIBarButtonItem) {
+        showInputModal(from: Date())
     }
     
     /// 캘린더의 title 부분을 tap하면 datepicker를 띄우는 메소드
@@ -233,7 +238,6 @@ class MainViewController: UIViewController {
     
     /// 앱이 background에서  foreground로 이동 시, 오늘 날짜가 바뀌었을 수도 있기 때문에 캘린더를 reload 해주기 위한 메소드
     @objc func refreshCalendar(_ noti: Notification) {
-        
         // today가 바뀌었을 수도 있어서, 한번 업데이트 해줌.
         TodayDateCenter.shared.updateToday()
         mainCalendar.reloadData()
@@ -398,7 +402,7 @@ extension MainViewController: UICollectionViewDataSource {
                 return UICollectionViewCell()
             }
             
-            cell.editDelegate = self
+            cell.addNewAchievementDelegate = self
             
             // 캘린더에서 어떤 날짜를 누르면, memocell이 subview의 중간으로 오도록 하는 핸들러
             centerToMemoCellHandler = {
@@ -512,10 +516,9 @@ extension MainViewController: UIPickerViewDataSource, UIPickerViewDelegate {
     }
 }
 
-// MemoCell에서 edit 버튼을 누르면 클릭한 날짜를 기준으로 Modal을 열기 위함.
-extension MainViewController: UserWantEditDelegate {
+extension MainViewController: UserAddNewAchievementDelegate {
+    
     func showInputModal(from date: Date) {
-        print("MainVC에서 delegate 받음")
         
         // 성취도 입력 화면인 ModalView를 present 하기.
         guard let modalVC = self.storyboard?.instantiateViewController(withIdentifier: "InputVC") as? UINavigationController else {

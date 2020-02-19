@@ -29,15 +29,7 @@ class MainViewController: UIViewController {
     @IBOutlet weak var achievementAddButton: UIBarButtonItem!
 
     // MARK: - Variable
-    /// DayInfo 데이터 변수
-    var dayInfo: Results<DayInfo>?
-    
-    /// Realm 변수
-    var realm: Realm?
-    
-    /// realm의 변화를 실시간으로 알아내기 위한 Notification Token
-    var notificationToken: NotificationToken?
-    
+        
     /// 사용자가 캘린더에서 어떤 날짜를 누르면,  메모 cell을 subview의 중간으로 옮기기 위한 핸들러.
     var centerToMemoCellHandler: (() -> Void)?
     
@@ -70,13 +62,8 @@ class MainViewController: UIViewController {
         
         configNavigationBar(vcType: .mainView)
         configCalendar()
-        
-        // realm에서 DayInfo 객체를 가져옴
-        realm = try? Realm()
-        dayInfo = realm?.objects(DayInfo.self)
-        print("realm 경로 = \(Realm.Configuration.defaultConfiguration.fileURL!)")
-        
-        receiveRealmNotification()
+                
+        DataManager.shared.receiveRealmNotification(what: mainCalendar.currentPage)
         
         // 화면 하단에 subView를 추가하기 위해 collectionview 추가.
         subView.dataSource = self
@@ -114,10 +101,10 @@ class MainViewController: UIViewController {
         mainCalendar.appearance.borderRadius = Config.Appearance.dayBorderRadius
         
         // Month 폰트 설정
-        mainCalendar.appearance.headerTitleFont = UIFont(name: "NanumBarunpen", size: Config.FontSize.monthFontSize)
+        mainCalendar.appearance.headerTitleFont = UIFont(name: Config.Font.normal, size: Config.FontSize.month)
         
         // day 폰트 설정
-        mainCalendar.appearance.titleFont = UIFont(name: "NanumBarunpen-Bold", size: Config.FontSize.dayFontSize)
+        mainCalendar.appearance.titleFont = UIFont(name: Config.Font.bold, size: Config.FontSize.day)
         
         // 캘린더에 이번달 날짜만 표시하기 위함
         mainCalendar.placeholderType = .none
@@ -131,45 +118,11 @@ class MainViewController: UIViewController {
         // 요일 text 색 바꾸기
         for weekday in mainCalendar.calendarWeekdayView.weekdayLabels {
             weekday.textColor = UIColor.fontColor(.weekday)
-            weekday.font = UIFont(name: "NanumBarunpen-Bold", size: Config.FontSize.weekdayFontSize)
+            weekday.font = UIFont(name: Config.Font.bold, size: Config.FontSize.weekday)
         }
         
         // 오늘 날짜의 titlecolor
         mainCalendar.appearance.titleTodayColor = UIColor.fontColor(.today)
-    }
-    
-    /// Realm 의 Notification을 받아, DB의 변화에 따른 일을 처리하는 메소드
-    func receiveRealmNotification() {
-        
-        guard let data = dayInfo else { return }
-        
-        MonthDataCenter.shared.calculateData(currentPage: mainCalendar.currentPage)
-        
-        // subview의 월간 기록 그래프를 새로 그려달라는 노티피케이션 보냄.
-        NotificationCenter.default.post(name: ReloadGraphViewNotification, object: nil)
-        
-        // Realm의 변화를 실시간으로 받는 곳.
-        notificationToken = data.observe({ (changes: RealmCollectionChange) in
-            
-            switch changes {
-            case .error(let error):
-                print("noti error \(error)")
-                self.showErrorAlert()
-            case .initial:
-                print("noti init")
-            case .update(_, let deletions, let insertions, let modifications):
-                print("noti update \(deletions) \(insertions) \(modifications)")
-
-                // 데이터 수정에 따라 월간 기록 데이터를 다시 계산하고, 그래프를 다시 그려줌.
-                MonthDataCenter.shared.calculateData(currentPage: self.mainCalendar.currentPage)
-                NotificationCenter.default.post(name: ReloadGraphViewNotification, object: nil)
-            }
-        })
-    }
-    
-    deinit {
-        // Realm을 실시간으로 구독하는 notificationToken을 해제해줌.
-        notificationToken?.invalidate()
     }
     
     /// 오른쪽 상단의 + 버튼을 누르면 실행되는 메소드
@@ -257,8 +210,7 @@ extension MainViewController: FSCalendarDataSource {
         dateFormatter.dateFormat = "dd"
         let day = dateFormatter.string(from: date)
         
-        guard let data = dayInfo else { return "" }
-        let thisDay = data.filter("year == %@", TodayDateCenter.shared.year).filter("month == %@", TodayDateCenter.shared.month).filter("day == %@", TodayDateCenter.shared.day)
+        guard let thisDay = DataManager.shared.filterObject(what: TodayDateCenter.shared.today) else { return day }
         
         // 오늘 날짜에는 날짜 대신 "Today" 가 찍히도록 함.
         if TodayDateCenter.shared.year == cellDay[0] && TodayDateCenter.shared.month == cellDay[1] && TodayDateCenter.shared.day == cellDay[2]{
@@ -318,12 +270,8 @@ extension MainViewController: FSCalendarDelegateAppearance {
     // 기본적으로 채우는 색. 즉, 여기서 DB와 날짜 매칭해서 해당 날짜에 맞는 각 컬러를 입혀줘야함. (이건 캘린더의 날짜 수만큼 수행됨.). calendarCurrentPageDidChange호출 후, 여기로 옴.
     func calendar(_ calendar: FSCalendar, appearance: FSCalendarAppearance, fillDefaultColorFor date: Date) -> UIColor? {
         
-        guard let data = dayInfo else { return UIColor.clear }
-        
-        let convertDate = DateComponentConverter.shared.convertDate(from: date)
-        
         // 현재 보여지는 캘린더의 year, month, day를 db에서 검색해서, 해당 날짜의 데이터가 있는지 없는지 찾아냄.
-        let thisDay = data.filter("year == %@", convertDate[0]).filter("month == %@", convertDate[1]).filter("day == %@", convertDate[2])
+        guard let thisDay = DataManager.shared.filterObject(what: date) else { return UIColor.clear}
         
         // 성취도를 입력한 적이 있는 날이라면, 각 성취도 색으로 날짜 칸을 채워줌.
         if thisDay.first != nil {
@@ -503,7 +451,7 @@ extension MainViewController: UIPickerViewDataSource, UIPickerViewDelegate {
     
     // PickerView의 row 높이 설정.
     func pickerView(_ pickerView: UIPickerView, rowHeightForComponent component: Int) -> CGFloat {
-        return 40.0
+        return Config.AspectRatio.pickerRowHeight
     }
     
     // 사용자가 선택한 row 값을 저장.

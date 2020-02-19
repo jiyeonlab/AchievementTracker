@@ -20,44 +20,29 @@ class MemoCollectionViewCell: UICollectionViewCell {
     @IBOutlet weak var sectionLine: UIView!
     @IBOutlet weak var sectionLineWidth: NSLayoutConstraint!
     
-    var dayInfo: Results<DayInfo>?
-    var realm: Realm?
-    
     var userClickDate: Date?
     var addNewAchievementDelegate: UserAddNewAchievementDelegate?
     
     override func awakeFromNib() {
         super.awakeFromNib()
         
-        // cell의 bgcolor
-        memoView.backgroundColor = UIColor.viewBackgroundColor(.subView)
-        
-        // cell의 모양 잡아주기
-        memoView.layer.cornerRadius = 15
-        memoView.layer.borderColor = UIColor.borderColor().cgColor
-        memoView.layer.borderWidth = 2
-        memoView.layer.masksToBounds = true
+        configApperance(at: memoView)
         
         // cell의 title 설정
         cellTitle.text = TodayDateCenter.shared.year.description + "." + TodayDateCenter.shared.month.description + "." + TodayDateCenter.shared.day.description + " 기록"
-        
-        // db 검색을 위한 realm 객체
-        realm = try? Realm()
-        dayInfo = realm?.objects(DayInfo.self)
         
         // 메모 내용을 보여주는 textview 설정
         memoContent.textColor = UIColor.lightGray
         memoContent.backgroundColor = .clear
         
         // 초기 로드 시, 오늘 날짜의 메모를 보여주기.
-        let today = Date()
-        configMemoView(today)
+        configMemoView(Date())
         
         // 사용자가 캘린더에서 어떤 날짜를 선택하는 것을 추적할 옵저버 등록
         NotificationCenter.default.addObserver(self, selector: #selector(configMemoView(_:)), name: UserClickSomeDayNotification, object: nil)
         
         // section line 설정
-        sectionLineWidth.constant = memoContent.bounds.width / 1.5
+        sectionLineWidth.constant = memoContent.bounds.width / Config.AspectRatio.sectionLine
     }
     
     /// 사용자가 캘린더에서 어떤 날짜를 선택하면 memoview의 title 설정을 해주는 메소드
@@ -72,20 +57,20 @@ class MemoCollectionViewCell: UICollectionViewCell {
             clickDate = today
         }
         
-        // db에서 해당 날짜의 메모를 찾아서 memocontent textview에 보여주기
-        guard let data = dayInfo else { return }
-        
         // 현재 보여지는 캘린더의 year, month, day를 db에서 검색해서, 해당 날짜의 데이터가 있는지 없는지 찾아냄.
         let clickDayComponent = Calendar.current.dateComponents([.year, .month, .day], from: clickDate)
         guard let year = clickDayComponent.year else { return }
         guard let month = clickDayComponent.month else { return }
         guard let day = clickDayComponent.day else { return }
-        let clickDay = data.filter("year == %@", year).filter("month == %@", month).filter("day == %@", day)
         
         // 메모 cell의 title
         cellTitle.text = "\(year).\(month).\(day) 기록"
         userClickDate = clickDate
+
+        guard let clickDay = DataManager.shared.filterObject(what: clickDate) else { return }
         
+        
+        // db에서 해당 날짜의 메모를 찾아서 memocontent textview에 보여주기
         if clickDay.count != 0 {    // clickDay는 초기 실행 시는 today이고, 특정 날짜 선택 시 호출될 때는 특정 날짜 date임.
             guard let clickDayInfo = clickDay.first else { return }
             

@@ -328,11 +328,6 @@
                         <barButtonItem key="rightBarButtonItem" title="X" id="Ymk-MM-JYA"/>
                     </navigationItem>
                     <connections>
-                        <outlet property="achievementA" destination="ygG-Ql-5g2" id="1nj-E5-Rg5"/>
-                        <outlet property="achievementB" destination="17Q-PX-wJc" id="mYb-Og-wqD"/>
-                        <outlet property="achievementC" destination="nGq-88-nzp" id="vye-cb-veJ"/>
-                        <outlet property="achievementD" destination="SZ2-GB-afl" id="tSO-Bz-cS1"/>
-                        <outlet property="achievementE" destination="mau-f0-Bfe" id="NaL-xg-Moe"/>
                         <outlet property="doneButton" destination="pfg-lc-W3t" id="GDC-rE-4tg"/>
                         <outlet property="messageLabel" destination="EEK-1f-wuD" id="qfC-Im-Iah"/>
                         <outlet property="todayDateLabel" destination="0kT-3e-MDl" id="sEr-Jc-KVM"/>
@@ -341,6 +336,11 @@
                         <outletCollection property="achievementLabel" destination="eXQ-ch-ci8" collectionClass="NSMutableArray" id="0Mw-lk-dPz"/>
                         <outletCollection property="achievementLabel" destination="ty8-2w-mJm" collectionClass="NSMutableArray" id="tpJ-sV-3oy"/>
                         <outletCollection property="achievementLabel" destination="C6M-ta-F3g" collectionClass="NSMutableArray" id="MrK-gl-Own"/>
+                        <outletCollection property="achievementView" destination="mau-f0-Bfe" collectionClass="NSMutableArray" id="rmL-6C-DeM"/>
+                        <outletCollection property="achievementView" destination="SZ2-GB-afl" collectionClass="NSMutableArray" id="fbB-qc-FIu"/>
+                        <outletCollection property="achievementView" destination="nGq-88-nzp" collectionClass="NSMutableArray" id="fjp-UZ-Hor"/>
+                        <outletCollection property="achievementView" destination="17Q-PX-wJc" collectionClass="NSMutableArray" id="80C-LJ-Xkw"/>
+                        <outletCollection property="achievementView" destination="ygG-Ql-5g2" collectionClass="NSMutableArray" id="itB-qn-mCI"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="uf7-km-Jgj" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>

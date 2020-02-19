@@ -141,27 +141,15 @@ private struct Constants {
         //top line
         linePath.move(to: CGPoint(x: margin, y: topBorder))
         linePath.addLine(to: CGPoint(x: width - margin, y: topBorder))
-        // line 오른쪽에 "30" 추가
-//        let topLabel = configLabel(position: CGPoint(x: labelXpos, y: topBorder - 10.0))
-//        topLabel.text = "\(MonthDataCenter.shared.allDayCount)일"
-//        self.addSubview(topLabel)
         
         //center line
         let centerValue = graphHeight/2 + topBorder
         linePath.move(to: CGPoint(x: margin, y: graphHeight/2 + topBorder))
         linePath.addLine(to: CGPoint(x: width - margin, y: graphHeight/2 + topBorder))
-        // line 오른쪽에 "15" 추가
-//        let centerLabel = configLabel(position: CGPoint(x: labelXpos, y: graphHeight/2 + topBorder - 10.0))
-//        centerLabel.text = "15일"
-//        self.addSubview(centerLabel)
   
         //bottom line
         linePath.move(to: CGPoint(x: margin, y:height - bottomBorder))
         linePath.addLine(to: CGPoint(x:  width - margin, y: height - bottomBorder))
-        // line 오른쪽에 "0" 추가
-//        let bottomLabel = configLabel(position: CGPoint(x: labelXpos, y: height - bottomBorder - 10.0))
-//        bottomLabel.text = "0일"
-//        self.addSubview(bottomLabel)
         
         var color = UIColor(white: 1.0, alpha: Constants.colorAlpha)
         color.setStroke()
@@ -216,9 +204,9 @@ private struct Constants {
     func configLabel(position origin: CGPoint) -> UILabel {
         let labelOrigin = CGPoint(x: origin.x, y: origin.y)
         
-        let label = UILabel(frame: CGRect(origin: labelOrigin, size: CGSize(width: Constants.margin, height: 20.0)))
+        let label = UILabel(frame: CGRect(origin: labelOrigin, size: CGSize(width: Constants.margin, height: Config.Appearance.graphLabelHeight)))
         label.textColor = UIColor(white: 1.0, alpha: Constants.colorAlpha)
-        label.font = UIFont(name: "NanumBarunpen", size: 10.0)
+        label.font = UIFont(name: Config.Font.normal, size: Config.FontSize.graphLabel)
         label.textAlignment = .center
         
         return label

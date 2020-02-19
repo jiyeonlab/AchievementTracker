@@ -18,18 +18,10 @@ class CheckAchievementViewController: UIViewController {
     @IBOutlet weak var todayDateLabel: UILabel!
     @IBOutlet weak var messageLabel: UILabel!
     @IBOutlet weak var doneButton: UIButton!
-    
-    @IBOutlet weak var achievementE: UIView!
-    @IBOutlet weak var achievementD: UIView!
-    @IBOutlet weak var achievementC: UIView!
-    @IBOutlet weak var achievementB: UIView!
-    @IBOutlet weak var achievementA: UIView!
     @IBOutlet var achievementLabel: [UILabel]!
-    
+    @IBOutlet var achievementView: [UIView]!
+
     // MARK: - Variable
-    
-    var dayInfo: Results<DayInfo>?
-    var realm: Realm?
     
     /// 사용자가 선택한 성취도 값을 저장하고 있는 변수
     var userAchievement: Achievement?
@@ -49,21 +41,11 @@ class CheckAchievementViewController: UIViewController {
         // 성취도를 선택하기 전에는 done 버튼 비활성화해둠.
         doneButton.isEnabled = false
         
-        //realm 객체
-        realm = try? Realm()
-        dayInfo = realm?.objects(DayInfo.self)
-        
         configNavigationBar(vcType: .inputView)
         
         configMessage()
-        
-        // 성취도 칸의 모양 다듬기
-        achievementA.layer.cornerRadius = Config.Appearance.achievementRadius
-        achievementB.layer.cornerRadius = Config.Appearance.achievementRadius
-        achievementC.layer.cornerRadius = Config.Appearance.achievementRadius
-        achievementD.layer.cornerRadius = Config.Appearance.achievementRadius
-        achievementE.layer.cornerRadius = Config.Appearance.achievementRadius
 
+        configAppearance()
     }
     
     // MARK: - IBAction
@@ -73,7 +55,7 @@ class CheckAchievementViewController: UIViewController {
         userAchievement = Achievement.E
         
         configDoneButton()
-        configSelectEffect(what: achievementE)
+        configSelectEffect(what: achievementView[0])
     }
     
     /// 성취도 20~40%에 해당하는 D 버튼을 눌렀을 경우.
@@ -81,7 +63,7 @@ class CheckAchievementViewController: UIViewController {
         userAchievement = Achievement.D
         
         configDoneButton()
-        configSelectEffect(what: achievementD)
+        configSelectEffect(what: achievementView[1])
     }
     
     /// 성취도 40~60%에 해당하는 C 버튼을 눌렀을 경우.
@@ -89,7 +71,7 @@ class CheckAchievementViewController: UIViewController {
         userAchievement = Achievement.C
         
         configDoneButton()
-        configSelectEffect(what: achievementC)
+        configSelectEffect(what: achievementView[2])
     }
     
     /// 성취도 60~80%에 해당하는 B 버튼을 눌렀을 경우.
@@ -97,7 +79,7 @@ class CheckAchievementViewController: UIViewController {
         userAchievement = Achievement.B
         
         configDoneButton()
-        configSelectEffect(what: achievementB)
+        configSelectEffect(what: achievementView[3])
     }
     
     /// 성취도 80~100%에 해당하는 A 버튼을 눌렀을 경우.
@@ -105,10 +87,17 @@ class CheckAchievementViewController: UIViewController {
         userAchievement = Achievement.A
         
         configDoneButton()
-        configSelectEffect(what: achievementA)
+        configSelectEffect(what: achievementView[4])
     }
     
     // MARK: - Method
+    
+    /// 성취도 버튼의 모양 다듬기 메소드
+    func configAppearance() {
+        achievementView.forEach { view in
+            view.layer.cornerRadius = Config.Appearance.achievementRadius
+        }
+    }
     
     func configDateLabel() {
 
@@ -147,12 +136,10 @@ class CheckAchievementViewController: UIViewController {
     
     /// 오늘 데이터 입력이 처음이면 "check ~"로, 오늘 데이터를 수정하는 거면 "change ~"로 메시지를 바꾸는 메소드
     func configMessage() {
-        guard let data = dayInfo else { return }
         
         guard let userClickDate = showingDate else { return }
         
-        let dateInfo = DateComponentConverter.shared.convertDate(from: userClickDate)
-        let clickDate = data.filter("year == %@", dateInfo[0]).filter("month == %@", dateInfo[1]).filter("day == %@", dateInfo[2])
+        guard let clickDate = DataManager.shared.filterObject(what: userClickDate) else { return }
         
         // Date()자체를 비교하면, 오차가 있어서 원하는 경우대로 안됨. DateFormatter이용하여, string을 비교.
         let dateFormatter = DateFormatter()
@@ -185,19 +172,19 @@ class CheckAchievementViewController: UIViewController {
             guard let achievement = dayInfo.first?.achievement else { return }
             switch achievement {
             case "A":
-                configSelectEffect(what: achievementA)
+                configSelectEffect(what: achievementView[4])
                 userAchievement = Achievement.A
             case "B":
-                configSelectEffect(what: achievementB)
+                configSelectEffect(what: achievementView[3])
                 userAchievement = Achievement.B
             case "C":
-                configSelectEffect(what: achievementC)
+                configSelectEffect(what: achievementView[2])
                 userAchievement = Achievement.C
             case "D":
-                configSelectEffect(what: achievementD)
+                configSelectEffect(what: achievementView[1])
                 userAchievement = Achievement.D
             case "E":
-                configSelectEffect(what: achievementE)
+                configSelectEffect(what: achievementView[0])
                 userAchievement = Achievement.E
             default:
                 return

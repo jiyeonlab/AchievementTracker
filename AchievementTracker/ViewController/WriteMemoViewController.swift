@@ -20,9 +20,6 @@ class WriteMemoViewController: UIViewController {
     /// 성취도 입력 화면으로부터 사용자가 선택한 성취도 값을 받기 위한 변수
     var inputAchievement: Achievement?
     
-    var info: Results<DayInfo>?
-    var realm: Realm?
-    
     var selectedDate: Date?
     
     // MARK: - View Life Cycle Method
@@ -30,10 +27,6 @@ class WriteMemoViewController: UIViewController {
         super.viewDidLoad()
         
         memoTextView.delegate = self
-                
-        //realm 객체
-        realm = try? Realm()
-        info = realm?.objects(DayInfo.self)
         
         navigationController?.navigationBar.topItem?.title = ""
         configNavigationBar(vcType: .inputView)
@@ -55,14 +48,12 @@ class WriteMemoViewController: UIViewController {
     
     // MARK: - Method
     
+    /// 메모 내용이 들어가는 TextView에 해당 날짜의 메모 여부에 따라 초기 셋팅하는 메소드
     func configMemoContent() {
-        
-        guard let data = info else { return }
-        
+                
         guard let userClickDate = selectedDate else { return }
         
-        let dateInfo = DateComponentConverter.shared.convertDate(from: userClickDate)
-        let clickDate = data.filter("year == %@", dateInfo[0]).filter("month == %@", dateInfo[1]).filter("day == %@", dateInfo[2])
+        guard let clickDate = DataManager.shared.filterObject(what: userClickDate) else { return }
         
         if clickDate.first?.memo.count != 0 {
             memoTextView.text = clickDate.first?.memo
@@ -86,67 +77,23 @@ class WriteMemoViewController: UIViewController {
         toolBar.setItems([space, doneButton], animated: false)
         
         memoTextView.inputAccessoryView = toolBar
-        UIBarButtonItem.appearance().setTitleTextAttributes([NSAttributedString.Key.font : UIFont(name: "NanumBarunpen", size: 18.0) as Any], for: .normal)
+        UIBarButtonItem.appearance().setTitleTextAttributes([NSAttributedString.Key.font : UIFont(name: Config.Font.normal, size: Config.FontSize.doneButton) as Any], for: .normal)
     }
     
-    /// 사용자가 입력한 메모 내용을 저장하는 메소드
+    /// 사용자가 입력한 메모 내용을 저장하기위해 DataManger에게 요청하는 메소드
     @objc func saveData(_ sender: Any){
         
-        do {
-            try realm?.write {
-                
-                guard let data = info else { return }
-                
-                guard let userClickDate = selectedDate else { return }
-                
-                let dateInfo = DateComponentConverter.shared.convertDate(from: userClickDate)
-                let clickDate = data.filter("year == %@", dateInfo[0]).filter("month == %@", dateInfo[1]).filter("day == %@", dateInfo[2])
-                
-                if clickDate.first != nil {
-                    clickDate.forEach { (originValue) in
-                        
-                        originValue.year = dateInfo[0]
-                        originValue.month = dateInfo[1]
-                        originValue.day = dateInfo[2]
-                        
-                        guard let userAchievement = inputAchievement else { return }
-                        originValue.achievement = userAchievement.rawValue
-                        
-                        guard let userMemo = memoTextView.text else { return }
-                        originValue.memo = userMemo
-                    }
-                }else{
-                    realm?.add(inputToday(database: DayInfo(), year: dateInfo[0], month: dateInfo[1], day: dateInfo[2]))
-                }
-                
+        guard let userClickDate = selectedDate else { return }
+        guard let userAchievement = inputAchievement else { return }
+        guard let userMemo = memoTextView.text else { return }
+        
+        DataManager.shared.writeMemo(on: userClickDate, with: userAchievement, what: userMemo) {
+            dismiss(animated: true) {
+                // 메모 입력까지 하고나면, MemoCell을 reload해주고, 화면의 중간으로 오도록 함.
+                NotificationCenter.default.post(name: UserClickSomeDayNotification, object: userClickDate)
+                NotificationCenter.default.post(name: CenterToMemoCellNotification, object: nil)
             }
-        }catch{
-            print("save error")
-            self.showErrorAlert()
         }
-        
-        dismiss(animated: true) {
-            // 메모 입력까지 하고나면, MemoCell을 reload해주고, 화면의 중간으로 오도록 함.
-            guard let date = self.selectedDate else { return }
-            NotificationCenter.default.post(name: UserClickSomeDayNotification, object: date)
-            NotificationCenter.default.post(name: CenterToMemoCellNotification, object: nil)
-        }
-    }
-    
-    /// DayInfo 타입으로 저장할 데이터를 만들어주는 메소드
-    func inputToday(database: DayInfo, year: Int, month: Int, day: Int) -> DayInfo {
-        
-        guard let achievement = inputAchievement else { return DayInfo() }
-        
-        database.year = year
-        database.month = month
-        database.day = day
-        database.achievement = achievement.rawValue
-        
-        guard let userMemo = memoTextView.text else { return database }
-        database.memo = userMemo
-        
-        return database
     }
 }
 
@@ -159,6 +106,6 @@ extension WriteMemoViewController: UITextViewDelegate {
         
         let limitedLength = content.count + text.count - range.length
         
-        return limitedLength <= 250
+        return limitedLength <= Config.Appearance.maximumLength
     }
 }

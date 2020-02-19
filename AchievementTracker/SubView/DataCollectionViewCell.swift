@@ -17,14 +17,7 @@ class DataCollectionViewCell: UICollectionViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
         
-        // cell의 bgcolor
-        dataView.backgroundColor = UIColor.viewBackgroundColor(.subView)
-        
-        // cell의 모양 잡아주기
-        dataView.layer.cornerRadius = 15
-        dataView.layer.borderColor = UIColor.borderColor().cgColor
-        dataView.layer.borderWidth = 2
-        dataView.layer.masksToBounds = true
+        configApperance(at: dataView)
         
         // 캘린더 페이지 변화에 따라 월간 기록 그래프를 새롭게 로드하기 위한 옵저버 등록
         NotificationCenter.default.addObserver(self, selector: #selector(reloadView(_:)), name: ReloadGraphViewNotification, object: nil)

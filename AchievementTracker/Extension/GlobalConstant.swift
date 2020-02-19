@@ -43,20 +43,32 @@ struct Config {
         static let dayBorderRadius: CGFloat = 0
         static let headerAlpha: CGFloat = 0.1
         static let achievementRadius: CGFloat = 20.0
+        static let cellCornerRadius: CGFloat = 15
+        static let cellBorderWidth: CGFloat = 2
+        static let maximumLength: Int = 250
+        static let graphLabelHeight: CGFloat = 20.0
     }
     
     struct FontSize {
-        static let monthFontSize: CGFloat = 25.0
-        static let weekdayFontSize: CGFloat = 15.0
-        static let dayFontSize: CGFloat = 13.0
+        static let month: CGFloat = 25.0
+        static let weekday: CGFloat = 15.0
+        static let day: CGFloat = 13.0
+        static let doneButton: CGFloat = 18.0
+        static let graphLabel: CGFloat = 10.0
     }
     
     struct AspectRatio {
         static let cellAspectRatio: CGFloat = 1.1
         static let calendarHeightRatio: CGFloat = 1.8
         static let pickerViewHeight: CGFloat = 150
+        static let pickerRowHeight: CGFloat = 40
+        static let sectionLine: CGFloat = 1.5
     }
     
+    struct Font {
+        static let normal = "NanumBarunpen"
+        static let bold = "NanumBarunpen-Bold"
+    }
 }
 
 // MemoCell에서 MainVC로 성취도 입력 화면 모달을 열어달라고 요청하기 위해 추가한 프로토콜

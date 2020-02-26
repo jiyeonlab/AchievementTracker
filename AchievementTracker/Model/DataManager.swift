@@ -11,13 +11,13 @@ import RealmSwift
 
 class DataManager {
     static let shared = DataManager()
-    var dayInfo: Results<DayInfo>?
-    var realm: Realm?
+    private var dayInfo: Results<DayInfo>?
+    private var realm: Realm?
     
     /// realm의 변화를 실시간으로 알아내기 위한 Notification Token
-    var notificationToken: NotificationToken?
+    private var notificationToken: NotificationToken?
     
-    init() {
+    private init() {
         realm = try? Realm()
         dayInfo = realm?.objects(DayInfo.self)
         print("realm 경로 = \(Realm.Configuration.defaultConfiguration.fileURL!)")
@@ -87,7 +87,7 @@ class DataManager {
                         originValue.memo = userMemo
                     }
                 }else{
-                    realm?.add(inputToday(database: DayInfo(), year: dateInfo[0], month: dateInfo[1], day: dateInfo[2], achievement: inputAchievement, memo: userMemo))
+                    realm?.add(createDayInfo(database: DayInfo(), year: dateInfo[0], month: dateInfo[1], day: dateInfo[2], achievement: inputAchievement, memo: userMemo))
                 }
                 
             }
@@ -100,7 +100,7 @@ class DataManager {
     }
     
     /// DayInfo 타입으로 저장할 데이터를 만들어주는 메소드
-    func inputToday(database: DayInfo, year: Int, month: Int, day: Int, achievement: Achievement, memo: String) -> DayInfo {
+    private func createDayInfo(database: DayInfo, year: Int, month: Int, day: Int, achievement: Achievement, memo: String) -> DayInfo {
                 
         database.year = year
         database.month = month

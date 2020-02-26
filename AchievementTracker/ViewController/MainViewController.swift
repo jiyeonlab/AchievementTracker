@@ -20,7 +20,13 @@ class MainViewController: UIViewController {
     @IBOutlet weak var subView: UICollectionView!
     
     /// customPickerView를 띄우기 위한 탭이 적용된 UIView.
-    @IBOutlet weak var datePickerTapView: UIView!
+    @IBOutlet weak var datePickerTapView: UIView! {
+        didSet {
+            // 날짜를 선택할 수 있는 date picker를 열기 위한 tap gesture 추가
+            let tapGesture = UITapGestureRecognizer(target: self, action: #selector(self.selectDatePickerView(_:)))
+            datePickerTapView.addGestureRecognizer(tapGesture)
+        }
+    }
     
     /// 캘린더의 높이를 비율로 정해주기 위해 추가한 constraint outlet.
     @IBOutlet weak var calendarHeight: NSLayoutConstraint!
@@ -40,10 +46,26 @@ class MainViewController: UIViewController {
     var customPickerView: UIPickerView?
     
     /// Custom Picker View에 띄울 년 목록
-    var yearList = [String]()
+    lazy var yearList : [String] = {
+        // 캘린더의 minimum~maximum까지의 year를 yearList에 넣어줌.
+        var list = [String]()
+        for year in 1970...2070 {
+            list.append(String(year))
+        }
+        
+        return list
+    }()
     
     /// Custom Picker View에 띄울 월 목록
-    var monthList = [String]()
+    lazy var monthList : [String] = {
+        // month 정보를 monthList에 넣음.
+        var list = [String]()
+        for month in 1...12 {
+            list.append(String(month))
+        }
+        
+        return list
+    }()
     
     /// Custom Picker View에서 선택한 년
     var selectedYearIndex: Int = 0
@@ -70,13 +92,7 @@ class MainViewController: UIViewController {
         subView.delegate = self
         subView.decelerationRate = .fast
         configSubview()
-        
-        // 날짜를 선택할 수 있는 date picker를 열기 위한 tap gesture 추가
-        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(selectDatePickerView(_:)))
-        datePickerTapView.addGestureRecognizer(tapGesture)
-        
-        configPickerData()
-        
+                
         // 메모 입력 화면의 노티피케이션을 받기 위한 옵저버 등록
         NotificationCenter.default.addObserver(self, selector: #selector(moveMemoCell(_:)), name: CenterToMemoCellNotification, object: nil)
         
@@ -384,25 +400,6 @@ extension MainViewController: UICollectionViewDelegate, UICollectionViewDelegate
 
 // MARK: - UIPickerViewDataSource, UIPickerViewDelegate
 extension MainViewController: UIPickerViewDataSource, UIPickerViewDelegate {
-    
-    /// DatePicker에 필요한  yearlist와 monthlist를 초기화하는 메소드
-    func configPickerData() {
-        
-        // 캘린더의 minimum~maximum까지의 year를 yearList에 넣어줌.
-        var minimumYear = 1970
-        for _ in 0...99 {
-            yearList.append(String(minimumYear))
-            
-            minimumYear += 1
-        }
-        
-        // month 정보를 monthList에 넣음.
-        var minimumMonth = 1
-        for _ in 0..<12 {
-            monthList.append(String(minimumMonth))
-            minimumMonth += 1
-        }
-    }
     
     /// CustomPickerView를 생성하고, 초깃값을 설정하는 메소드
     func configPickerView() {

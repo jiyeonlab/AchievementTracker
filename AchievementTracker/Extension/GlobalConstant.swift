@@ -23,11 +23,11 @@ enum BackGroundType {
 /// 성취도 종류
 enum Achievement: String {
     // E-D-C-B-A 순으로 성취도 등급이 높아짐.
-    case A = "A"
-    case B = "B"
-    case C = "C"
-    case D = "D"
-    case E = "E"
+    case A
+    case B
+    case C
+    case D
+    case E 
 }
 
 /// 해당 날짜의 성취도 정보가 있는지 없는지를 위한 enum

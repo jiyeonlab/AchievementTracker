@@ -1,0 +1,36 @@
+
+/* Class = "UILabel"; text = "2020/01/13"; ObjectID = "0kT-3e-MDl"; */
+"0kT-3e-MDl.text" = "2020/01/13";
+
+/* Class = "UILabel"; text = "더 적어보세요"; ObjectID = "9v4-RF-WLq"; */
+"9v4-RF-WLq.text" = "더 적어보세요";
+
+/* Class = "UILabel"; text = "80~100점"; ObjectID = "C6M-ta-F3g"; */
+"C6M-ta-F3g.text" = "80~100점";
+
+/* Class = "UILabel"; text = "Check your today contribution!"; ObjectID = "EEK-1f-wuD"; */
+"EEK-1f-wuD.text" = "오늘의 성취도를 입력하세요!";
+
+/* Class = "UIBarButtonItem"; title = "X"; ObjectID = "Ymk-MM-JYA"; */
+"Ymk-MM-JYA.title" = "X";
+
+/* Class = "UILabel"; text = "40~60점"; ObjectID = "eXQ-ch-ci8"; */
+"eXQ-ch-ci8.text" = "40~60점";
+
+/* Class = "UILabel"; text = "🧑🏻‍💻"; ObjectID = "fsN-9i-DfM"; */
+"fsN-9i-DfM.text" = "🧑🏻‍💻";
+
+/* Class = "UIButton"; normalTitle = "다음"; ObjectID = "pfg-lc-W3t"; */
+"pfg-lc-W3t.normalTitle" = "다음";
+
+/* Class = "UIButton"; selectedTitle = "완료"; ObjectID = "pfg-lc-W3t"; */
+"pfg-lc-W3t.selectedTitle" = "완료";
+
+/* Class = "UILabel"; text = "20~40점"; ObjectID = "rm0-fN-wkw"; */
+"rm0-fN-wkw.text" = "20~40점";
+
+/* Class = "UILabel"; text = "60~80점"; ObjectID = "ty8-2w-mJm"; */
+"ty8-2w-mJm.text" = "60~80점";
+
+/* Class = "UILabel"; text = "0~20점"; ObjectID = "wxf-QX-iFz"; */
+"wxf-QX-iFz.text" = "0~20점";

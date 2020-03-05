@@ -1,0 +1,23 @@
+/* 
+  Localizable.strings
+  AchievementTracker
+
+  Created by JiyeonKim on 2020/03/05.
+  Copyright © 2020 jiyeonlab. All rights reserved.
+*/
+
+"message1" = "Choose your today achievement!";
+"message2" = "Fix your today achievement!";
+"message3" = "Choose your achievement!";
+"message4" = "Fix your achievement!";
+
+"cellTitle" = "Record";
+"emptyMemo" = "No note entered :(";
+"emptyDay" = "No record entered :(";
+"count" = " days";
+
+"pickerAlert" = "Choose the date you want to move";
+"goToday" = "Back to this month";
+"okMessage" = "OK";
+"year" = "";
+"month" = "";

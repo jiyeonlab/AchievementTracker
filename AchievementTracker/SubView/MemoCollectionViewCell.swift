@@ -29,7 +29,7 @@ class MemoCollectionViewCell: UICollectionViewCell {
         configApperance(at: memoView)
         
         // cell의 title 설정
-        cellTitle.text = TodayDateCenter.shared.year.description + "." + TodayDateCenter.shared.month.description + "." + TodayDateCenter.shared.day.description + " 기록"
+        cellTitle.text = TodayDateCenter.shared.year.description + "." + TodayDateCenter.shared.month.description + "." + TodayDateCenter.shared.day.description + " " + "cellTitle".localized
         
         // 메모 내용을 보여주는 textview 설정
         memoContent.textColor = UIColor.lightGray
@@ -64,7 +64,7 @@ class MemoCollectionViewCell: UICollectionViewCell {
         guard let day = clickDayComponent.day else { return }
         
         // 메모 cell의 title
-        cellTitle.text = "\(year).\(month).\(day) 기록"
+        cellTitle.text = "\(year).\(month).\(day)" + " " + "cellTitle".localized
         userClickDate = clickDate
 
         guard let clickDay = DataManager.shared.filterObject(what: clickDate) else { return }
@@ -78,7 +78,7 @@ class MemoCollectionViewCell: UICollectionViewCell {
                 memoContent.text = clickDayInfo.memo
                 
             }else if clickDayInfo.memo.lengthOfBytes(using: .unicode) == 0{
-                memoContent.text = "메모를 입력하지 않았어요"
+                memoContent.text = "emptyMemo".localized
             }
             
             // section line에 해당하는 uiview의 bgColor를 입혀줌.
@@ -97,7 +97,7 @@ class MemoCollectionViewCell: UICollectionViewCell {
                 sectionLine.backgroundColor = UIColor.clear
             }
         }else{
-            memoContent.text = "기록을 하지 않았어요"
+            memoContent.text = "emptyDay".localized
             sectionLine.backgroundColor = UIColor.viewBackgroundColor(.mainView)
         }
         

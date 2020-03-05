@@ -125,6 +125,9 @@ class MainViewController: UIViewController {
         // 캘린더에 이번달 날짜만 표시하기 위함
         mainCalendar.placeholderType = .none
         
+        // localize를 추가해도 weekday 표시가 변하지 않게 하기 위해 추가
+        mainCalendar.locale = Locale(identifier: "en-US")
+        
         // MON -> M으로 표시
         mainCalendar.appearance.caseOptions = .weekdayUsesSingleUpperCase
         
@@ -149,7 +152,7 @@ class MainViewController: UIViewController {
     /// 캘린더의 title 부분을 tap하면 datepicker를 띄우는 메소드
     @objc func selectDatePickerView(_ sender: UITapGestureRecognizer){
         
-        let alertView = UIAlertController(title: "이동하려는 날짜 선택", message: nil, preferredStyle: .actionSheet)
+        let alertView = UIAlertController(title: "pickerAlert".localized, message: nil, preferredStyle: .actionSheet)
         
         // custom으로 만든 pickerview를 actionsheet에 추가해줌.
         let datePickerView = UIViewController()
@@ -162,13 +165,13 @@ class MainViewController: UIViewController {
         alertView.setValue(datePickerView, forKey: "contentViewController")
         
         // 이번달로 돌아가는 alertAction
-        let goTodayAction = UIAlertAction(title: "이번달로 돌아가기", style: .default) { action in
+        let goTodayAction = UIAlertAction(title: "goToday".localized, style: .default) { action in
             let now = Date()
             self.mainCalendar.setCurrentPage(now, animated: true)
         }
         
         // 선택한 년, 월로 이동하기 위한 alertAction
-        let selectAction = UIAlertAction(title: "확인", style: .default) { action in
+        let selectAction = UIAlertAction(title: "okMessage".localized, style: .default) { action in
             
             // picker view에서 선택한 년, 월을 Date 타입으로 변환하기.
             let movingYear = self.yearList[self.selectedYearIndex]
@@ -439,10 +442,10 @@ extension MainViewController: UIPickerViewDataSource, UIPickerViewDelegate {
         
         // 왼쪽 component에서는 year에 해당하는 목록을 보여줌
         if component == 0 {
-            return yearList[row] + "년"
+            return yearList[row] + "year".localized
         }else{
             // 오른쪽 component에서는 month에 해당하는 목록을 보여줌
-            return monthList[row] + "월"
+            return monthList[row] + "month".localized
         }
     }
     

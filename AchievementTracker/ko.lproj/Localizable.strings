@@ -1,0 +1,23 @@
+/* 
+  Localizable.strings
+  AchievementTracker
+
+  Created by JiyeonKim on 2020/03/05.
+  Copyright © 2020 jiyeonlab. All rights reserved.
+*/
+
+"message1" = "오늘의 성취도를 선택하세요!";
+"message2" = "오늘의 성취도를 수정하세요!";
+"message3" = "선택한 날의 성취도를 선택하세요!";
+"message4" = "선택한 날의 성취도를 수정하세요!";
+
+"cellTitle" = "기록";
+"emptyMemo" = "입력된 메모가 없습니다 :(";
+"emptyDay" = "기록을 하지 않았어요 :(";
+"count" = "개";
+
+"pickerAlert" = "이동하려는 날짜 선택";
+"goToday" = "이번달로 돌아가기";
+"okMessage" = "확인";
+"year" = "년";
+"month" = "월";

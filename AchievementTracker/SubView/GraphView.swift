@@ -91,7 +91,7 @@ private struct Constants {
         
         // 그래프 아래 부분에 각 성취도 개수를 나타내는 label 추가
         let firstInfoLabel = configLabel(position: CGPoint(x: columnXPoint(0) - 15.0, y: height - bottomBorder + 3.0))
-        firstInfoLabel.text = "\(graphPoints[0])개"
+        firstInfoLabel.text = "\(graphPoints[0])" + "count".localized
         self.addSubview(firstInfoLabel)
         
         // 각 포인트를 그래프에 추가
@@ -103,13 +103,13 @@ private struct Constants {
             let infoLabel = configLabel(position: CGPoint(x: columnXPoint(i) - 15.0, y: height - bottomBorder + 3.0))
             
             if i == 1 {
-               infoLabel.text = "\(graphPoints[i])개"
+               infoLabel.text = "\(graphPoints[i])" + "count".localized
             }else if i == 2 {
-                infoLabel.text = "\(graphPoints[i])개"
+                infoLabel.text = "\(graphPoints[i])" + "count".localized
             }else if i == 3 {
-                infoLabel.text = "\(graphPoints[i])개"
+                infoLabel.text = "\(graphPoints[i])" + "count".localized
             }else if i == 4{
-                infoLabel.text = "\(graphPoints[i])개"
+                infoLabel.text = "\(graphPoints[i])" + "count".localized
             }
             self.addSubview(infoLabel)
         }

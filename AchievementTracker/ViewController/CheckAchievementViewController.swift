@@ -148,16 +148,17 @@ class CheckAchievementViewController: UIViewController {
         let clickDay = dateFormatter.string(from: userClickDate)
         
         if clickDay == today && clickDate.count == 0 {
-            messageLabel.text = "오늘의 성취도를 입력하세요!"
+//            messageLabel.text = "오늘의 성취도를 입력하세요!"
+            messageLabel.text = "message1".localized
             configAchievementView(for: .empty, from: clickDate)
         }else if clickDay == today && clickDate.count != 0{
-            messageLabel.text = "오늘의 성취도를 수정해보세요!"
+            messageLabel.text = "message2".localized
             configAchievementView(for: .fill, from: clickDate)
         }else if clickDay != today && clickDate.count == 0 {
-            messageLabel.text = "선택한 날의 성취도를 입력하세요!"
+            messageLabel.text = "message3".localized
             configAchievementView(for: .empty, from: clickDate)
         }else if clickDay != today && clickDate.count != 0 {
-            messageLabel.text = "선택한 날의 성취도를 수정해보세요!"
+            messageLabel.text = "message4".localized
             configAchievementView(for: .fill, from: clickDate)
         }
         

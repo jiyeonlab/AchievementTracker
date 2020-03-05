@@ -103,7 +103,8 @@ class CheckAchievementViewController: UIViewController {
 
         let dateFormatter = DateFormatter()
         dateFormatter.dateStyle = .medium
-        dateFormatter.locale = Locale(identifier: "ko_KR")
+//        dateFormatter.locale = Locale(identifier: "ko_KR")
+        dateFormatter.locale = Locale.current
         
         guard let userClickDate = showingDate else { return }
         let dateString = dateFormatter.string(from: userClickDate)

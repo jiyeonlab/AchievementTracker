@@ -29,7 +29,12 @@ class MemoCollectionViewCell: UICollectionViewCell {
         configApperance(at: memoView)
         
         // cell의 title 설정
-        cellTitle.text = TodayDateCenter.shared.year.description + "." + TodayDateCenter.shared.month.description + "." + TodayDateCenter.shared.day.description + " " + "cellTitle".localized
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateStyle = .medium
+        dateFormatter.locale = Locale.current
+        let dateString = dateFormatter.string(from: TodayDateCenter.shared.today)
+        cellTitle.text = dateString + " " + "cellTitle".localized
+//        cellTitle.text = TodayDateCenter.shared.year.description + "." + TodayDateCenter.shared.month.description + "." + TodayDateCenter.shared.day.description + " " + "cellTitle".localized
         
         // 메모 내용을 보여주는 textview 설정
         memoContent.textColor = UIColor.lightGray
@@ -58,13 +63,19 @@ class MemoCollectionViewCell: UICollectionViewCell {
         }
         
         // 현재 보여지는 캘린더의 year, month, day를 db에서 검색해서, 해당 날짜의 데이터가 있는지 없는지 찾아냄.
-        let clickDayComponent = Calendar.current.dateComponents([.year, .month, .day], from: clickDate)
-        guard let year = clickDayComponent.year else { return }
-        guard let month = clickDayComponent.month else { return }
-        guard let day = clickDayComponent.day else { return }
+//        let clickDayComponent = Calendar.current.dateComponents([.year, .month, .day], from: clickDate)
+//        guard let year = clickDayComponent.year else { return }
+//        guard let month = clickDayComponent.month else { return }
+//        guard let day = clickDayComponent.day else { return }
         
         // 메모 cell의 title
-        cellTitle.text = "\(year).\(month).\(day)" + " " + "cellTitle".localized
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateStyle = .medium
+        dateFormatter.locale = Locale.current
+        let dateString = dateFormatter.string(from: clickDate)
+        cellTitle.text = dateString + " " + "cellTitle".localized
+//        cellTitle.text = "\(year).\(month).\(day)" + " " + "cellTitle".localized
+        
         userClickDate = clickDate
 
         guard let clickDay = DataManager.shared.filterObject(what: clickDate) else { return }

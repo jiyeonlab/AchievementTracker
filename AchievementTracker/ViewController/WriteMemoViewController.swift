@@ -10,8 +10,8 @@ import UIKit
 import RealmSwift
 
 // 메모 입력 화면을 구성하는 클래스
-class WriteMemoViewController: UIViewController {
-    
+class WriteMemoViewController: UIViewController, MemoView {
+   
     // MARK: - IBOutlet
     /// 사용자가 메모를 입력하기 위한 textView
     @IBOutlet weak var memoTextView: UITextView!
@@ -19,12 +19,16 @@ class WriteMemoViewController: UIViewController {
     // MARK: - Variable
     /// 성취도 입력 화면으로부터 사용자가 선택한 성취도 값을 받기 위한 변수
     var inputAchievement: Achievement?
+    var inputModel: InputDataModel?
+    var presenter: WriteMemoPresenter?
     
     var selectedDate: Date?
     
     // MARK: - View Life Cycle Method
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        initialize()
         
         memoTextView.delegate = self
         
@@ -37,6 +41,17 @@ class WriteMemoViewController: UIViewController {
         
         configMemoContent()
 
+    }
+    
+    func initialize() {
+        presenter = WriteMemoPresenter(inputDataModel: inputModel!, view: self)
+        presenter?.receiveAchievement()
+    }
+    
+    func matchingValue(with value: Achievement) {
+        print("앞에서 온 성취도 값 = \(value)")
+        
+        inputAchievement = value
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -53,13 +68,11 @@ class WriteMemoViewController: UIViewController {
                 
         guard let userClickDate = selectedDate else { return }
         
-        guard let clickDate = DataManager.shared.filterObject(what: userClickDate) else { return }
-        
-        if clickDate.first?.memo.count != 0 {
-            memoTextView.text = clickDate.first?.memo
-        }else{
-            return
-        }
+        presenter?.findMemo(with: userClickDate)
+    }
+    
+    func settingMemoContent(with memo: String) {
+        memoTextView.text = memo
     }
     
     /// 키보드 상단에 UIBar를 붙이고, 오른쪽에 done 버튼을 추가. toolbar의 색상을 view의 배경색과 일치시키는 메소드.

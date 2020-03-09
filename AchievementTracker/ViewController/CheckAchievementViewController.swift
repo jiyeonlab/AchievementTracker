@@ -10,7 +10,7 @@ import UIKit
 import RealmSwift
 
 // 성취도 입력 화면을 구성하는 클래스
-class CheckAchievementViewController: UIViewController {
+class CheckAchievementViewController: UIViewController, CheckView {
     
     // MARK: - IBOutlet
     
@@ -32,9 +32,14 @@ class CheckAchievementViewController: UIViewController {
     /// MainVC로 부터 받은 Memocell에 선택되어있는 날짜
     var showingDate: Date?
     
+    let model = InputDataModel()
+    var presenter: CheckAchievementPresenter?
+    
     // MARK: - View Life Cycle Method
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        initialize()
 
         configDateLabel()
         
@@ -48,44 +53,49 @@ class CheckAchievementViewController: UIViewController {
         configAppearance()
     }
     
+    func initialize() {
+        presenter = CheckAchievementPresenter(inputDataModel: model, view: self)
+    }
+    
     // MARK: - IBAction
     
     /// 성취도 0~20%에 해당하는 E 버튼을 눌렀을 경우.
     @IBAction func clickAchievementE(_ sender: UITapGestureRecognizer) {
-        userAchievement = Achievement.E
         
+        presenter?.passByAchievement(what: .E)
+
         configDoneButton()
         configSelectEffect(what: achievementView[0])
     }
     
     /// 성취도 20~40%에 해당하는 D 버튼을 눌렀을 경우.
     @IBAction func clickAchievementD(_ sender: UITapGestureRecognizer) {
-        userAchievement = Achievement.D
-        
+        presenter?.passByAchievement(what: .D)
+
         configDoneButton()
         configSelectEffect(what: achievementView[1])
     }
     
     /// 성취도 40~60%에 해당하는 C 버튼을 눌렀을 경우.
     @IBAction func clickAchievementC(_ sender: UITapGestureRecognizer) {
-        userAchievement = Achievement.C
-        
+        presenter?.passByAchievement(what: .C)
+
         configDoneButton()
         configSelectEffect(what: achievementView[2])
     }
     
     /// 성취도 60~80%에 해당하는 B 버튼을 눌렀을 경우.
     @IBAction func clickAchievementB(_ sender: UITapGestureRecognizer) {
-        userAchievement = Achievement.B
-        
+        presenter?.passByAchievement(what: .B)
+
         configDoneButton()
         configSelectEffect(what: achievementView[3])
     }
     
     /// 성취도 80~100%에 해당하는 A 버튼을 눌렀을 경우.
     @IBAction func clickAchievementA(_ sender: UITapGestureRecognizer) {
-        userAchievement = Achievement.A
-        
+        presenter?.passByAchievement(what: .A)
+
         configDoneButton()
         configSelectEffect(what: achievementView[4])
     }
@@ -140,7 +150,12 @@ class CheckAchievementViewController: UIViewController {
         
         guard let userClickDate = showingDate else { return }
         
-        guard let clickDate = DataManager.shared.filterObject(what: userClickDate) else { return }
+        // presenter에게 해당 날짜의 데이터가 있는지 없는지 검색 요청
+        presenter?.searchDayInfo(what: userClickDate)
+    }
+    
+    func showMessage(clickDate isFilled: Bool) {
+        guard let userClickDate = showingDate else { return }
         
         // Date()자체를 비교하면, 오차가 있어서 원하는 경우대로 안됨. DateFormatter이용하여, string을 비교.
         let dateFormatter = DateFormatter()
@@ -148,56 +163,44 @@ class CheckAchievementViewController: UIViewController {
         let today = dateFormatter.string(from: Date())
         let clickDay = dateFormatter.string(from: userClickDate)
         
-        if clickDay == today && clickDate.count == 0 {
-//            messageLabel.text = "오늘의 성취도를 입력하세요!"
+        if clickDay == today && !isFilled {
             messageLabel.text = "message1".localized
-            configAchievementView(for: .empty, from: clickDate)
-        }else if clickDay == today && clickDate.count != 0{
+        }else if clickDay == today && isFilled {
             messageLabel.text = "message2".localized
-            configAchievementView(for: .fill, from: clickDate)
-        }else if clickDay != today && clickDate.count == 0 {
+        }else if clickDay != today && !isFilled {
             messageLabel.text = "message3".localized
-            configAchievementView(for: .empty, from: clickDate)
-        }else if clickDay != today && clickDate.count != 0 {
+        }else if clickDay != today && isFilled {
             messageLabel.text = "message4".localized
-            configAchievementView(for: .fill, from: clickDate)
         }
-        
     }
     
-    /// 경우에 따른 성취도 uiview를 셋팅하기 위한 메소드
-    func configAchievementView(for state: AchievementState, from dayInfo: Results<DayInfo> ) {
-        switch state {
-        case .fill:
-            
-            // 기존에 선택한 성취도 정보를 성취도 버튼에 표시해줌.
-            guard let achievement = dayInfo.first?.achievement else { return }
-            switch achievement {
-            case "A":
-                configSelectEffect(what: achievementView[4])
-                userAchievement = Achievement.A
-            case "B":
-                configSelectEffect(what: achievementView[3])
-                userAchievement = Achievement.B
-            case "C":
-                configSelectEffect(what: achievementView[2])
-                userAchievement = Achievement.C
-            case "D":
-                configSelectEffect(what: achievementView[1])
-                userAchievement = Achievement.D
-            case "E":
-                configSelectEffect(what: achievementView[0])
-                userAchievement = Achievement.E
-            default:
-                return
-            }
-            
-            configDoneButton()
-        case .empty:
-            // 성취도를 선택한 적이 없다면, 각 성취도 버튼에 % label을 띄워줌.
-            achievementLabel.forEach { label in
-                label.textColor = UIColor.viewBackgroundColor(.inputView)
-            }
+    func setAchievementView(by achievement: Achievement) {
+        switch achievement {
+        case .A:
+            configSelectEffect(what: achievementView[4])
+//            userAchievement = Achievement.A
+            presenter?.passByAchievement(what: .A)
+        case .B:
+            configSelectEffect(what: achievementView[3])
+            presenter?.passByAchievement(what: .B)
+        case .C:
+            configSelectEffect(what: achievementView[2])
+            presenter?.passByAchievement(what: .C)
+        case .D:
+            configSelectEffect(what: achievementView[1])
+            presenter?.passByAchievement(what: .D)
+        case .E:
+            configSelectEffect(what: achievementView[0])
+            presenter?.passByAchievement(what: .E)
+        }
+        
+        configDoneButton()
+    }
+    
+    func setEachLabel() {
+        // 성취도를 선택한 적이 없다면, 각 성취도 버튼에 % label을 띄워줌.
+        achievementLabel.forEach { label in
+            label.textColor = UIColor.viewBackgroundColor(.inputView)
         }
     }
     
@@ -209,7 +212,8 @@ class CheckAchievementViewController: UIViewController {
         }
         
         // 사용자가 입력한 성취도 값을 WriteMemoVC로 전달함.
-        nextVC.inputAchievement = userAchievement
+//        nextVC.inputAchievement = userAchievement
+        nextVC.inputModel = model
         
         if showingDate != nil {
             nextVC.selectedDate = showingDate

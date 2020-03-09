@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		90037B0024165697008F9E1B /* InputDataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90037AFF24165697008F9E1B /* InputDataModel.swift */; };
+		90037B02241656CD008F9E1B /* CheckAchievementPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90037B01241656CD008F9E1B /* CheckAchievementPresenter.swift */; };
+		90037B04241676AB008F9E1B /* WriteMemoPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90037B03241676AB008F9E1B /* WriteMemoPresenter.swift */; };
 		9013AD0223E7FFF900165E77 /* DateComponentConverter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9013AD0123E7FFF900165E77 /* DateComponentConverter.swift */; };
 		901422F323D32E2F007473C7 /* DataCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 901422F123D32E2F007473C7 /* DataCollectionViewCell.swift */; };
 		905608DE2410D8CE00A945FC /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 905608E02410D8CE00A945FC /* Localizable.strings */; };
@@ -40,6 +43,9 @@
 /* Begin PBXFileReference section */
 		38EFC41EC5594F393D0684EB /* Pods-AchievementTracker.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AchievementTracker.release.xcconfig"; path = "Target Support Files/Pods-AchievementTracker/Pods-AchievementTracker.release.xcconfig"; sourceTree = "<group>"; };
 		5530F672CDAE3B664441599C /* Pods_AchievementTracker.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_AchievementTracker.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		90037AFF24165697008F9E1B /* InputDataModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InputDataModel.swift; sourceTree = "<group>"; };
+		90037B01241656CD008F9E1B /* CheckAchievementPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckAchievementPresenter.swift; sourceTree = "<group>"; };
+		90037B03241676AB008F9E1B /* WriteMemoPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WriteMemoPresenter.swift; sourceTree = "<group>"; };
 		9013AD0123E7FFF900165E77 /* DateComponentConverter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateComponentConverter.swift; sourceTree = "<group>"; };
 		901422F123D32E2F007473C7 /* DataCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataCollectionViewCell.swift; sourceTree = "<group>"; };
 		905608D82410D7DF00A945FC /* ko */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ko; path = ko.lproj/Main.strings; sourceTree = "<group>"; };
@@ -205,6 +211,9 @@
 				90D352B223CC460E00745F56 /* Info.plist */,
 				905608E02410D8CE00A945FC /* Localizable.strings */,
 				9080A5DC241124FA002467E2 /* InfoPlist.strings */,
+				90037AFF24165697008F9E1B /* InputDataModel.swift */,
+				90037B01241656CD008F9E1B /* CheckAchievementPresenter.swift */,
+				90037B03241676AB008F9E1B /* WriteMemoPresenter.swift */,
 			);
 			path = AchievementTracker;
 			sourceTree = "<group>";
@@ -344,8 +353,11 @@
 				90D352A523CC460D00745F56 /* AppDelegate.swift in Sources */,
 				90A3D65623CDB063003DE13A /* WriteMemoViewController.swift in Sources */,
 				90C390FD23D6F7D500C76145 /* MonthDataCenter.swift in Sources */,
+				90037B0024165697008F9E1B /* InputDataModel.swift in Sources */,
+				90037B02241656CD008F9E1B /* CheckAchievementPresenter.swift in Sources */,
 				90C3131523FD1B270030E3A6 /* UICollectionViewCell+Extension.swift in Sources */,
 				90D352A723CC460D00745F56 /* SceneDelegate.swift in Sources */,
+				90037B04241676AB008F9E1B /* WriteMemoPresenter.swift in Sources */,
 				90D352BD23CC4E3700745F56 /* DayInfo.swift in Sources */,
 				90D352BB23CC480F00745F56 /* UIColor+Extension.swift in Sources */,
 				90A6EE4C23D6D5FE0068D9E2 /* GraphView.swift in Sources */,
